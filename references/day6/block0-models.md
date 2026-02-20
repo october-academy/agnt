@@ -7,6 +7,8 @@ quests:
     type: main
     title: "비즈니스 모델 설계"
     xp: 50
+sounds:
+  entry: day6-intro.mp3
 transition: "비즈니스 모델의 기초를 다졌습니다. 이제 가격 전략을 세웁시다."
 ---
 

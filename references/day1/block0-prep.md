@@ -2,6 +2,8 @@
 stop_mode: full
 title: "IDD 방법론 — 인터뷰 주도 개발"
 npc: 소리
+sounds:
+  entry: day1-intro.mp3
 transition: "좋습니다. 이제 숲 깊숙이 들어가 AI 코파운더를 만나봅시다."
 ---
 
