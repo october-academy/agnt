@@ -6,25 +6,12 @@ MUD 게임처럼 퀘스트를 수행하며 실제 프로덕트를 만드는 학�
 
 ## Installation
 
-### Claude Plugin Marketplace
-
 ```bash
-# Claude Code 안에서:
-/plugin marketplace add october-academy/agnt
-/plugin install agnt@agnt
+claude plugin marketplace add october-academy/agnt
+claude plugin install agnt@agentic30
 ```
 
-설치 후 setup 실행:
-```bash
-bash .claude/plugins/agnt/setup.sh
-```
-
-### Manual
-
-```bash
-git clone https://github.com/october-academy/agnt.git
-cd agnt && bash setup.sh
-```
+설치 시 MCP 서버와 커맨드가 자동으로 등록됩니다.
 
 ## Commands
 
