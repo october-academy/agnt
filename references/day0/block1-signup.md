@@ -52,17 +52,24 @@ MCP `agentic30` 서버 연결을 확인합니다.
 
 ### 2단계: 프로필 수집 (AskUserQuestion 4단계)
 
+**사전 준비**: MCP `get_user_info` 호출하여
+사용자 정보를 가져옵니다.
+응답의 `googleName` 필드가 Google 계정
+실명입니다.
+⚠️ 이름을 **절대 추측하거나 생성하지
+마세요**. 반드시 `get_user_info` 응답값만
+사용합니다.
+
 **Q1. 이름 확인**
 AskUserQuestion:
 - "등록할 이름을 확인해주세요."
-  (Google 계정 이름을
-  기본값으로 제안)
-- 선택지 불필요 — "기타"로 직접
-  입력 유도. 또는 Google
-  이름이 있다면:
-  1. "{Google 이름}으로
-     등록"
-  2. "다른 이름 사용"
+- `googleName`이 있을 때:
+  1. "{googleName}으로 등록"
+  (시스템이 "Other" 선택지를
+  자동 추가하므로 별도 "다른 이름"
+  선택지 불필요)
+- `googleName`이 없을 때:
+  선택지 없이 직접 입력 유도
 
 **Q2. 배경 — 대분류**
 AskUserQuestion:
