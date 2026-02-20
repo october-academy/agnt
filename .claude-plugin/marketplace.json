@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "agnt",
-      "source": ".",
+      "source": "./",
       "description": "Agentic30 학습 가이드 — MUD 스타일 30일 독립 여정 커맨드",
       "version": "1.0.0",
       "keywords": ["learning", "mud", "agentic", "indie-hacker", "korean"],
