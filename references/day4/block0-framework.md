@@ -2,8 +2,6 @@
 stop_mode: full
 title: "경쟁자 분석 프레임워크"
 npc: 나래
-sounds:
-  entry: day4-intro.mp3
 transition: "경쟁자 분류법을 익혔습니다. 이제 직접 찾아봅시다."
 ---
 

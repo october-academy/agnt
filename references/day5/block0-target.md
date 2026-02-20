@@ -7,8 +7,6 @@ quests:
     type: main
     title: "타겟 고객 정의"
     xp: 30
-sounds:
-  entry: day5-intro.mp3
 transition: "타겟 고객을 정의했습니다. 이제 직접 대화해봅시다."
 ---
 

@@ -7,8 +7,6 @@ quests:
     type: main
     title: "IDD 스펙 방법론 학습"
     xp: 30
-sounds:
-  entry: day3-intro.mp3
 transition: "설계의 기초를 다졌습니다. 이제 실제 스펙을 작성해봅시다."
 ---
 

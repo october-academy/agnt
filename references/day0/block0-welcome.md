@@ -2,8 +2,6 @@
 stop_mode: full
 title: "견습생의 마을에 오신 것을 환영합니다"
 npc: 두리
-sounds:
-  entry: game-opening.mp3
 transition: "환경 확인이 끝났습니다. 다음은 회원가입을 진행합니다."
 ---
 

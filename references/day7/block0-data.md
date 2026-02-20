@@ -7,8 +7,6 @@ quests:
     type: main
     title: "회고 데이터 수집"
     xp: 30
-sounds:
-  entry: day7-intro.mp3
 transition: "데이터 수집이 완료되었습니다. 이제 KPTL 회고를 시작합시다."
 ---
 

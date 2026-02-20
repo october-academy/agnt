@@ -2,8 +2,6 @@
 stop_mode: full
 title: "The Mom Test — 진짜 피드백을 얻는 법"
 npc: 바리
-sounds:
-  entry: day2-intro.mp3
 transition: "Mom Test의 핵심을 익혔습니다. 이제 실전으로 나가봅시다."
 ---
 
