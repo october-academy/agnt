@@ -71,39 +71,74 @@ AskUserQuestion:
 - `googleName`이 없을 때:
   선택지 없이 직접 입력 유도
 
-**Q2. 배경 — 대분류**
+**Q2. 배경 — 1차 대분류**
 AskUserQuestion:
 질문: "현재 어떤 일을 하고 계세요?"
-1. "개발" → Q2a로
-2. "디자인" → Q2b로
-3. "기획/PM" → Q2c로
-4. "비즈니스/기타" → Q2d로
+1. "개발" → Q2-dev-sub로
+2. "디자인" → Q2-design로
+3. "기획/PM" → Q2-pm로
+4. "마케팅/그로스" → Q2-marketing로
+5. "비즈니스" → Q2-biz로
+6. "기타" → Q2-etc로
 
-**Q2a. 개발 세부**
+**Q2-dev-sub. 개발 — 2차 중분류**
 질문: "어떤 분야의 개발을 하세요?"
-1. "프론트엔드/풀스택"
-2. "백엔드/모바일"
-3. "데이터/ML/DevOps"
-4. "보안/QA/게임"
+1. "웹/앱 개발" → Q2-dev-web으로
+2. "데이터/AI" → Q2-dev-data로
+3. "인프라/보안" → Q2-dev-infra로
+4. "기타 개발" → Q2-dev-etc로
 
-**Q2b. 디자인 세부**
+**Q2-dev-web. 웹/앱 개발 — 3차 세분류**
+질문: "구체적으로 어떤 역할이세요?"
+1. "프론트엔드" → background=`frontend`
+2. "백엔드" → background=`backend`
+3. "풀스택" → background=`fullstack`
+4. "모바일 (iOS/Android)" → background=`mobile`
+
+**Q2-dev-data. 데이터/AI — 3차 세분류**
+질문: "구체적으로 어떤 역할이세요?"
+1. "데이터 엔지니어" → background=`data-engineer`
+2. "ML/AI 엔지니어" → background=`ml-engineer`
+3. "데이터 분석가" → background=`data-analyst`
+
+**Q2-dev-infra. 인프라/보안 — 3차 세분류**
+질문: "구체적으로 어떤 역할이세요?"
+1. "DevOps/인프라" → background=`devops`
+2. "보안" → background=`security`
+
+**Q2-dev-etc. 기타 개발 — 3차 세분류**
+질문: "구체적으로 어떤 역할이세요?"
+1. "QA/테스트" → background=`qa`
+2. "게임" → background=`game`
+
+**Q2-design. 디자인 — 2차 세부**
 질문: "어떤 디자인을 하세요?"
-1. "UI/UX 디자이너"
-2. "프로덕트 디자이너"
-3. "그래픽 디자이너"
+1. "UI/UX 디자이너" → background=`ui-ux`
+2. "프로덕트 디자이너" → background=`product-designer`
+3. "그래픽/브랜드 디자이너" → background=`graphic`
 
-**Q2c. 기획/PM 세부**
+**Q2-pm. 기획/PM — 2차 세부**
 질문: "어떤 역할이세요?"
-1. "PM/프로젝트 매니저"
-2. "서비스 기획자"
-3. "프로덕트 매니저"
+1. "프로덕트 매니저" → background=`pm`
+2. "서비스 기획자" → background=`planner`
+3. "프로젝트 매니저" → background=`project-manager`
 
-**Q2d. 비즈니스/기타 세부**
+**Q2-marketing. 마케팅/그로스 — 2차 세부**
 질문: "어떤 역할이세요?"
-1. "마케터/그로스"
-2. "파운더/BD/세일즈"
-3. "학생"
-4. "콘텐츠 크리에이터"
+1. "마케터" → background=`marketer`
+2. "그로스 해커" → background=`growth`
+3. "콘텐츠 크리에이터" → background=`content-creator`
+
+**Q2-biz. 비즈니스 — 2차 세부**
+질문: "어떤 역할이세요?"
+1. "창업자/대표" → background=`founder`
+2. "사업개발/BD" → background=`biz-dev`
+3. "영업/세일즈" → background=`sales`
+
+**Q2-etc. 기타 — 2차 세부**
+질문: "어떤 역할이세요?"
+1. "학생" → background=`student`
+2. "기타" → background=`other`
 
 **Q3. 사이드 프로젝트 경험**
 AskUserQuestion:

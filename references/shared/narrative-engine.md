@@ -243,6 +243,7 @@ AskUserQuestion:
 7. STOP 마커를 시스템 안내문으로 출력 (반드시 NPC 대사)
 8. STOP의 확인/수정 결정을 PlainText로 입력받기 (AskUserQuestion 필수)
 9. RETURN 리캡에서 CHECK 정답을 직접 언급하기 (간접 환기만 허용)
+10. MCP 서버 동기화 실패 시 블록 완료 처리 (Section 11 차단 규칙 참조)
 
 ## 9. 블록 완료 시 state.json 갱신 규칙
 
@@ -271,6 +272,25 @@ CHOICE 선택 즉시 state.json `choices`에 `{ day, block, scene, choice }` app
 
 ### 대화 자동 저장
 `stop_mode: conversation`에서 `on_complete: save_interview`가 있으면 `save_interview` 호출.
+
+### 서버 동기화 실패 시 차단 규칙
+
+ON_COMPLETE/ON_CONFIRM의 MCP 호출(`save_profile`, `save_interview`, `complete_onboarding`, `submit_practice` 등)이 실패하면 **블록 완료 처리를 하지 않습니다**.
+
+1. 실패한 MCP 호출을 최대 2회 재시도
+2. 재시도 실패 시 NPC 대사로 안내:
+   ```
+   "장부에 기록하려는데 먹이 번져.
+   다시 해볼게."
+   ```
+3. 3회 모두 실패 시 NPC 대사로 중단 안내:
+   ```
+   "장부가 안 돼. 잠깐 뒤에
+   `/agnt:continue`로 다시 와."
+   ```
+4. **MOVE로 진행하지 않음** — `completedBlocks`, `currentBlock` 갱신 금지
+5. state.json에 로컬 데이터(character, interview 등)는 저장하되, 블록 완료 마커는 미기록
+6. 다음 `/agnt:continue` 실행 시 같은 블록의 ON_COMPLETE/ON_CONFIRM부터 재개
 
 ### Evidence 매핑
 
