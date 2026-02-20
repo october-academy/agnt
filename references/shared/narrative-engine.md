@@ -105,7 +105,7 @@ ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영�
 ## SCENE N — NPC가 핵심 개념 1개 전달 + CHOICE
 ## TASK    — NPC가 과제 부여
 ## STOP    — NPC 마무리 대사 + AskUserQuestion(다음/아직) + ⛔ STOP 마커
-## RETURN  — NPC가 돌아온 학습자 맞이
+## RETURN  — NPC가 돌아온 학습자 맞이 + 리캡 힌트
 ### CHECK  — NPC 대화로 퀴즈 (AskUserQuestion)
 ## MOVE    — 다음 장소/블록 이동
 ```
@@ -117,6 +117,20 @@ ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영�
 4. TASK 과제 부여
 5. STOP 출력 + AskUserQuestion(다음/아직)
 6. "아직" → STOP 대기 / "다음" → RETURN → CHECK(퀴즈)
+
+### RETURN 리캡 규칙 (Teach 모드)
+
+RETURN에서 NPC는 CHECK 전에 퀴즈 대상 개념을 간접 환기합니다.
+
+규칙:
+- NPC 입버릇/키워드와 연결된 1-2문장
+- 정답 직접 언급 금지 (간접 환기만)
+- 해당 SCENE의 상황/비유를 짧게 떠올리게 함
+
+예시:
+✅ "아까 내가 뭐라고 했지? 강의가 아니라..."
+❌ "핵심 철학은 '만들면서 배운다'였지." (정답 직접 노출)
+
 7. STOP 이후 **추가 도구 호출 금지** (STOP의 AskUserQuestion 제외)
 8. MOVE 출력 후 transition에 따라 다음 블록 안내
 
@@ -157,6 +171,7 @@ ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영�
 ✅: NPC가 행동 묘사 + 대사 후 ⛔ STOP — "NPC가 기다립니다."
 ❌: ⛔ STOP — "👆 위 내용을 실행해보세요."
 ```
+STOP의 AskUserQuestion에도 **가림 방지** 적용: NPC 마무리 대사를 question 텍스트에 포함한다.
 
 ### CHOICE 섹션 규칙
 - 선택지 3-4개 (캐릭터 대사 형태)
@@ -164,6 +179,11 @@ ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영�
 - 모든 선택지는 같은 다음 SCENE/TASK로 수렴
 - SCENE 당 CHOICE 최대 1개
 - 선택 기록: state.json `choices`에 `{ day, block, scene, choice }` 저장
+- **가림 방지**: CHOICE 직전 NPC 대사(3줄 이내)는 AskUserQuestion의 question 텍스트 앞에 포함한다. AskUserQuestion 위젯이 직전 텍스트를 가릴 수 있으므로, 대사 → 질문을 하나의 question 필드로 합친다:
+  ```
+  ✅: question: "두리가 게시판을 두드린다.\n\"AI 코파운더가 매일 함께할 거야.\"\n\n두리가 묻는다. \"7일이면 짧다고 느껴져?\""
+  ❌: [텍스트 출력: "AI 코파운더가 매일 함께할 거야."] → question: "두리가 묻는다. \"7일이면 짧다고 느껴져?\""
+  ```
 
 ### 레거시 구조 Fallback
 
@@ -191,6 +211,7 @@ AskUserQuestion:
 ```
 
 header: "장소", options 1개 ("계속"). 학습자가 장면을 읽고 넘길 수 있게 합니다.
+**가림 방지**: ROOM 마지막 2줄을 question에 포함 (예: `"바람에 나무 냄새가 스며든다.\n가슴이 약하게 두근거린다.\n\n▶ 계속"`).
 
 ### NPC 후 페이지 브레이크
 
@@ -204,6 +225,8 @@ AskUserQuestion:
 선택지:
 1. "계속"
 ```
+
+**가림 방지**: NPC 마지막 대사를 question에 포함.
 
 ### 예외
 - **checkpoint 모드에서 NPC가 바로 GUIDE를 시작하는 경우**: NPC 후 페이지 브레이크 생략 가능 (NPC 대사가 짧을 때)
@@ -219,6 +242,7 @@ AskUserQuestion:
 6. 한 번에 3문단 이상의 설명 연속 출력 (SCENE/CHOICE로 분할)
 7. STOP 마커를 시스템 안내문으로 출력 (반드시 NPC 대사)
 8. STOP의 확인/수정 결정을 PlainText로 입력받기 (AskUserQuestion 필수)
+9. RETURN 리캡에서 CHECK 정답을 직접 언급하기 (간접 환기만 허용)
 
 ## 9. 블록 완료 시 state.json 갱신 규칙
 
