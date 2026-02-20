@@ -1,0 +1,27 @@
+# User state (session-specific)
+state.json
+state.json.bak
+
+# Environment & secrets
+.env
+.env.*
+.env.local
+.env.development.local
+.env.production.local
+
+# Tokens & credentials
+*.pem
+*.key
+*.cert
+*.token
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.idea/
+.vscode/

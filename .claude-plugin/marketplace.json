@@ -1,0 +1,20 @@
+{
+  "name": "agnt",
+  "owner": {
+    "name": "October Academy",
+    "email": "hello@october-academy.com"
+  },
+  "metadata": {
+    "description": "Agentic30 학습 가이드 — MUD 스타일 30일 독립 개발자 여정"
+  },
+  "plugins": [
+    {
+      "name": "agnt",
+      "source": ".",
+      "description": "Agentic30 학습 가이드 — MUD 스타일 30일 독립 여정 커맨드",
+      "version": "1.0.0",
+      "keywords": ["learning", "mud", "agentic", "indie-hacker", "korean"],
+      "category": "education"
+    }
+  ]
+}

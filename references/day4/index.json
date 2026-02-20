@@ -1,0 +1,15 @@
+{
+  "day": 4,
+  "location": "정찰의 언덕",
+  "description": "경쟁자의 영토를 살핍니다. 차별화 전략을 세웁니다.",
+  "blocks": [
+    { "file": "block0-framework.md", "title": "경쟁자 분석 프레임워크" },
+    { "file": "block1-research.md", "title": "경쟁자 리서치 + 분석" },
+    { "file": "block2-differentiation.md", "title": "차별화 전략 수립" }
+  ],
+  "quests": [
+    { "id": "d4-competitors", "type": "main", "title": "경쟁자 3곳 분석", "xp": 50 },
+    { "id": "d4-differentiation", "type": "main", "title": "차별화 전략 수립", "xp": 100 },
+    { "id": "d4-positioning", "type": "side", "title": "포지셔닝 맵", "xp": 30 }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "day": 2,
+  "location": "검증의 광장",
+  "description": "세상의 목소리를 듣는 곳. 진짜 수요를 찾아냅니다.",
+  "blocks": [
+    { "file": "block0-momtest.md", "title": "The Mom Test — 진짜 피드백을 얻는 법" },
+    { "file": "block1-channels.md", "title": "공유 채널 선정 — 타겟이 있는 곳을 찾아라" },
+    { "file": "block2-feedback.md", "title": "피드백 수집 — 세상의 반응을 읽다" }
+  ],
+  "quests": [
+    { "id": "d2-channels", "type": "main", "title": "공유 채널 3곳 선정", "xp": 50 },
+    { "id": "d2-message", "type": "main", "title": "공유 메시지 작성", "xp": 50 },
+    { "id": "d2-feedback", "type": "main", "title": "피드백 3건 수집", "xp": 100 },
+    { "id": "d2-insights", "type": "side", "title": "인사이트 정리", "xp": 30 },
+    { "id": "d2-first-fan", "type": "hidden", "title": "첫 팬", "xp": 50, "trigger": "landing_form_responses >= 3" }
+  ]
+}

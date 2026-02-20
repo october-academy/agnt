@@ -1,0 +1,15 @@
+{
+  "day": 6,
+  "location": "상인의 길드",
+  "description": "가치에 가격을 매깁니다. 비즈니스 모델을 설계합니다.",
+  "blocks": [
+    { "file": "block0-models.md", "title": "비즈니스 모델 탐색" },
+    { "file": "block1-pricing.md", "title": "가격 전략 수립" },
+    { "file": "block2-document.md", "title": "비즈니스 모델 문서화" }
+  ],
+  "quests": [
+    { "id": "d6-model", "type": "main", "title": "비즈니스 모델 설계", "xp": 50 },
+    { "id": "d6-pricing", "type": "main", "title": "가격 전략 수립", "xp": 80 },
+    { "id": "d6-unit-economics", "type": "side", "title": "유닛 이코노믹스", "xp": 30 }
+  ]
+}

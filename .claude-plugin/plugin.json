@@ -1,0 +1,18 @@
+{
+  "name": "agnt",
+  "description": "Agentic30 학습 가이드 — MUD 스타일 30일 독립 여정 커맨드",
+  "version": "1.0.0",
+  "author": {
+    "name": "October Academy"
+  },
+  "homepage": "https://agentic30.app",
+  "repository": "https://github.com/october-academy/agnt",
+  "license": "MIT",
+  "keywords": ["learning", "mud", "agentic", "indie-hacker", "korean"],
+  "mcpServers": {
+    "agentic30": {
+      "type": "http",
+      "url": "https://mcp.agentic30.app/mcp"
+    }
+  }
+}

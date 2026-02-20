@@ -1,0 +1,17 @@
+{
+  "day": 7,
+  "location": "회고의 호수",
+  "description": "맑은 호수에 비친 지난 7일을 돌아봅니다.",
+  "blocks": [
+    { "file": "block0-data.md", "title": "데이터 수집 — 7일의 기록" },
+    { "file": "block1-kptl.md", "title": "KPTL 회고 — Keep, Problem, Try, Learn" },
+    { "file": "block2-decision.md", "title": "Go/No-Go 결정 — 다음 23일을 어떻게 보낼 것인가" },
+    { "file": "block3-finale.md", "title": "Foundation Phase 완료 — 새로운 시작" }
+  ],
+  "quests": [
+    { "id": "d7-data-collect", "type": "main", "title": "회고 데이터 수집", "xp": 30 },
+    { "id": "d7-kptl", "type": "main", "title": "KPTL 회고 완료", "xp": 80 },
+    { "id": "d7-go-nogo", "type": "main", "title": "Go/No-Go 결정", "xp": 50 },
+    { "id": "d7-letter", "type": "side", "title": "미래의 나에게 편지", "xp": 30 }
+  ]
+}

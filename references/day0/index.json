@@ -1,0 +1,17 @@
+{
+  "day": 0,
+  "location": "견습생의 마을",
+  "description": "모든 여정의 시작. 이곳에서 당신의 정체성을 만듭니다.",
+  "blocks": [
+    { "file": "block0-welcome.md", "title": "견습생의 마을에 오신 것을 환영합니다" },
+    { "file": "block1-signup.md", "title": "회원가입 — 모험가 등록" },
+    { "file": "block2-character.md", "title": "캐릭터 생성 — 나는 누구인가" },
+    { "file": "block3-goal.md", "title": "목표 선언 — 왜 독립인가" },
+    { "file": "block4-discord.md", "title": "Discord 합류 — 동료 모험가를 만나다" }
+  ],
+  "quests": [
+    { "id": "d0-goal", "type": "main", "title": "목표 선언문 작성", "xp": 50 },
+    { "id": "d0-discord-join", "type": "main", "title": "Discord 연동", "xp": 50 },
+    { "id": "d0-discord-intro", "type": "main", "title": "Discord 자기소개", "xp": 50 }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "day": 5,
+  "location": "시장의 거리",
+  "description": "실제 고객을 만납니다. 수요를 검증합니다.",
+  "blocks": [
+    { "file": "block0-target.md", "title": "타겟 고객 심화 — 진짜 고객을 찾아라" },
+    { "file": "block1-conversation.md", "title": "수요 검증 대화 — 고객과 직접 대화하기" },
+    { "file": "block2-analysis.md", "title": "수요 검증 분석 — 데이터로 판단하기" }
+  ],
+  "quests": [
+    { "id": "d5-target", "type": "main", "title": "타겟 고객 정의", "xp": 30 },
+    { "id": "d5-interviews", "type": "main", "title": "수요 검증 인터뷰 3건", "xp": 100 },
+    { "id": "d5-analysis", "type": "main", "title": "수요 검증 결과 분석", "xp": 100 },
+    { "id": "d5-analytics", "type": "side", "title": "랜딩 분석 데이터 확인", "xp": 30 }
+  ]
+}

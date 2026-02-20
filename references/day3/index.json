@@ -1,0 +1,15 @@
+{
+  "day": 3,
+  "location": "설계의 탑",
+  "description": "높이 올라 전체를 조망합니다. 스펙을 설계합니다.",
+  "blocks": [
+    { "file": "block0-idd-method.md", "title": "IDD 스펙 작성법 — 발견을 설계로 전환하기" },
+    { "file": "block1-spec-interview.md", "title": "SPEC.md 구조 인터뷰 — 스펙의 뼈대 잡기" },
+    { "file": "block2-spec-write.md", "title": "SPEC.md 작성 + 검증 — 설계 완성" }
+  ],
+  "quests": [
+    { "id": "d3-idd-method", "type": "main", "title": "IDD 스펙 방법론 학습", "xp": 30 },
+    { "id": "d3-spec-write", "type": "main", "title": "SPEC.md 작성 완료", "xp": 100 },
+    { "id": "d3-ai-review", "type": "side", "title": "AI 스펙 검증", "xp": 30 }
+  ]
+}
