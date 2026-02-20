@@ -6,12 +6,29 @@ MUD 게임처럼 퀘스트를 수행하며 실제 프로덕트를 만드는 학�
 
 ## Installation
 
+### 1. 플러그인 설치
+
 ```bash
 claude plugin marketplace add october-academy/agnt
 claude plugin install agnt@agentic30
 ```
 
-설치 시 MCP 서버와 커맨드가 자동으로 등록됩니다.
+### 2. MCP 인증
+
+```bash
+claude
+```
+
+Claude Code가 실행되면 `/MCP` 를 입력합니다.
+
+MCP 서버 목록이 표시되면:
+
+1. 키보드 ↑↓로 `plugin:agnt:agentic30` 선택
+2. **Authenticate** 선택
+3. 브라우저가 열리면 Google 계정으로 로그인
+4. 로그인 완료 후 터미널로 돌아오면 인증 완료
+
+인증이 끝나면 `/agnt:continue`로 학습을 시작할 수 있습니다.
 
 ## Commands
 
