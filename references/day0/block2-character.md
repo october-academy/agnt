@@ -142,7 +142,19 @@ CONVERSATION으로 돌아가
 }
 ```
 
-3. 인증 상태면 MCP `save_profile`을 호출합니다.
+3. 인증 상태면 MCP `save_profile`을 호출합니다:
+   - **goalCategory 결정**: 대화 내용을 기반으로 다음 5개 중 가장 적합한 카테고리를 추론합니다:
+     `startup` | `side_income` | `ai_learning` | `employment` | `job_change`
+   - **projectName 추출**: 프로젝트의 짧은 이름을 2-5 단어로 추출합니다 (설명이 아닌 이름, 예: "밥친구", "AI 면접 코치")
+   - 호출 시그니처:
+     ```
+     save_profile({
+       character: { project, motivation, target, strengths },
+       goalCategory: "startup" | "side_income" | "ai_learning" | "employment" | "job_change",
+       projectName: "짧은 프로젝트 이름"
+     })
+     ```
+   - goalStatement는 이 단계에서 보내지 않습니다 (block3 담당)
 
 ## MOVE
 

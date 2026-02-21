@@ -41,6 +41,7 @@ frontmatter가 없거나 파싱에 실패하면:
 | `{{character.motivation}}` | state.json → character.motivation | "혼밥이 싫어서" |
 | `{{character.target}}` | state.json → character.target | "1인 가구 직장인" |
 | `{{character.strengths}}` | state.json → character.strengths | "풀스택 개발" |
+| `{{character.goal}}` | state.json → character.goal | "30일 안에 유저 100명 확보" |
 | `{{state.level}}` | state.json → level | "3" |
 | `{{state.title}}` | state.json → title | "탐험가" |
 | `{{state.xp}}` | state.json → xp | "250" |
@@ -171,7 +172,7 @@ RETURN에서 NPC는 CHECK 전에 퀴즈 대상 개념을 간접 환기합니다.
 ✅: NPC가 행동 묘사 + 대사 후 ⛔ STOP — "NPC가 기다립니다."
 ❌: ⛔ STOP — "👆 위 내용을 실행해보세요."
 ```
-STOP의 AskUserQuestion에도 **가림 방지** 적용: NPC 마무리 대사를 question 텍스트에 포함한다.
+STOP의 AskUserQuestion question에는 NPC의 마무리 **질문 대사만** 포함한다 (직전 지문/행동 묘사는 이미 출력되어 있으므로 중복 금지).
 
 ### CHOICE 섹션 규칙
 - 선택지 3-4개 (캐릭터 대사 형태)
@@ -179,10 +180,10 @@ STOP의 AskUserQuestion에도 **가림 방지** 적용: NPC 마무리 대사를 
 - 모든 선택지는 같은 다음 SCENE/TASK로 수렴
 - SCENE 당 CHOICE 최대 1개
 - 선택 기록: state.json `choices`에 `{ day, block, scene, choice }` 저장
-- **가림 방지**: CHOICE 직전 NPC 대사(3줄 이내)는 AskUserQuestion의 question 텍스트 앞에 포함한다. AskUserQuestion 위젯이 직전 텍스트를 가릴 수 있으므로, 대사 → 질문을 하나의 question 필드로 합친다:
+- **중복 금지**: 직전 NPC 대사(지문/행동 묘사)는 이미 출력되어 있으므로 AskUserQuestion question에 다시 포함하지 않는다. question에는 NPC의 **질문 대사만** 넣는다:
   ```
-  ✅: question: "두리가 게시판을 두드린다.\n\"AI 코파운더가 매일 함께할 거야.\"\n\n두리가 묻는다. \"7일이면 짧다고 느껴져?\""
-  ❌: [텍스트 출력: "AI 코파운더가 매일 함께할 거야."] → question: "두리가 묻는다. \"7일이면 짧다고 느껴져?\""
+  ✅: [텍스트 출력: "두리가 게시판을 두드린다.\n\"AI 코파운더가 매일 함께할 거야.\""] → question: "두리가 묻는다. \"7일이면 짧다고 느껴져?\""
+  ❌: question: "두리가 게시판을 두드린다.\n\"AI 코파운더가 매일 함께할 거야.\"\n\n두리가 묻는다. \"7일이면 짧다고 느껴져?\""
   ```
 
 ### 레거시 구조 Fallback
@@ -211,7 +212,7 @@ AskUserQuestion:
 ```
 
 header: "장소", options 1개 ("계속"). 학습자가 장면을 읽고 넘길 수 있게 합니다.
-**가림 방지**: ROOM 마지막 2줄을 question에 포함 (예: `"바람에 나무 냄새가 스며든다.\n가슴이 약하게 두근거린다.\n\n▶ 계속"`).
+**중복 금지**: ROOM 텍스트는 이미 출력되어 있으므로 question에 다시 포함하지 않는다. question은 `"▶ 계속"`만.
 
 ### NPC 후 페이지 브레이크
 
@@ -226,7 +227,7 @@ AskUserQuestion:
 1. "계속"
 ```
 
-**가림 방지**: NPC 마지막 대사를 question에 포함.
+**중복 금지**: NPC 대사는 이미 출력되어 있으므로 question에 다시 포함하지 않는다. question은 `"▶ 계속"`만.
 
 ### 예외
 - **checkpoint 모드에서 NPC가 바로 GUIDE를 시작하는 경우**: NPC 후 페이지 브레이크 생략 가능 (NPC 대사가 짧을 때)

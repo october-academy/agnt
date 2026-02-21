@@ -131,7 +131,12 @@ CONVERSATION으로 돌아가
 }
 ```
 
-3. 인증 상태면 MCP `save_profile`을 호출하여 goalStatement를 저장합니다.
+3. 인증 상태면 MCP `save_profile`을 호출하여 goalStatement만 저장합니다:
+   - 호출 시그니처:
+     ```
+     save_profile({ goalStatement: "나는 30일 안에 ... 달성한다. 왜냐하면 ..." })
+     ```
+   - character/goalCategory/projectName은 보내지 않습니다 (block2에서 이미 저장됨)
 
 4. 인증 상태면 MCP `submit_practice`를 호출합니다:
    - `submit_practice({ questId: "d0-goal", day: 0, evidence: { type: "text", content: goalStatement } })`

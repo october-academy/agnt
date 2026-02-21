@@ -68,8 +68,6 @@ AskUserQuestion:
   (시스템이 "Other" 선택지를
   자동 추가하므로 별도 "다른 이름"
   선택지 불필요)
-- `googleName`이 없을 때:
-  선택지 없이 직접 입력 유도
 
 **Q2. 배경 — 1차 대분류**
 AskUserQuestion:
