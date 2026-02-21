@@ -30,6 +30,13 @@ MCP 서버 목록이 표시되면:
 
 인증이 끝나면 `/agnt:continue`로 학습을 시작할 수 있습니다.
 
+## Update
+
+```bash
+claude plugin marketplace update agentic30
+claude plugin update agnt@agentic30
+```
+
 ## Commands
 
 | 커맨드 | 설명 |
