@@ -35,6 +35,7 @@
 ```
 🔧 스킬 목록
   {✅/🔒} save_profile (Lv.1)
+  {✅/🔒} connect_discord (Lv.1)
   {✅/🔒} verify_discord (Lv.1)
   {✅/🔒} save_interview (Lv.1)
   {✅/🔒} submit_practice (Lv.1)

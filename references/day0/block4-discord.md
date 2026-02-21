@@ -60,35 +60,53 @@ AskUserQuestion으로
 반드시 `중간 STOP`으로
 사용자 행동을 기다립니다.
 
-### 1단계: Discord 서버 가입
+### 1단계: Discord 연동 + 서버 가입
 
-두리: "아직 가입 안 했으면
-여기로."
+먼저 `connect_discord()` MCP 도구를 호출합니다.
 
-아직 가입하지 않았다면: https://discord.gg/H4A459FG5r
+**`already_connected: true` 반환 시**:
+두리: "이미 연동돼 있네."
+→ 즉시 `verify_discord({ check: "membership" })` 호출:
+  - 성공 시: `submit_practice({ questId: "d0-discord-join", day: 0, evidence: { type: "text", content: "verified" } })` 호출 → 2단계로 이동
+  - 실패 시: 두리: "서버에는 아직 안 들어왔어. 여기서 가입해." + 초대 링크: https://discord.gg/H4A459FG5r → 가입 확인 질문으로
+
+**`url` 반환 시**:
+두리: "Discord 계정을 연동해야 해.
+이 링크를 브라우저에서 열어."
+
+URL을 코드 블록으로 표시합니다.
 
 AskUserQuestion:
 질문: |
-  두리가 묻는다. "서버 가입 상태가 어때?"
+  두리가 묻는다. "브라우저에서 Discord 연동을 마쳤어?"
+1. "연동 완료" — Discord 연동을 마쳤다
+2. "아직" — 잠시 다녀오겠다
 
-  초대 링크: https://discord.gg/H4A459FG5r
-1. "가입 완료" — Discord 서버에 이미 가입했다
-2. "링크 다시 보기" — 초대 링크를 다시 확인하고 싶다
-3. "아직" — 잠시 다녀오겠다
-
-"가입 완료"면 **즉시 MCP 검증**:
+"연동 완료"면 **즉시 MCP 검증**:
   - `verify_discord({ check: "membership" })` 호출
   - 성공 시: `submit_practice({ questId: "d0-discord-join", day: 0, evidence: { type: "text", content: "verified" } })` 호출 → 2단계로 이동
-  - 실패 시: 두리: "아직 가입이 안 됐어. 초대 링크에서 가입하고 다시 와." → 같은 질문 반복
+  - 실패 시: 두리: "서버에 아직 안 들어온 것 같아. 초대 링크에서 가입하고 다시 와." + 초대 링크: https://discord.gg/H4A459FG5r → 같은 질문 반복
   - MCP 미인증/에러 시: ON_CONFIRM의 3번 (MCP 인증 안내) 절차를 따른다
-"링크 다시 보기"면 초대 링크를
-다시 출력하고 같은 질문을
-반복합니다.
 "아직"이면 두리가 잠깐 다녀오라고
 안내한 뒤 같은 질문을 반복합니다.
 
+**`error` 반환 시** (Discord OAuth 미설정):
+두리: "직접 서버에 가입해."
+초대 링크: https://discord.gg/H4A459FG5r
+→ 기존 초대 링크 방식으로 fallback
+
+AskUserQuestion:
+질문: |
+  두리가 묻는다. "서버 가입을 마쳤어?"
+1. "가입 완료" — Discord 서버에 가입했다
+2. "아직" — 잠시 다녀오겠다
+
+"가입 완료"면 두리: "좋아, 다음 단계로." → 2단계로 이동
+(연동 없이 가입만 한 경우 verify_discord가 실패할 수 있으나, 블록 진행은 허용)
+"아직"이면 같은 질문 반복.
+
 ⛔ 중간 STOP —
-"서버 가입을 마치고 선택해."
+"Discord 연동을 마치고 선택해."
 
 ### 2단계: 자기소개 폼 열기
 

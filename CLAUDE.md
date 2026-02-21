@@ -122,6 +122,7 @@ on_complete: save_character                    # 선택: 완료 시 추가 동�
 - `submit_practice` — 퀘스트 완료 제출
 - `save_profile`, `save_interview` — 프로필/인터뷰 데이터 저장
 - `complete_onboarding` — 온보딩 완료
+- `connect_discord` — Discord OAuth 연동 (브라우저 URL 반환)
 - `verify_discord` — Discord 연동 검증
 - `deploy_landing` — 랜딩페이지 배포
 
