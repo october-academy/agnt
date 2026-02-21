@@ -4,7 +4,7 @@
 
 1. `.claude/agnt/state.json`을 Read. 없으면 기본값으로 생성:
 ```json
-{"currentDay":0,"currentBlock":0,"completedDays":[],"completedBlocks":{},"choices":[],"character":null,"interview":null,"authenticated":false}
+{"currentDay":0,"currentBlock":0,"completedDays":[],"completedBlocks":{},"choices":[],"character":null,"interview":null,"authenticated":false,"level":1,"title":"견습생","xp":0}
 ```
 파싱 실패 시 `.claude/agnt/state.json.bak`으로 백업 후 기본값 재생성.
 
