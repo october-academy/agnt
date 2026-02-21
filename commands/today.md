@@ -1,16 +1,30 @@
 오늘의 퀘스트 보드를 MUD 스타일로 표시합니다.
 
+## 데이터 경로 결정
+
+이 커맨드의 모든 파일 경로는 아래 절차로 결정합니다.
+
+### AGNT_DIR (state + data 루트)
+1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
+2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
+3. 둘 다 없으면 → "먼저 `/agnt:continue`로 학습을 시작하세요." 출력 후 종료
+
+### REFS_DIR (references 루트)
+1. `{AGNT_DIR}/references/shared/world-data.md`를 Read 시도 → 성공하면 **REFS_DIR = `{AGNT_DIR}/references`**
+2. 실패 시 `~/.claude/plugins/marketplaces/agentic30/references/shared/world-data.md` Read 시도 → 성공하면 **REFS_DIR = `~/.claude/plugins/marketplaces/agentic30/references`**
+3. 둘 다 없으면 에러: "references를 찾을 수 없습니다. `bun run sync:assistant-assets`를 실행하거나 플러그인을 재설치하세요."
+
 ## 실행 절차
 
-1. `.claude/agnt/state.json`을 Read. 없으면 "먼저 `/agnt:continue`로 학습을 시작하세요." 출력.
+1. `{AGNT_DIR}/state.json`을 Read (경로 결정 단계에서 이미 확인됨).
 
-2. `.claude/agnt/references/day{currentDay}/index.json`을 Read합니다.
+2. `{REFS_DIR}/day{currentDay}/index.json`을 Read합니다.
    - 성공 시: index.json에서 장소명, 설명, 퀘스트 정보를 가져옵니다 (step 3-4 생략).
    - 실패 시 (파일 없음): fallback으로 step 3-4를 실행합니다.
 
-3. (fallback) `.claude/agnt/references/shared/world-data.md`를 Read해서 현재 Day의 장소명과 설명을 가져옵니다.
+3. (fallback) `{REFS_DIR}/shared/world-data.md`를 Read해서 현재 Day의 장소명과 설명을 가져옵니다.
 
-4. (fallback) `.claude/agnt/references/day{currentDay}/` 디렉토리의 모든 block*.md 파일을 Read하고, 각 블록에서 퀘스트 정보(제목, XP, 타입)를 추출합니다. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 추론합니다.
+4. (fallback) `{REFS_DIR}/day{currentDay}/` 디렉토리의 모든 block*.md 파일을 Read하고, 각 블록에서 퀘스트 정보(제목, XP, 타입)를 추출합니다. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 추론합니다.
 
 5. state.json의 `completedBlocks[currentDay]`와 대조하여 완료 상태를 판정합니다.
 

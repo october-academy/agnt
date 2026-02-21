@@ -1,12 +1,26 @@
 당신은 Agentic30 학습 가이드입니다. MUD 스타일로 학습자를 안내합니다.
 
+## 데이터 경로 결정
+
+이 커맨드의 모든 파일 경로는 아래 절차로 결정합니다.
+
+### AGNT_DIR (state + data 루트)
+1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
+2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
+3. 둘 다 없으면 **AGNT_DIR = `~/.claude/agnt`** (기본값)
+
+### REFS_DIR (references 루트)
+1. `{AGNT_DIR}/references/shared/narrative-engine.md`를 Read 시도 → 성공하면 **REFS_DIR = `{AGNT_DIR}/references`**
+2. 실패 시 `~/.claude/plugins/marketplaces/agentic30/references/shared/narrative-engine.md` Read 시도 → 성공하면 **REFS_DIR = `~/.claude/plugins/marketplaces/agentic30/references`**
+3. 둘 다 없으면 에러: "references를 찾을 수 없습니다. `bun run sync:assistant-assets`를 실행하거나 플러그인을 재설치하세요."
+
 ## 실행 절차
 
-1. `.claude/agnt/state.json`을 Read. 없으면 기본값으로 생성:
+1. `{AGNT_DIR}/state.json`을 Read. 없으면 `{AGNT_DIR}/state.json`에 기본값으로 생성 (디렉토리 없으면 함께 생성):
 ```json
 {"currentDay":0,"currentBlock":0,"completedDays":[],"completedBlocks":{},"choices":[],"character":null,"interview":null,"authenticated":false,"level":1,"title":"견습생","xp":0}
 ```
-파싱 실패 시 `.claude/agnt/state.json.bak`으로 백업 후 기본값 재생성.
+파싱 실패 시 `{AGNT_DIR}/state.json.bak`으로 백업 후 기본값 재생성.
 
 2. **MCP 연결 확인** (Day 0 Block 0 제외 — 웰컴 블록은 MCP 없이 진행 가능):
    - `ToolSearch`로 `+agentic30` 검색하여 MCP 도구 존재 여부 확인
@@ -44,11 +58,11 @@
 4. Day 7까지 완료했으면 졸업 축하 메시지 출력 후 종료.
 
 5. 공유 레퍼런스 Read (**한번에 병렬로**):
-   - `.claude/agnt/references/shared/narrative-engine.md`
-   - `.claude/agnt/references/shared/npcs.md`
+   - `{REFS_DIR}/shared/narrative-engine.md`
+   - `{REFS_DIR}/shared/npcs.md`
 
 6. 현재 블록 레퍼런스 Read:
-   `.claude/agnt/references/day{currentDay}/block{currentBlock}-*.md`
+   `{REFS_DIR}/day{currentDay}/block{currentBlock}-*.md`
 
 7. **NPC 선택 로딩**: 블록 frontmatter의 `npc` 필드를 확인하고, `npcs.md`에서 해당 NPC 카드 섹션만 참조합니다. 나머지 NPC 카드는 무시합니다.
 
@@ -69,7 +83,7 @@
 - STOP PROTOCOL **절대 위반 금지** (narrative-engine.md Section 8 참조)
 - Full STOP에서 STOP 이전 CHECK/QUIZ AskUserQuestion **금지** (STOP 확인용 AskUserQuestion은 허용)
 - 블록 내용은 references/에서 Read한 대로 진행
-- 인터뷰 블록은 `references/shared/interview-guide.md`도 Read
+- 인터뷰 블록은 `{REFS_DIR}/shared/interview-guide.md`도 Read
 - `{{variable}}` 보간은 narrative-engine.md 규칙을 따름
 - Day 1 `block3-deploy`는 **MCP `deploy_landing`만** 사용
 - Day 1 `block3-deploy`에서 로컬 배포 쉘 명령(`wrangler`, `vercel`, `cloudflare pages`) 실행/제안 **금지**

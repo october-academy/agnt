@@ -91,7 +91,24 @@ on_complete: save_character                    # 선택: 완료 시 추가 동�
 
 ## State Management
 
-런타임 상태: `.claude/agnt/state.json` (사용자 로컬, gitignored)
+런타임 상태는 **설치 scope에 따라** 다른 위치에 저장됩니다:
+
+| 설치 scope | state.json 위치 | 시나리오 |
+|------------|-----------------|----------|
+| Project/Local (`--scope project`) | `.claude/agnt/state.json` | 모노레포 개발자 |
+| User (기본값) | `~/.claude/agnt/state.json` | 외부 유저 (user scope 설치) |
+
+### 경로 결정 로직 (모든 커맨드 공통)
+
+1. `.claude/agnt/state.json` Read 시도 → 있으면 **AGNT_DIR = `.claude/agnt`** (project scope)
+2. 없으면 `~/.claude/agnt/state.json` 시도 → 있으면 **AGNT_DIR = `~/.claude/agnt`** (user scope)
+3. 둘 다 없으면 **AGNT_DIR = `~/.claude/agnt`** (기본값: user scope, 새 state 생성)
+
+### References 경로 결정 (REFS_DIR)
+
+1. `{AGNT_DIR}/references/` 내 파일 존재 → 사용 (sync script이 복사)
+2. 없으면 `~/.claude/plugins/marketplaces/agentic30/references/` → 사용 (marketplace clone)
+3. 둘 다 없으면 에러
 
 ```json
 {

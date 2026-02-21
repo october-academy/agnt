@@ -1,13 +1,27 @@
 캐릭터 시트와 월드맵을 표시합니다.
 
+## 데이터 경로 결정
+
+이 커맨드의 모든 파일 경로는 아래 절차로 결정합니다.
+
+### AGNT_DIR (state + data 루트)
+1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
+2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
+3. 둘 다 없으면 → "먼저 `/agnt:continue`로 학습을 시작하세요." 출력 후 종료
+
+### REFS_DIR (references 루트)
+1. `{AGNT_DIR}/references/shared/world-data.md`를 Read 시도 → 성공하면 **REFS_DIR = `{AGNT_DIR}/references`**
+2. 실패 시 `~/.claude/plugins/marketplaces/agentic30/references/shared/world-data.md` Read 시도 → 성공하면 **REFS_DIR = `~/.claude/plugins/marketplaces/agentic30/references`**
+3. 둘 다 없으면 에러: "references를 찾을 수 없습니다. `bun run sync:assistant-assets`를 실행하거나 플러그인을 재설치하세요."
+
 ## 실행 절차
 
-1. `.claude/agnt/state.json`을 Read. 없으면 "먼저 `/agnt:continue`로 학습을 시작하세요." 출력.
+1. `{AGNT_DIR}/state.json`을 Read (경로 결정 단계에서 이미 확인됨).
 
 2. 현재 Day의 장소 정보를 가져옵니다:
-   - `.claude/agnt/references/day{currentDay}/index.json`을 Read 시도.
+   - `{REFS_DIR}/day{currentDay}/index.json`을 Read 시도.
    - 성공 시: `location`과 `description` 필드 사용.
-   - 실패 시: `.claude/agnt/references/shared/world-data.md`를 Read해서 장소명 목록을 가져옵니다.
+   - 실패 시: `{REFS_DIR}/shared/world-data.md`를 Read해서 장소명 목록을 가져옵니다.
 
 3. `ToolSearch`로 `+agentic30` 검색하여 MCP 연결 확인:
    - **도구 발견됨**: MCP `get_leaderboard`로 서버 최신 데이터 동기화

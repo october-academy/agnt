@@ -1,14 +1,23 @@
 진행 상태를 초기화하고 Day 0부터 다시 시작합니다.
 
+## 데이터 경로 결정
+
+이 커맨드의 모든 파일 경로는 아래 절차로 결정합니다.
+
+### AGNT_DIR (state + data 루트)
+1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
+2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
+3. 둘 다 없으면 **AGNT_DIR = `~/.claude/agnt`** (기본값)
+
 ## 실행 절차
 
-1. `.claude/agnt/state.json`을 Read합니다.
-   - 파일이 없으면 기본 상태를 생성하고 아래 메시지를 출력한 뒤 종료:
+1. `{AGNT_DIR}/state.json`을 Read합니다.
+   - 파일이 없으면 `{AGNT_DIR}/state.json`에 기본 상태를 생성 (디렉토리 없으면 함께 생성)하고 아래 메시지를 출력한 뒤 종료:
      ```
      📦 초기 상태를 만들었습니다.
      이제 `/agnt:continue`로 Day 0부터 시작하세요.
      ```
-   - 파싱 실패 시 `.claude/agnt/state.json.bak`으로 백업 후 기본 상태로 재생성합니다.
+   - 파싱 실패 시 `{AGNT_DIR}/state.json.bak`으로 백업 후 기본 상태로 재생성합니다.
 
 2. 현재 진행 요약을 표시합니다.
    - Day/Block, 완료 Day 수, 보유 XP(없으면 0)를 한 줄씩 보여줍니다.
@@ -27,8 +36,8 @@
      ```
 
 5. 사용자가 `네`를 선택하면:
-   - 기존 state를 `.claude/agnt/state.json.bak`으로 백업(덮어쓰기 허용)
-   - `.claude/agnt/state.json`을 아래 기본값으로 Write:
+   - 기존 state를 `{AGNT_DIR}/state.json.bak`으로 백업(덮어쓰기 허용)
+   - `{AGNT_DIR}/state.json`을 아래 기본값으로 Write:
      ```json
      {
        "currentDay": 0,
@@ -52,7 +61,7 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
    진행 상태를 Day 0으로 초기화했습니다.
-   필요하면 이전 상태는 `.claude/agnt/state.json.bak`에서 복구할 수 있습니다.
+   필요하면 이전 상태는 `{AGNT_DIR}/state.json.bak`에서 복구할 수 있습니다.
 
    다음 명령:
    `/agnt:continue`

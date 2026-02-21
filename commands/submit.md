@@ -1,19 +1,33 @@
 현재 Day의 퀘스트를 검증하고 제출합니다.
 
+## 데이터 경로 결정
+
+이 커맨드의 모든 파일 경로는 아래 절차로 결정합니다.
+
+### AGNT_DIR (state + data 루트)
+1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
+2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
+3. 둘 다 없으면 → "먼저 `/agnt:continue`로 학습을 시작하세요." 출력 후 종료
+
+### REFS_DIR (references 루트)
+1. `{AGNT_DIR}/references/shared/narrative-engine.md`를 Read 시도 → 성공하면 **REFS_DIR = `{AGNT_DIR}/references`**
+2. 실패 시 `~/.claude/plugins/marketplaces/agentic30/references/shared/narrative-engine.md` Read 시도 → 성공하면 **REFS_DIR = `~/.claude/plugins/marketplaces/agentic30/references`**
+3. 둘 다 없으면 에러: "references를 찾을 수 없습니다. `bun run sync:assistant-assets`를 실행하거나 플러그인을 재설치하세요."
+
 ## 실행 절차
 
-1. `.claude/agnt/state.json`을 Read. 없으면 "먼저 `/agnt:continue`로 학습을 시작하세요." 출력.
+1. `{AGNT_DIR}/state.json`을 Read (경로 결정 단계에서 이미 확인됨).
 
 1-1. **MCP 연결 확인**:
    - `ToolSearch`로 `+agentic30` 검색
    - **도구 없음**: "⛔ MCP 서버 연결이 필요합니다. `/mcp` 명령으로 agentic30 서버를 확인하세요." 출력 후 종료
    - **도구 발견됨**: 정상 진행
 
-2. `.claude/agnt/references/day{currentDay}/index.json`을 Read합니다.
+2. `{REFS_DIR}/day{currentDay}/index.json`을 Read합니다.
    - 성공 시: index.json의 `quests` 필드에서 퀘스트 목록과 검증 정보를 가져옵니다 (step 3 생략).
    - 실패 시 (파일 없음): fallback으로 step 3을 실행합니다.
 
-3. (fallback) `.claude/agnt/references/day{currentDay}/` 의 모든 block*.md를 Read. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 퀘스트와 검증 규칙을 추출합니다.
+3. (fallback) `{REFS_DIR}/day{currentDay}/` 의 모든 block*.md를 Read. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 퀘스트와 검증 규칙을 추출합니다.
 
 4. 퀘스트별 로컬 검증 수행:
    - **file_exists**: 파일 시스템에서 해당 파일 존재 확인
