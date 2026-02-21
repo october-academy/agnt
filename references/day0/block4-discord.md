@@ -68,13 +68,19 @@ AskUserQuestion으로
 아직 가입하지 않았다면: https://discord.gg/H4A459FG5r
 
 AskUserQuestion:
-질문: 두리가 묻는다. "서버 가입
-상태가 어때?"
-1. "가입 완료"
-2. "링크 다시 보기"
-3. "아직"
+질문: |
+  두리가 묻는다. "서버 가입 상태가 어때?"
 
-"가입 완료"면 2단계로 이동합니다.
+  초대 링크: https://discord.gg/H4A459FG5r
+1. "가입 완료" — Discord 서버에 이미 가입했다
+2. "링크 다시 보기" — 초대 링크를 다시 확인하고 싶다
+3. "아직" — 잠시 다녀오겠다
+
+"가입 완료"면 **즉시 MCP 검증**:
+  - `verify_discord({ check: "membership" })` 호출
+  - 성공 시: `submit_practice({ questId: "d0-discord-join", day: 0, evidence: { type: "text", content: "verified" } })` 호출 → 2단계로 이동
+  - 실패 시: 두리: "아직 가입이 안 됐어. 초대 링크에서 가입하고 다시 와." → 같은 질문 반복
+  - MCP 미인증/에러 시: ON_CONFIRM의 3번 (MCP 인증 안내) 절차를 따른다
 "링크 다시 보기"면 초대 링크를
 다시 출력하고 같은 질문을
 반복합니다.
@@ -101,11 +107,13 @@ https://discord.com/channels/1463373562000838774/1463432947745947759
 `자기소개 작성하기` 버튼을 누릅니다.
 
 AskUserQuestion:
-질문: 두리가 묻는다. "자기소개 폼을
-열었어?"
-1. "폼 열기 완료"
-2. "채널 링크 다시 보기"
-3. "아직"
+질문: |
+  두리가 묻는다. "자기소개 폼을 열었어?"
+
+  #자기소개 채널: https://discord.com/channels/1463373562000838774/1463432947745947759
+1. "폼 열기 완료" — 폼을 열었다
+2. "채널 링크 다시 보기" — 채널 링크를 다시 확인하고 싶다
+3. "아직" — 잠시 다녀오겠다
 
 "폼 열기 완료"면 3단계로 이동합니다.
 "채널 링크 다시 보기"면 링크를
@@ -171,21 +179,16 @@ MCP로 검증**합니다.
 "아직"을 선택하면 두리가 다시
 안내하고 STOP에서 대기합니다.
 
-1. MCP `verify_discord`를 호출합니다:
-   - `verify_discord({ check: "membership" })` → 서버 가입 확인
-   - 실패 시: 두리: "아직 가입이 안 됐어. https://discord.gg/H4A459FG5r 에서 가입해." → 다시 STOP
-   - 성공 시: 즉시 `submit_practice({ questId: "d0-discord-join", day: 0, evidence: { type: "text", content: "verified" } })` 호출 (서버 dedup으로 중복 안전)
-
-2. membership 성공 후 `verify_discord({ check: "message_exists", channelId: "1463432947745947759" })` → 자기소개 메시지 확인
+1. `verify_discord({ check: "message_exists", channelId: "1463432947745947759" })` → 자기소개 메시지 확인
    - 실패 시: 두리:
      "자기소개가 안 보여.
      #자기소개 채널에서
      `자기소개 작성하기` 버튼으로
      다시 제출해." →
-     다시 STOP (d0-discord-join은 이미 제출됨)
+     다시 STOP
    - 성공 시: `submit_practice({ questId: "d0-discord-intro", day: 0, evidence: { type: "text", content: "verified" } })` 호출
 
-3. **MCP 호출이 실패하거나
+2. **MCP 호출이 실패하거나
    미인증 상태인 경우**:
    - "Discord 검증을 위해
      MCP 인증이 필요합니다.
@@ -195,12 +198,14 @@ MCP로 검증**합니다.
      플로우 → 인증 후 재검증
    - "나중에" 선택: 두리: "나중에 `/agnt:submit`으로 제출해도 돼." → 블록은 완료 처리하되 퀘스트는 미완료
 
-4. 양쪽 검증 모두 성공:
+3. 검증 성공:
 
 ```
-Discord 연동 완료! +50 XP
 자기소개 확인! +50 XP
 ```
+
+참고: 서버 가입 검증(`d0-discord-join`)은
+1단계에서 이미 완료됨 (서버 dedup으로 중복 호출 안전)
 
 ## MOVE
 
