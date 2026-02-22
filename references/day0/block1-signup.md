@@ -37,6 +37,7 @@ MCP `agentic30` 서버 연결을 확인합니다.
 1. `ToolSearch`로 `+agentic30` 검색
 2. **도구 발견됨**: MCP 도구 중 아무거나 호출 시도 → Claude Code가 자동으로 OAuth 플로우 시작 (브라우저에서 Google 로그인)
 3. **도구 없음**: 두리 대사로 안내 후 종료:
+
    ```
    두리가 장부를 만지작거리며 멈춘다.
 
@@ -47,6 +48,7 @@ MCP `agentic30` 서버 연결을 확인합니다.
    2. 서버가 목록에 없으면 Claude Code 재시작
    3. 연결 후 `/agnt:continue` 다시 실행
    ```
+
 4. 인증 완료 → 다음 단계로 진행
 5. 인증 실패 → 두리: "뭔가 막힌 것 같아. 다시 해봐." 안내 후 재시도
 
@@ -62,16 +64,18 @@ MCP `agentic30` 서버 연결을 확인합니다.
 
 **Q1. 이름 확인**
 AskUserQuestion:
+
 - "등록할 이름을 확인해주세요."
 - `googleName`이 있을 때:
   1. "{googleName}으로 등록"
-  (시스템이 "Other" 선택지를
-  자동 추가하므로 별도 "다른 이름"
-  선택지 불필요)
+     (시스템이 "Other" 선택지를
+     자동 추가하므로 별도 "다른 이름"
+     선택지 불필요)
 
 **Q2. 배경 — 1차 대분류**
 AskUserQuestion:
 질문: "현재 어떤 일을 하고 계세요?"
+
 1. "개발" → Q2-dev-sub로
 2. "디자인" → Q2-design로
 3. "기획/PM" → Q2-pm로
@@ -81,6 +85,7 @@ AskUserQuestion:
 
 **Q2-dev-sub. 개발 — 2차 중분류**
 질문: "어떤 분야의 개발을 하세요?"
+
 1. "웹/앱 개발" → Q2-dev-web으로
 2. "데이터/AI" → Q2-dev-data로
 3. "인프라/보안" → Q2-dev-infra로
@@ -88,6 +93,7 @@ AskUserQuestion:
 
 **Q2-dev-web. 웹/앱 개발 — 3차 세분류**
 질문: "구체적으로 어떤 역할이세요?"
+
 1. "프론트엔드" → background=`frontend`
 2. "백엔드" → background=`backend`
 3. "풀스택" → background=`fullstack`
@@ -95,46 +101,54 @@ AskUserQuestion:
 
 **Q2-dev-data. 데이터/AI — 3차 세분류**
 질문: "구체적으로 어떤 역할이세요?"
+
 1. "데이터 엔지니어" → background=`data-engineer`
 2. "ML/AI 엔지니어" → background=`ml-engineer`
 3. "데이터 분석가" → background=`data-analyst`
 
 **Q2-dev-infra. 인프라/보안 — 3차 세분류**
 질문: "구체적으로 어떤 역할이세요?"
+
 1. "DevOps/인프라" → background=`devops`
 2. "보안" → background=`security`
 
 **Q2-dev-etc. 기타 개발 — 3차 세분류**
 질문: "구체적으로 어떤 역할이세요?"
+
 1. "QA/테스트" → background=`qa`
 2. "게임" → background=`game`
 
 **Q2-design. 디자인 — 2차 세부**
 질문: "어떤 디자인을 하세요?"
+
 1. "UI/UX 디자이너" → background=`ui-ux`
 2. "프로덕트 디자이너" → background=`product-designer`
 3. "그래픽/브랜드 디자이너" → background=`graphic`
 
 **Q2-pm. 기획/PM — 2차 세부**
 질문: "어떤 역할이세요?"
+
 1. "프로덕트 매니저" → background=`pm`
 2. "서비스 기획자" → background=`planner`
 3. "프로젝트 매니저" → background=`project-manager`
 
 **Q2-marketing. 마케팅/그로스 — 2차 세부**
 질문: "어떤 역할이세요?"
+
 1. "마케터" → background=`marketer`
 2. "그로스 해커" → background=`growth`
 3. "콘텐츠 크리에이터" → background=`content-creator`
 
 **Q2-biz. 비즈니스 — 2차 세부**
 질문: "어떤 역할이세요?"
+
 1. "창업자/대표" → background=`founder`
 2. "사업개발/BD" → background=`biz-dev`
 3. "영업/세일즈" → background=`sales`
 
 **Q2-etc. 기타 — 2차 세부**
 질문: "어떤 역할이세요?"
+
 1. "학생" → background=`student`
 2. "기타" → background=`other`
 
@@ -142,6 +156,7 @@ AskUserQuestion:
 AskUserQuestion:
 질문: "사이드 프로젝트 경험이 어떻게
 되세요?"
+
 1. "처음 도전"
 2. "시도했지만 완성 못함"
 3. "완성은 했지만 유저 없음"
@@ -151,6 +166,7 @@ AskUserQuestion:
 AskUserQuestion:
 질문: "Agentic30을 어떻게 알게
 되셨나요?"
+
 1. "지인 추천"
 2. "SNS
    (Threads/LinkedIn)"
@@ -160,6 +176,7 @@ AskUserQuestion:
 
 Q4에서 "지인 추천" 선택 시 추가
 질문:
+
 - "추천해주신 분의 이메일을
   알려주시면 감사 포인트를
   드립니다. (선택사항)"
@@ -192,6 +209,7 @@ Q4에서 "지인 추천" 선택 시 추가
 AskUserQuestion:
 질문: 두리가 묻는다. "정리한 내용이
 맞아?"
+
 1. "확인"
 2. "수정 요청"
 

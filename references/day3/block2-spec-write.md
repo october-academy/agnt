@@ -49,26 +49,32 @@ transition: "Day 3 완료! 스펙을 완성했습니다. 다음은 정찰의 언
 # {{character.project|프로젝트명}} — Product Spec
 
 ## Problem Statement
+
 {인터뷰 기반 문제 한 문장}
 
 ## Target User
+
 - **페르소나**: {이름}, {상황}
 - **행동 패턴**: {구체적 행동}
 - **핵심 니즈**: {해결하고 싶은 것}
 
 ## Core Value Proposition
+
 {핵심 가치 한 문장}
 
 ## Key Features (MVP)
+
 1. **{기능명}** — {설명} [P0]
 2. **{기능명}** — {설명} [P0]
 3. **{기능명}** — {설명} [P1]
 
 ## Success Metrics
+
 - {지표 1}: {목표 숫자} (by {기한})
 - {지표 2}: {목표 숫자} (by {기한})
 
 ## Constraints
+
 - 시간: {제약}
 - 기술: {제약}
 - 자원: {제약}
@@ -101,6 +107,7 @@ transition: "Day 3 완료! 스펙을 완성했습니다. 다음은 정찰의 언
 AskUserQuestion:
 질문: 석이가 묻는다.
 "SPEC.md 최종본이 준비됐어?"
+
 1. "확인"
 2. "수정 요청"
 
@@ -137,6 +144,7 @@ ON_CONFIRM을 수행합니다.
 석이가 마지막으로 말한다.
 
 "내일 해야 할 것.
+
 1. 정찰의 언덕으로 가
 2. 나래를 찾아 — 척후야
 3. SPEC.md를 가져가."

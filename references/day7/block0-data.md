@@ -58,7 +58,7 @@ state.json과 프로젝트
 4. **산출물**: SPEC.md,
    landing.html, 경쟁
    분석, 비즈니스 모델
-5. **랜딩 성과** (인증 시): MCP `get_landing_analytics`
+5. **랜딩 성과** (인증 시): MCP `get_landing_analytics` (폼 제출 데이터). 방문자 수/전환율은 `agentic30.app/dashboard/analytics`에서 확인 안내 (⚠️ Cloudflare/PostHog 대시보드 안내 금지)
 
 ### 표시 형식
 
@@ -93,6 +93,7 @@ Day 6: 비즈니스 모델 ✅ | 모델: {model}
 AskUserQuestion:
 질문: 달이가 묻는다.
 "수집된 7일 데이터를 확인했어?"
+
 1. "확인"
 2. "수정 요청"
 

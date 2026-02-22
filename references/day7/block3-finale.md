@@ -41,15 +41,16 @@ transition: "Foundation Phase 완료! 축하합니다."
 
 프로젝트에 다음 파일이 있는지
 확인합니다:
+
 - [ ] `SPEC.md` — 프로덕트 스펙 (Problem, Target, Features, Business Model)
 - [ ] `landing.html` — 배포된 랜딩페이지
 - [ ] 인터뷰 데이터 —
-  state.json 또는 MCP
-  저장
+      state.json 또는 MCP
+      저장
 - [ ] 수요 검증 결과 — 피드백
-  + 분석
+  - 분석
 - [ ] Go/No-Go 결정 —
-  근거 + 다음 액션
+      근거 + 다음 액션
 
 ### 성과 요약 생성
 
@@ -89,6 +90,7 @@ AskUserQuestion:
 질문: 달이가 묻는다.
 "Foundation Phase를 완료
 처리할까?"
+
 1. "완료"
 2. "수정 요청"
 
@@ -107,8 +109,7 @@ PREVIEW → STOP을
 1. Discord에 회고 공유 안내
    (사이드 퀘스트):
    달이: "동료들에게 네 여정을
-   공유하면 어떨까? Discord
-   #회고 채널에 남기면 +30
+   공유하면 어떨까? Discord #회고 채널에 남기면 +30
    XP."
 
 2. 인증 상태면 MCP `submit_practice`로 최종 제출

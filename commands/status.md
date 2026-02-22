@@ -5,11 +5,13 @@
 이 커맨드의 모든 파일 경로는 아래 절차로 결정합니다.
 
 ### AGNT_DIR (state + data 루트)
+
 1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
 2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
 3. 둘 다 없으면 → "먼저 `/agnt:continue`로 학습을 시작하세요." 출력 후 종료
 
 ### REFS_DIR (references 루트)
+
 1. `{AGNT_DIR}/references/shared/world-data.md`를 Read 시도 → 성공하면 **REFS_DIR = `{AGNT_DIR}/references`**
 2. 실패 시 `~/.claude/plugins/marketplaces/agentic30/references/shared/world-data.md` Read 시도 → 성공하면 **REFS_DIR = `~/.claude/plugins/marketplaces/agentic30/references`**
 3. 둘 다 없으면 에러: "references를 찾을 수 없습니다. `bun run sync:assistant-assets`를 실행하거나 플러그인을 재설치하세요."
@@ -46,6 +48,7 @@
 ```
 
 5. 스킬 해금 상태:
+
 ```
 🔧 스킬 목록
   {✅/🔒} save_profile (Lv.1)
@@ -61,6 +64,7 @@
 6. ASCII 월드맵 (Day 0-7):
 
 각 Day의 `index.json`에서 장소명을 가져오거나, world-data.md를 fallback으로 사용합니다:
+
 ```
 🗺️ 월드맵
   ✅ Day 0: 견습생의 마을
@@ -72,13 +76,16 @@
   🔒 Day 6: 상인의 길드
   🔒 Day 7: 회고의 호수
 ```
+
 완료=✅, 현재=👉, 미개방=🔒
 
 7. 퀘스트 진행률:
+
 ```
 📈 전체 진행률: {completedQuests}/{totalQuests} ({percent}%)
 ```
 
 ## 규칙
+
 - MCP 연결 시 서버 동기화, 미연결 시 로컬 캐시 기반 (경고 표시)
 - 한국어 출력

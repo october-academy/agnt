@@ -69,8 +69,9 @@ AskUserQuestion으로
 **`already_connected: true` 반환 시**:
 두리: "이미 연동돼 있네."
 → 즉시 `verify_discord({ check: "membership" })` 호출:
-  - 성공 시: `submit_practice({ questId: "d0-discord-join", day: 0, evidence: { type: "text", content: "verified" } })` 호출 → 2단계로 이동
-  - 실패 시: 두리: "서버에는 아직 안 들어왔어. 여기서 가입해." + 초대 링크: https://discord.gg/H4A459FG5r → 가입 확인 질문으로
+
+- 성공 시: `submit_practice({ questId: "d0-discord-join", day: 0, evidence: { type: "text", content: "verified" } })` 호출 → 2단계로 이동
+- 실패 시: 두리: "서버에는 아직 안 들어왔어. 여기서 가입해." + 초대 링크: https://discord.gg/H4A459FG5r → 가입 확인 질문으로
 
 **`url` 반환 시**:
 두리: "Discord 계정을 연동해야 해.
@@ -81,17 +82,19 @@ URL도 코드 블록으로 함께 표시합니다 (자동 오픈 실패 시 수�
 
 AskUserQuestion:
 질문: |
-  두리가 묻는다. "브라우저에서 Discord 연동을 마쳤어?"
+두리가 묻는다. "브라우저에서 Discord 연동을 마쳤어?"
+
 1. "연동 완료" — Discord 연동을 마쳤다
 2. "아직" — 잠시 다녀오겠다
 
 "연동 완료"면 **즉시 MCP 검증**:
-  - `verify_discord({ check: "membership" })` 호출
-  - 성공 시: `submit_practice({ questId: "d0-discord-join", day: 0, evidence: { type: "text", content: "verified" } })` 호출 → 2단계로 이동
-  - 실패 시: 두리: "서버에 아직 안 들어온 것 같아. 초대 링크에서 가입하고 다시 와." + 초대 링크: https://discord.gg/H4A459FG5r → 같은 질문 반복
-  - MCP 미인증/에러 시: ON_CONFIRM의 MCP 인증 안내 절차를 따른다
-"아직"이면 두리가 잠깐 다녀오라고
-안내한 뒤 같은 질문을 반복합니다.
+
+- `verify_discord({ check: "membership" })` 호출
+- 성공 시: `submit_practice({ questId: "d0-discord-join", day: 0, evidence: { type: "text", content: "verified" } })` 호출 → 2단계로 이동
+- 실패 시: 두리: "서버에 아직 안 들어온 것 같아. 초대 링크에서 가입하고 다시 와." + 초대 링크: https://discord.gg/H4A459FG5r → 같은 질문 반복
+- MCP 미인증/에러 시: ON_CONFIRM의 MCP 인증 안내 절차를 따른다
+  "아직"이면 두리가 잠깐 다녀오라고
+  안내한 뒤 같은 질문을 반복합니다.
 
 **`error` 반환 시** (Discord OAuth 미설정):
 두리: "먼저 Discord 서버에 가입하고,
@@ -100,15 +103,17 @@ AskUserQuestion:
 
 AskUserQuestion:
 질문: |
-  두리가 묻는다. "서버에 가입했어?"
+두리가 묻는다. "서버에 가입했어?"
+
 1. "가입 완료" — Discord 서버에 가입했다
 2. "아직" — 잠시 다녀오겠다
 
 "가입 완료"면 `connect_discord()` 재호출:
-  - `url` 반환 시: 위의 `url` 반환 플로우와 동일하게 진행
-  - `already_connected: true` 반환 시: `verify_discord({ check: "membership" })` 호출 → 성공 시 `submit_practice` → 2단계로 이동
-  - 다시 `error` 반환 시: 두리: "아직 연동이 안 됐어. 웹에서 직접 연동할 수도 있어." + 웹 연동 URL: `https://agentic30.app/learn/day/0` 안내 + "웹에서 연동한 뒤 `/agnt:submit`으로 퀘스트를 직접 제출할 수도 있어." → 같은 질문 반복
-"아직"이면 같은 질문 반복.
+
+- `url` 반환 시: 위의 `url` 반환 플로우와 동일하게 진행
+- `already_connected: true` 반환 시: `verify_discord({ check: "membership" })` 호출 → 성공 시 `submit_practice` → 2단계로 이동
+- 다시 `error` 반환 시: 두리: "아직 연동이 안 됐어. 웹에서 직접 연동할 수도 있어." + 웹 연동 URL: `https://agentic30.app/learn/day/0` 안내 + "웹에서 연동한 뒤 `/agnt:submit`으로 퀘스트를 직접 제출할 수도 있어." → 같은 질문 반복
+  "아직"이면 같은 질문 반복.
 
 ⚠️ **`verify_discord` 통과(service_connections 존재) 없이는 `d0-discord-join` 퀘스트를 완료할 수 없습니다.**
 
@@ -134,9 +139,10 @@ URL도 코드 블록으로 함께 표시합니다 (자동 오픈 실패 시 수�
 
 AskUserQuestion:
 질문: |
-  두리가 묻는다. "자기소개 폼 제출까지 마쳤어?"
+두리가 묻는다. "자기소개 폼 제출까지 마쳤어?"
 
-  #자기소개 채널: https://discord.com/channels/1463373562000838774/1463432947745947759/1467136426796908647
+#자기소개 채널: https://discord.com/channels/1463373562000838774/1463432947745947759/1467136426796908647
+
 1. "제출 완료" — 자기소개를 제출했다
 2. "아직" — 잠시 다녀오겠다
 
@@ -172,8 +178,7 @@ MCP로 검증**합니다.
 
 1. `verify_discord({ check: "message_exists", channelId: "1463432947745947759" })` → 자기소개 메시지 확인
    - 실패 시: 두리:
-     "자기소개가 안 보여.
-     #자기소개 채널에서
+     "자기소개가 안 보여. #자기소개 채널에서
      `자기소개 작성하기` 버튼으로
      다시 제출해." →
      다시 STOP

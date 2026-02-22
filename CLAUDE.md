@@ -55,26 +55,26 @@ references/            # 학습 콘텐츠 (커맨드가 Read해서 사용)
 
 ```yaml
 ---
-stop_mode: full | conversation | checkpoint   # 블록 진행 모드
+stop_mode: full | conversation | checkpoint # 블록 진행 모드
 title: "블록 제목"
-npc: 두리                                      # npcs.md에서 해당 카드 참조
-quests:                                        # 선택: 이 블록의 퀘스트
+npc: 두리 # npcs.md에서 해당 카드 참조
+quests: # 선택: 이 블록의 퀘스트
   - id: d0-goal
     type: main
     title: "목표 선언문 작성"
     xp: 50
 transition: "다음 블록 안내 메시지"
-on_complete: save_character                    # 선택: 완료 시 추가 동작
+on_complete: save_character # 선택: 완료 시 추가 동작
 ---
 ```
 
 ### stop_mode별 섹션 구조
 
-| Mode | 구조 | 용도 |
-|------|------|------|
-| `full` (Teach) | ROOM → NPC → SCENE(들) → TASK → STOP → RETURN → CHECK → MOVE | 개념 교육 + 퀴즈 |
-| `conversation` (Talk) | ROOM → NPC → CONVERSATION → SUMMARY → STOP → ON_COMPLETE → MOVE | 인터뷰/대화 |
-| `checkpoint` (Craft) | ROOM → NPC → GUIDE → PREVIEW → STOP → ON_CONFIRM → MOVE | 산출물 생성 |
+| Mode                  | 구조                                                            | 용도             |
+| --------------------- | --------------------------------------------------------------- | ---------------- |
+| `full` (Teach)        | ROOM → NPC → SCENE(들) → TASK → STOP → RETURN → CHECK → MOVE    | 개념 교육 + 퀴즈 |
+| `conversation` (Talk) | ROOM → NPC → CONVERSATION → SUMMARY → STOP → ON_COMPLETE → MOVE | 인터뷰/대화      |
+| `checkpoint` (Craft)  | ROOM → NPC → GUIDE → PREVIEW → STOP → ON_CONFIRM → MOVE         | 산출물 생성      |
 
 ## Day Index Files
 
@@ -93,10 +93,10 @@ on_complete: save_character                    # 선택: 완료 시 추가 동�
 
 런타임 상태는 **설치 scope에 따라** 다른 위치에 저장됩니다:
 
-| 설치 scope | state.json 위치 | 시나리오 |
-|------------|-----------------|----------|
-| Project/Local (`--scope project`) | `.claude/agnt/state.json` | 모노레포 개발자 |
-| User (기본값) | `~/.claude/agnt/state.json` | 외부 유저 (user scope 설치) |
+| 설치 scope                        | state.json 위치             | 시나리오                    |
+| --------------------------------- | --------------------------- | --------------------------- |
+| Project/Local (`--scope project`) | `.claude/agnt/state.json`   | 모노레포 개발자             |
+| User (기본값)                     | `~/.claude/agnt/state.json` | 외부 유저 (user scope 설치) |
 
 ### 경로 결정 로직 (모든 커맨드 공통)
 
@@ -131,10 +131,15 @@ on_complete: save_character                    # 선택: 완료 시 추가 동�
 플러그인이 `plugin.json`에서 HTTP MCP 서버를 선언:
 
 ```json
-{ "mcpServers": { "agentic30": { "type": "http", "url": "https://mcp.agentic30.app/mcp" } } }
+{
+  "mcpServers": {
+    "agentic30": { "type": "http", "url": "https://mcp.agentic30.app/mcp" }
+  }
+}
 ```
 
 커맨드들은 `ToolSearch`로 `+agentic30` 검색하여 MCP 도구 로딩 후 사용:
+
 - `get_leaderboard` — 서버 상태 동기화, 리더보드
 - `submit_practice` — 퀘스트 완료 제출
 - `save_profile`, `save_interview` — 프로필/인터뷰 데이터 저장

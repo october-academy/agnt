@@ -34,21 +34,22 @@ Day 1 인터뷰 데이터와 Day 2
 구조를 구체화합니다.
 
 ### 완성 체크리스트
+
 - [ ] Problem
-  Statement (한 문장,
-  인터뷰 기반)
+      Statement (한 문장,
+      인터뷰 기반)
 - [ ] Target User
-  페르소나 (이름, 상황, 행동
-  패턴)
+      페르소나 (이름, 상황, 행동
+      패턴)
 - [ ] Core Value
-  Proposition (한 문장)
+      Proposition (한 문장)
 - [ ] Key Features
-  3-5개 (우선순위 매김)
+      3-5개 (우선순위 매김)
 - [ ] Success
-  Metrics 2-3개 (구체적
-  숫자)
+      Metrics 2-3개 (구체적
+      숫자)
 - [ ] Constraints
-  (시간/기술/자원)
+      (시간/기술/자원)
 
 ### 대화 시작
 
@@ -63,6 +64,7 @@ Problem Statement를
 한 문장으로 정리해볼까?"
 
 ### 대화 규칙
+
 - 섹션별로 순서대로 진행하되
   자연스럽게
 - 추상적 답변 → 구체적으로 좁히기
@@ -102,6 +104,7 @@ Problem Statement를
 
 AskUserQuestion:
 질문: 석이가 묻는다. "SPEC.md 뼈대가 맞아?"
+
 1. "확인"
 2. "수정 요청"
 

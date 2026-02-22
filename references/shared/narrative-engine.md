@@ -7,11 +7,13 @@
 블록 파일은 `---` 구분자로 시작하는 YAML frontmatter를 포함합니다.
 
 ### 필수 필드
+
 - `stop_mode`: `full` | `conversation` | `checkpoint`
 - `title`: 블록 제목 (문자열)
 - `npc`: 해당 블록의 NPC 이름 (예: `두리`, `소리`). `npcs.md`에서 해당 NPC 카드만 참조
 
 ### 선택 필드
+
 - `quests`: 이 블록에서 검증되는 퀘스트 목록
   ```yaml
   quests:
@@ -27,6 +29,7 @@
 ### 파싱 실패 시 Fallback
 
 frontmatter가 없거나 파싱에 실패하면:
+
 1. `⚠️ frontmatter 없음` 경고 1회 출력
 2. 기존 자유형식 마크다운 헤더에서 메타데이터 추출
 3. 블록 진행은 정상적으로 계속
@@ -35,17 +38,17 @@ frontmatter가 없거나 파싱에 실패하면:
 
 블록 텍스트의 `{{variable}}` 패턴을 state.json 데이터로 치환합니다.
 
-| 변수 | 소스 | 예시 |
-|------|------|------|
-| `{{character.project}}` | state.json → character.project | "밥친구" |
-| `{{character.motivation}}` | state.json → character.motivation | "혼밥이 싫어서" |
-| `{{character.target}}` | state.json → character.target | "1인 가구 직장인" |
-| `{{character.strengths}}` | state.json → character.strengths | "풀스택 개발" |
-| `{{character.goal}}` | state.json → character.goal | "30일 안에 유저 100명 확보" |
-| `{{state.level}}` | state.json → level | "3" |
-| `{{state.title}}` | state.json → title | "탐험가" |
-| `{{state.xp}}` | state.json → xp | "250" |
-| `{{state.currentDay}}` | state.json → currentDay | "2" |
+| 변수                       | 소스                              | 예시                        |
+| -------------------------- | --------------------------------- | --------------------------- |
+| `{{character.project}}`    | state.json → character.project    | "밥친구"                    |
+| `{{character.motivation}}` | state.json → character.motivation | "혼밥이 싫어서"             |
+| `{{character.target}}`     | state.json → character.target     | "1인 가구 직장인"           |
+| `{{character.strengths}}`  | state.json → character.strengths  | "풀스택 개발"               |
+| `{{character.goal}}`       | state.json → character.goal       | "30일 안에 유저 100명 확보" |
+| `{{state.level}}`          | state.json → level                | "3"                         |
+| `{{state.title}}`          | state.json → title                | "탐험가"                    |
+| `{{state.xp}}`             | state.json → xp                   | "250"                       |
+| `{{state.currentDay}}`     | state.json → currentDay           | "2"                         |
 
 Fallback: `{{variable|대체텍스트}}` — 변수가 null이면 `|` 뒤 텍스트 사용.
 
@@ -55,21 +58,27 @@ Fallback: `{{variable|대체텍스트}}` — 변수가 null이면 `|` 뒤 텍스
 ## 3. 톤 & 스타일
 
 ### 서술 (지문)
+
 2인칭 현재형, 문어체 반말. 웹소설 포맷 (한 줄 ~20자, 문장마다 줄바꿈).
+
 - 시점: "~한다", "~든다" (금지: "~합니다", "~했다")
 - 감각 묘사: 시각 필수 + 청각/촉각/후각 중 1개
 
 ### NPC 대사
+
 구어체 반말, 큰따옴표. 블록 frontmatter `npc` 필드의 NPC 카드(npcs.md)를 준수.
+
 - 해당 NPC 입버릇 최소 1회 등장. 다른 NPC 입버릇 금지
 - NPC 등장 시: 행동 묘사(지문) → 이모지+이름+직함 → 첫 대사
 - NPC 연속 대사(큰따옴표 내) 6줄 이하. 초과 시 행동 묘사(지문) 삽입으로 분할
 - 금지: 존댓말(NPC→학습자), 판타지 메타포("마법 시전", "주문서")
 
 ### 시스템 UI
+
 이모지 마커(📋⭐❓✅🔒⛔🎉📍) + 최소 텍스트. 시스템 안내문 → NPC 대사로 전달.
 
 ### 개발 용어
+
 첫 등장 시 NPC 대사로 1-2문장 풀어 설명. 이미 설명된 용어는 재설명 불필요.
 
 ## 4. 출력 포맷
@@ -86,6 +95,7 @@ Fallback: `{{variable|대체텍스트}}` — 변수가 null이면 `|` 뒤 텍스
 ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영합니다.
 
 **시간대 반응** (시스템 시간):
+
 - 06-12시: 밝은 묘사 + NPC 아침 인사
 - 12-18시: 기본 묘사
 - 18-24시: 어두운 묘사 + "밤늦게까지" 언급
@@ -93,6 +103,7 @@ ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영�
 - 확인 실패 시: 기본(낮) fallback
 
 **파일 감지** (프로젝트 루트):
+
 - `landing.html` 존재: "아까 만든 페이지" 언급
 - `package.json` 존재: "프로젝트 이름" 언급
 - `.git/` 존재: "버전 관리" 언급
@@ -114,6 +125,7 @@ ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영�
 ```
 
 진행 순서:
+
 1. ROOM 출력 → **페이지 브레이크** (Section 7)
 2. NPC 출력 → **페이지 브레이크** (Section 7)
 3. SCENE 순서대로 진행:
@@ -129,6 +141,7 @@ ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영�
 RETURN에서 NPC는 CHECK 전에 퀴즈 대상 개념을 간접 환기합니다.
 
 규칙:
+
 - NPC 입버릇/키워드와 연결된 1-2문장
 - 정답 직접 언급 금지 (간접 환기만)
 - 해당 SCENE의 상황/비유를 짧게 떠올리게 함
@@ -147,6 +160,7 @@ RETURN에서 NPC는 CHECK 전에 퀴즈 대상 개념을 간접 환기합니다.
 ```
 
 진행 순서:
+
 1. ROOM 출력 → **페이지 브레이크**
 2. NPC 출력 → CONVERSATION 체크리스트 기반 자유 대화
 3. 모든 항목 충족 → SUMMARY → STOP + AskUserQuestion(확인/수정 요청)
@@ -160,6 +174,7 @@ RETURN에서 NPC는 CHECK 전에 퀴즈 대상 개념을 간접 환기합니다.
 ```
 
 진행 순서:
+
 1. ROOM 출력 → **페이지 브레이크**
 2. NPC 출력 → **페이지 브레이크**
 3. GUIDE 진행:
@@ -172,19 +187,23 @@ RETURN에서 NPC는 CHECK 전에 퀴즈 대상 개념을 간접 환기합니다.
 6. "확인" → ON_CONFIRM → MOVE
 
 추가 규칙:
+
 - GUIDE에 "MCP-only" 명시 시 로컬 쉘 명령 금지
 - 인증 부족 시 로컬 우회 금지
 
 ### STOP 마커 규칙
 
 모든 STOP은 NPC 대사 형태로 전달:
+
 ```
 ✅: NPC가 행동 묘사 + 대사 후 ⛔ STOP — "NPC가 기다립니다."
 ❌: ⛔ STOP — "👆 위 내용을 실행해보세요."
 ```
+
 STOP의 AskUserQuestion question에는 NPC의 마무리 **질문 대사만** 포함한다 (직전 지문/행동 묘사는 이미 출력되어 있으므로 중복 금지).
 
 ### CHOICE 섹션 규칙
+
 - 선택지 3-4개 (캐릭터 대사 형태)
 - 각 선택지에 NPC 반응 2-3줄
 - 모든 선택지는 같은 다음 SCENE/TASK로 수렴
@@ -199,6 +218,7 @@ STOP의 AskUserQuestion question에는 NPC의 마무리 **질문 대사만** 포
 ### 레거시 구조 Fallback
 
 `## Phase A` 등 레거시 섹션이 있는 블록:
+
 1. EXPLAIN을 PAGE 단위로 나눠 읽기 + AskUserQuestion 페이지 넘김
 2. 모든 PAGE 완료 → EXECUTE 실습 지시
 3. STOP + AskUserQuestion(다음/아직)
@@ -226,6 +246,7 @@ NPC가 문을 밀며 말한다.
 ```
 
 규칙:
+
 - 1단계: NPC 마무리 대사 또는 행동 묘사 (1-2줄)
 - 2단계: 시각 필수 + 청각/촉각/후각 중 1개 이상 (3-5줄)
 - 3단계: 다음 장소 도착 또는 암시 (1-2줄)
@@ -237,7 +258,9 @@ NPC가 문을 밀며 말한다.
 > 아래 `{lastNpc}` 등 단일 중괄호는 `{{}}` 보간이 아닙니다. AI가 state.json에서 직접 읽어 채웁니다.
 
 ### Day 간 리캡 (currentBlock == 0, lastNpc != null)
+
 ASCII 배너 뒤에 "지난 이야기" 블록 출력:
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 📝 지난 이야기: {lastLocation}에서
@@ -246,18 +269,22 @@ ASCII 배너 뒤에 "지난 이야기" 블록 출력:
 ```
 
 이후 새 NPC가 학습자의 이전 여정을 언급:
+
 ```
 NPC: "{lastLocation}에서 왔다며?
 {lastNpc}가 네 이야기를 전해줬어."
 ```
 
 ### Block 간 리캡 (currentBlock > 0, lastAction != null)
+
 NPC가 직전 블록을 1-2줄 환기:
+
 ```
 NPC: "아까 {lastAction}. 이번엔..."
 ```
 
 ### lastNpc == null인 경우
+
 리캡 생략. 바로 ROOM 출력.
 
 ## 7. 페이지네이션 규칙
@@ -296,11 +323,13 @@ AskUserQuestion:
 **중복 금지**: NPC 대사는 이미 출력되어 있으므로 question에 다시 포함하지 않는다. question은 `"▶ 계속"`만.
 
 ### 예외
+
 - **레거시 블록** (Phase A/B): 기존 PAGE 단위 넘김 유지
 
 ### GUIDE PAGE 페이지네이션
 
 GUIDE 섹션에 `### PAGE N` 구조가 있으면:
+
 1. **한 PAGE씩** 순서대로 출력 — 여러 PAGE를 한 번에 출력하지 않음
 2. 각 PAGE의 AskUserQuestion / `⛔ 중간 STOP`에서 **반드시 대기** (사용자 응답 수신 후 다음 PAGE)
 3. PAGE 시작 전에 NPC가 해당 PAGE의 주제를 짧게 소개 → 내용 → AskUserQuestion 순서
@@ -319,10 +348,12 @@ GUIDE 섹션에 `### PAGE N` 구조가 있으면:
 9. RETURN 리캡에서 CHECK 정답을 직접 언급하기 (간접 환기만 허용)
 10. MCP 서버 동기화 실패 시 블록 완료 처리 (Section 11 차단 규칙 참조)
 11. NPC 연속 대사(큰따옴표 내) 6줄 초과 출력 (행동 묘사 삽입으로 분할)
+12. 유저를 외부 관리자 도구로 안내하기 (Cloudflare 대시보드, PostHog 대시보드, Vercel 대시보드 등). 유저는 agentic30 플랫폼 관리자가 아님 — 방문자 수/페이지뷰 등 분석 데이터는 agentic30 웹앱(`agentic30.app/learn/day/2` 하단 분석 대시보드)에서 확인하도록 안내
 
 ## 9. 블록 완료 시 state.json 갱신 규칙
 
 블록 완료 시:
+
 1. `completedBlocks[currentDay]`에 현재 블록 번호 추가
 2. `currentBlock` 1 증가
 3. 블록별 데이터 저장 (`on_complete: save_character` → `character` 갱신 등)
@@ -332,6 +363,7 @@ GUIDE 섹션에 `### PAGE N` 구조가 있으면:
 7. `lastLocation`: 현재 Day의 index.json `location` 값 (예: "견습생의 마을")
 
 ### CHOICE 선택 기록
+
 CHOICE 선택 즉시 state.json `choices`에 `{ day, block, scene, choice }` append 후 저장.
 
 ## 10. Day 인덱스 파일 활용
@@ -343,12 +375,15 @@ CHOICE 선택 즉시 state.json `choices`에 `{ day, block, scene, choice }` app
 **MCP `agentic30` 연결 필수**. Day 0 Block 0(웰컴)을 제외한 모든 블록은 MCP 연결 상태에서만 진행됩니다. `continue.md`의 Step 2에서 `ToolSearch`로 MCP 도구 존재를 확인하며, 미연결 시 진행이 차단됩니다.
 
 ### 퀘스트 자동 제출
+
 블록 ON_COMPLETE/ON_CONFIRM 완료 후, frontmatter `quests`가 있으면 각각 `submit_practice` 호출.
+
 - `index.json`에 없는 quest는 제출 건너뜀
 - 블록에 명시적 `submit_practice` 지시가 있으면 해당 지시 우선
 - 서버 사이드 dedup 있으므로 중복 호출 안전
 
 ### 대화 자동 저장
+
 `stop_mode: conversation`에서 `on_complete: save_interview`가 있으면 `save_interview` 호출.
 
 ### 서버 동기화 실패 시 차단 규칙
@@ -372,13 +407,13 @@ ON_COMPLETE/ON_CONFIRM의 MCP 호출(`save_profile`, `save_interview`, `complete
 
 ### Evidence 매핑
 
-| type | evidence | 설명 |
-|------|----------|------|
-| `text` | `{ type: "text", content: 관련 데이터 }` | 직접 입력 텍스트 |
-| `server_state` | `{ type: "text", content: "verified" }` | MCP가 이미 서버 상태 설정 |
-| `template` | `{ type: "template", inputs: 입력값 }` | 템플릿 기반 과제 |
-| `link` | `{ type: "text", content: URL }` | 외부 링크 |
-| `checkbox` | (불필요) | 단순 체크박스 |
+| type           | evidence                                 | 설명                      |
+| -------------- | ---------------------------------------- | ------------------------- |
+| `text`         | `{ type: "text", content: 관련 데이터 }` | 직접 입력 텍스트          |
+| `server_state` | `{ type: "text", content: "verified" }`  | MCP가 이미 서버 상태 설정 |
+| `template`     | `{ type: "template", inputs: 입력값 }`   | 템플릿 기반 과제          |
+| `link`         | `{ type: "text", content: URL }`         | 외부 링크                 |
+| `checkbox`     | (불필요)                                 | 단순 체크박스             |
 
 ## 12. 컨텍스트 윈도우 관리
 

@@ -5,11 +5,13 @@
 이 커맨드의 모든 파일 경로는 아래 절차로 결정합니다.
 
 ### AGNT_DIR (state + data 루트)
+
 1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
 2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
 3. 둘 다 없으면 → "먼저 `/agnt:continue`로 학습을 시작하세요." 출력 후 종료
 
 ### REFS_DIR (references 루트)
+
 1. `{AGNT_DIR}/references/shared/world-data.md`를 Read 시도 → 성공하면 **REFS_DIR = `{AGNT_DIR}/references`**
 2. 실패 시 `~/.claude/plugins/marketplaces/agentic30/references/shared/world-data.md` Read 시도 → 성공하면 **REFS_DIR = `~/.claude/plugins/marketplaces/agentic30/references`**
 3. 둘 다 없으면 에러: "references를 찾을 수 없습니다. `bun run sync:assistant-assets`를 실행하거나 플러그인을 재설치하세요."
@@ -24,7 +26,7 @@
 
 3. (fallback) `{REFS_DIR}/shared/world-data.md`를 Read해서 현재 Day의 장소명과 설명을 가져옵니다.
 
-4. (fallback) `{REFS_DIR}/day{currentDay}/` 디렉토리의 모든 block*.md 파일을 Read하고, 각 블록에서 퀘스트 정보(제목, XP, 타입)를 추출합니다. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 추론합니다.
+4. (fallback) `{REFS_DIR}/day{currentDay}/` 디렉토리의 모든 block\*.md 파일을 Read하고, 각 블록에서 퀘스트 정보(제목, XP, 타입)를 추출합니다. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 추론합니다.
 
 5. state.json의 `completedBlocks[currentDay]`와 대조하여 완료 상태를 판정합니다.
 
@@ -59,6 +61,7 @@
      ```
 
 ## 규칙
+
 - 한국어 출력
 - 히든 퀘스트는 trigger 조건 미충족 시 `[???]`로 표시
 - MCP 연결 시 서버 동기화, 미연결 시 로컬 캐시 기반 (경고 표시)

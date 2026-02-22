@@ -5,11 +5,13 @@
 이 커맨드의 모든 파일 경로는 아래 절차로 결정합니다.
 
 ### AGNT_DIR (state + data 루트)
+
 1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
 2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
 3. 둘 다 없으면 **AGNT_DIR = `~/.claude/agnt`** (기본값)
 
 ### REFS_DIR (references 루트)
+
 1. `{AGNT_DIR}/references/shared/narrative-engine.md`를 Read 시도 → 성공하면 **REFS_DIR = `{AGNT_DIR}/references`**
 2. 실패 시 `~/.claude/plugins/marketplaces/agentic30/references/shared/narrative-engine.md` Read 시도 → 성공하면 **REFS_DIR = `~/.claude/plugins/marketplaces/agentic30/references`**
 3. 둘 다 없으면 에러: "references를 찾을 수 없습니다. `bun run sync:assistant-assets`를 실행하거나 플러그인을 재설치하세요."
@@ -17,15 +19,33 @@
 ## 실행 절차
 
 1. `{AGNT_DIR}/state.json`을 Read. 없으면 `{AGNT_DIR}/state.json`에 기본값으로 생성 (디렉토리 없으면 함께 생성):
+
 ```json
-{"currentDay":0,"currentBlock":0,"completedDays":[],"completedBlocks":{},"choices":[],"character":null,"interview":null,"authenticated":false,"level":1,"title":"견습생","xp":0,"lastNpc":null,"lastAction":null,"lastLocation":null}
+{
+  "currentDay": 0,
+  "currentBlock": 0,
+  "completedDays": [],
+  "completedBlocks": {},
+  "choices": [],
+  "character": null,
+  "interview": null,
+  "authenticated": false,
+  "level": 1,
+  "title": "견습생",
+  "xp": 0,
+  "lastNpc": null,
+  "lastAction": null,
+  "lastLocation": null
+}
 ```
+
 파싱 실패 시 `{AGNT_DIR}/state.json.bak`으로 백업 후 기본값 재생성.
 
 2. **MCP 연결 확인** (Day 0 Block 0 제외 — 웰컴 블록은 MCP 없이 진행 가능):
    - `ToolSearch`로 `+agentic30` 검색하여 MCP 도구 존재 여부 확인
    - **도구 발견됨**: 정상 진행 (Step 3으로)
    - **도구 없음**: 진행 차단. 아래 안내를 NPC 두리 대사로 출력 후 종료:
+
      ```
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ⛔ MCP 서버 연결 필요
@@ -75,15 +95,18 @@
    - `stop_mode`에 따라 Phase 진행 (Full / Conversation / Checkpoint)
 
 10. 블록 완료 시 narrative-engine.md의 갱신 규칙에 따라 state.json 갱신:
-   - `completedBlocks[currentDay]`에 블록 번호 추가
-   - `currentBlock++`
-   - 블록별 데이터(character, interview 등) 저장
-   - `lastNpc`: 블록 frontmatter `npc` 필드값 (예: "두리")
-   - `lastAction`: 블록 title 기반 과거형 1문장 요약 (예: "Discord에 합류하고 자기소개를 마쳤다")
-   - `lastLocation`: 현재 Day의 index.json `location` 값 (예: "견습생의 마을")
+
+- `completedBlocks[currentDay]`에 블록 번호 추가
+- `currentBlock++`
+- 블록별 데이터(character, interview 등) 저장
+- `lastNpc`: 블록 frontmatter `npc` 필드값 (예: "두리")
+- `lastAction`: 블록 title 기반 과거형 1문장 요약 (예: "Discord에 합류하고 자기소개를 마쳤다")
+- `lastLocation`: 현재 Day의 index.json `location` 값 (예: "견습생의 마을")
 
 11. Day 모든 블록 완료 시 `completedDays`에 추가, 다음 Day 안내.
+
 ## 핵심 규칙
+
 - STOP PROTOCOL **절대 위반 금지** (narrative-engine.md Section 8 참조)
 - Full STOP에서 STOP 이전 CHECK/QUIZ AskUserQuestion **금지** (STOP 확인용 AskUserQuestion은 허용)
 - 블록 내용은 references/에서 Read한 대로 진행

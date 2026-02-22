@@ -46,9 +46,9 @@ transition: "Day 5 완료! 데이터로 수요를 검증했습니다. 다음은 
 
 2. **랜딩페이지 데이터** (인증
    시):
-   - MCP `get_landing_analytics` 호출
-   - 방문자 수, 전환율, 폼
-     응답 분석
+   - MCP `get_landing_analytics` 호출 → 폼 제출 수, 폼 응답 내용
+   - 방문자 수/전환율은 agentic30 웹앱에서 확인: `agentic30.app/dashboard/analytics`
+   - ⚠️ Cloudflare/PostHog 대시보드 안내 금지 (유저는 관리자가 아님)
 
 3. **Go/No-Go 시그널**:
    - Go: 3명 중 2명 이상
@@ -65,7 +65,7 @@ transition: "Day 5 완료! 데이터로 수요를 검증했습니다. 다음은 
 ```
 📊 수요 검증 결과
 ━━━━━━━━━━━━━━━
-대화: {N}명 / 랜딩 전환율: {N}%
+대화: {N}명 / 폼 제출: {N}건
 
 Go/Pivot/No-Go: {판정}
 근거: {핵심 데이터 포인트}
@@ -87,6 +87,7 @@ Go/Pivot/No-Go: {판정}
 AskUserQuestion:
 질문: 한이가 묻는다.
 "수요 검증 분석 결과를 확정할까?"
+
 1. "확인"
 2. "수정 요청"
 
