@@ -151,6 +151,14 @@ AskUserQuestion:
    MCP `deploy_landing` 호출:
    - `html`: landing.html 전체
    - `projectName`: selected_slug
+   - `oneLiner`: state.character.project
+     또는 인터뷰 요약에서 한 줄 소개
+   - `problem`: 인터뷰에서 선택한
+     핵심 문제 (state.interview.selectedProblem
+     또는 인터뷰 요약에서 추출)
+   - `solution`: 해결 방법
+     (landing.html의 솔루션 섹션
+     또는 인터뷰 요약에서 추출)
 3. 미인증이면 인증 완료를
    먼저 안내하고 같은 slug로 재시도
    (로컬 배포 우회 금지)

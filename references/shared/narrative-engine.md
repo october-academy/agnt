@@ -114,7 +114,9 @@ ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영�
 진행 순서:
 1. ROOM 출력 → **페이지 브레이크** (Section 7)
 2. NPC 출력 → **페이지 브레이크** (Section 7)
-3. SCENE 순서대로 진행, 각 SCENE의 CHOICE에서 AskUserQuestion
+3. SCENE 순서대로 진행:
+   - 각 SCENE의 내용 출력 → CHOICE에서 AskUserQuestion
+   - SCENE 간 전환 시 **페이지 브레이크** (`▶ 계속`) — SCENE 내용이 15줄 이상이면 중간에도 삽입
 4. TASK 과제 부여
 5. STOP 출력 + AskUserQuestion(다음/아직)
 6. "아직" → STOP 대기 / "다음" → RETURN → CHECK(퀴즈)
@@ -156,10 +158,15 @@ RETURN에서 NPC는 CHECK 전에 퀴즈 대상 개념을 간접 환기합니다.
 
 진행 순서:
 1. ROOM 출력 → **페이지 브레이크**
-2. NPC 출력 → GUIDE에 따라 산출물 생성 → PREVIEW 표시
-3. STOP + AskUserQuestion(확인/수정 요청)
-4. "수정 요청" → GUIDE→PREVIEW→STOP 루프
-5. "확인" → ON_CONFIRM → MOVE
+2. NPC 출력 → **페이지 브레이크**
+3. GUIDE 진행:
+   - `### PAGE N` 구조가 있으면 **한 PAGE씩** 순서대로 진행
+   - 각 PAGE의 `⛔ 중간 STOP` / AskUserQuestion에서 반드시 대기
+   - 모든 PAGE 완료 후 산출물 생성 → PREVIEW 표시
+   - PAGE 구조가 없으면 GUIDE 전체를 한 번에 진행
+4. STOP + AskUserQuestion(확인/수정 요청)
+5. "수정 요청" → GUIDE→PREVIEW→STOP 루프
+6. "확인" → ON_CONFIRM → MOVE
 
 추가 규칙:
 - GUIDE에 "MCP-only" 명시 시 로컬 쉘 명령 금지
@@ -230,8 +237,15 @@ AskUserQuestion:
 **중복 금지**: NPC 대사는 이미 출력되어 있으므로 question에 다시 포함하지 않는다. question은 `"▶ 계속"`만.
 
 ### 예외
-- **checkpoint 모드에서 NPC가 바로 GUIDE를 시작하는 경우**: NPC 후 페이지 브레이크 생략 가능 (NPC 대사가 짧을 때)
 - **레거시 블록** (Phase A/B): 기존 PAGE 단위 넘김 유지
+
+### GUIDE PAGE 페이지네이션
+
+GUIDE 섹션에 `### PAGE N` 구조가 있으면:
+1. **한 PAGE씩** 순서대로 출력 — 여러 PAGE를 한 번에 출력하지 않음
+2. 각 PAGE의 AskUserQuestion / `⛔ 중간 STOP`에서 **반드시 대기** (사용자 응답 수신 후 다음 PAGE)
+3. PAGE 시작 전에 NPC가 해당 PAGE의 주제를 짧게 소개 → 내용 → AskUserQuestion 순서
+4. 한 PAGE 내 출력이 **15줄 이상**이면 중간에 `▶ 계속` 페이지 브레이크 삽입
 
 ## 8. 절대 금지 사항
 
@@ -302,3 +316,27 @@ ON_COMPLETE/ON_CONFIRM의 MCP 호출(`save_profile`, `save_interview`, `complete
 | `template` | `{ type: "template", inputs: 입력값 }` | 템플릿 기반 과제 |
 | `link` | `{ type: "text", content: URL }` | 외부 링크 |
 | `checkbox` | (불필요) | 단순 체크박스 |
+
+## 12. 컨텍스트 윈도우 관리
+
+대화가 길어지면 컨텍스트 윈도우가 소진되어 블록 규칙 준수가 어려워집니다.
+
+### 90% 초과 시 쉬어가기 안내
+
+컨텍스트 윈도우가 90% 이상 차면 현재 STOP/AskUserQuestion 시점에서 NPC가 쉬어가기를 제안합니다:
+
+```
+NPC가 하품을 하며 기지개를 켠다.
+
+"오늘 꽤 달렸다.
+여기서 잠깐 쉬어가자.
+
+`/clear` 치거나
+Claude Code를 새로 열고
+`/agnt:continue` 하면
+여기서 이어갈 수 있어."
+```
+
+- 현재 블록 진행 상태를 **state.json에 저장한 뒤** 안내
+- 강제 종료가 아닌 **제안** — 학습자가 계속하겠다면 진행 허용
+- STOP이 아닌 중간 진행 중이라면 가장 가까운 STOP/AskUserQuestion까지 진행 후 안내
