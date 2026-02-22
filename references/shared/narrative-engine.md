@@ -63,6 +63,7 @@ Fallback: `{{variable|대체텍스트}}` — 변수가 null이면 `|` 뒤 텍스
 구어체 반말, 큰따옴표. 블록 frontmatter `npc` 필드의 NPC 카드(npcs.md)를 준수.
 - 해당 NPC 입버릇 최소 1회 등장. 다른 NPC 입버릇 금지
 - NPC 등장 시: 행동 묘사(지문) → 이모지+이름+직함 → 첫 대사
+- NPC 연속 대사(큰따옴표 내) 6줄 이하. 초과 시 행동 묘사(지문) 삽입으로 분할
 - 금지: 존댓말(NPC→학습자), 판타지 메타포("마법 시전", "주문서")
 
 ### 시스템 UI
@@ -78,6 +79,7 @@ Fallback: `{{variable|대체텍스트}}` — 변수가 null이면 `|` 뒤 텍스
 3. STOP 이후 반드시 AskUserQuestion (선택형 상호작용)
 4. 여백은 장면 전환에만 (문단 사이 빈 줄 1개)
 5. 이모지는 구조 마커로만 사용
+6. SCENE당 핵심 개념 1개, NPC 대사 블록 3-4개 이하
 
 ## 5. 환경 반응 규칙
 
@@ -116,7 +118,8 @@ ROOM 섹션 렌더링 전에 환경을 확인하고 지문/첫 대사에 반영�
 2. NPC 출력 → **페이지 브레이크** (Section 7)
 3. SCENE 순서대로 진행:
    - 각 SCENE의 내용 출력 → CHOICE에서 AskUserQuestion
-   - SCENE 간 전환 시 **페이지 브레이크** (`▶ 계속`) — SCENE 내용이 15줄 이상이면 중간에도 삽입
+   - SCENE 간 전환 시 **페이지 브레이크** (`▶ 계속`) — SCENE 내용이 **8줄** 이상이면 중간에도 삽입
+   - SCENE 출력 후 CHOICE 전에 `▶ 계속` 삽입. 4줄 이하 SCENE은 예외 (CHOICE와 합쳐 출력)
 4. TASK 과제 부여
 5. STOP 출력 + AskUserQuestion(다음/아직)
 6. "아직" → STOP 대기 / "다음" → RETURN → CHECK(퀴즈)
@@ -201,6 +204,62 @@ STOP의 AskUserQuestion question에는 NPC의 마무리 **질문 대사만** 포
 3. STOP + AskUserQuestion(다음/아직)
 4. "다음" → QUIZ → 피드백 → transition
 
+### MOVE 이동 서사 규칙
+
+모든 stop_mode에서 MOVE 섹션은 3단계 구조로 확대합니다:
+
+```
+## MOVE
+
+[1단계: NPC 마무리 대사 1-2줄]
+NPC가 다음 장소를 가리킨다.
+
+[2단계: 이동 과정 감각 묘사 3-5줄]
+발밑 자갈이 바스락거린다.
+골목으로 들어서자
+나무 간판이 보인다.
+안쪽에서 잉크 냄새가 풍겨온다.
+
+[3단계: 도착/암시 1-2줄]
+NPC가 문을 밀며 말한다.
+"들어와."
+```
+
+규칙:
+- 1단계: NPC 마무리 대사 또는 행동 묘사 (1-2줄)
+- 2단계: 시각 필수 + 청각/촉각/후각 중 1개 이상 (3-5줄)
+- 3단계: 다음 장소 도착 또는 암시 (1-2줄)
+
+## 6.5. RECAP 규칙
+
+블록 시작 시 ROOM 출력 전에 리캡을 생성합니다.
+
+> 아래 `{lastNpc}` 등 단일 중괄호는 `{{}}` 보간이 아닙니다. AI가 state.json에서 직접 읽어 채웁니다.
+
+### Day 간 리캡 (currentBlock == 0, lastNpc != null)
+ASCII 배너 뒤에 "지난 이야기" 블록 출력:
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 지난 이야기: {lastLocation}에서
+{lastNpc}와 함께 {lastAction}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+이후 새 NPC가 학습자의 이전 여정을 언급:
+```
+NPC: "{lastLocation}에서 왔다며?
+{lastNpc}가 네 이야기를 전해줬어."
+```
+
+### Block 간 리캡 (currentBlock > 0, lastAction != null)
+NPC가 직전 블록을 1-2줄 환기:
+```
+NPC: "아까 {lastAction}. 이번엔..."
+```
+
+### lastNpc == null인 경우
+리캡 생략. 바로 ROOM 출력.
+
 ## 7. 페이지네이션 규칙
 
 긴 텍스트의 일괄 출력을 방지하기 위해 페이지 브레이크를 삽입합니다.
@@ -245,7 +304,7 @@ GUIDE 섹션에 `### PAGE N` 구조가 있으면:
 1. **한 PAGE씩** 순서대로 출력 — 여러 PAGE를 한 번에 출력하지 않음
 2. 각 PAGE의 AskUserQuestion / `⛔ 중간 STOP`에서 **반드시 대기** (사용자 응답 수신 후 다음 PAGE)
 3. PAGE 시작 전에 NPC가 해당 PAGE의 주제를 짧게 소개 → 내용 → AskUserQuestion 순서
-4. 한 PAGE 내 출력이 **15줄 이상**이면 중간에 `▶ 계속` 페이지 브레이크 삽입
+4. 한 PAGE 내 출력이 **8줄 이상**이면 중간에 `▶ 계속` 페이지 브레이크 삽입
 
 ## 8. 절대 금지 사항
 
@@ -259,6 +318,7 @@ GUIDE 섹션에 `### PAGE N` 구조가 있으면:
 8. STOP의 확인/수정 결정을 PlainText로 입력받기 (AskUserQuestion 필수)
 9. RETURN 리캡에서 CHECK 정답을 직접 언급하기 (간접 환기만 허용)
 10. MCP 서버 동기화 실패 시 블록 완료 처리 (Section 11 차단 규칙 참조)
+11. NPC 연속 대사(큰따옴표 내) 6줄 초과 출력 (행동 묘사 삽입으로 분할)
 
 ## 9. 블록 완료 시 state.json 갱신 규칙
 
@@ -267,6 +327,9 @@ GUIDE 섹션에 `### PAGE N` 구조가 있으면:
 2. `currentBlock` 1 증가
 3. 블록별 데이터 저장 (`on_complete: save_character` → `character` 갱신 등)
 4. Day 모든 블록 완료 시: `completedDays`에 추가, `currentDay++`, `currentBlock=0`
+5. `lastNpc`: frontmatter `npc` 필드값 (예: "두리")
+6. `lastAction`: 블록 title 기반 과거형 1문장 요약 (예: "Discord에 합류하고 자기소개를 마쳤다")
+7. `lastLocation`: 현재 Day의 index.json `location` 값 (예: "견습생의 마을")
 
 ### CHOICE 선택 기록
 CHOICE 선택 즉시 state.json `choices`에 `{ day, block, scene, choice }` append 후 저장.

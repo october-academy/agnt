@@ -18,7 +18,7 @@
 
 1. `{AGNT_DIR}/state.json`을 Read. 없으면 `{AGNT_DIR}/state.json`에 기본값으로 생성 (디렉토리 없으면 함께 생성):
 ```json
-{"currentDay":0,"currentBlock":0,"completedDays":[],"completedBlocks":{},"choices":[],"character":null,"interview":null,"authenticated":false,"level":1,"title":"견습생","xp":0}
+{"currentDay":0,"currentBlock":0,"completedDays":[],"completedBlocks":{},"choices":[],"character":null,"interview":null,"authenticated":false,"level":1,"title":"견습생","xp":0,"lastNpc":null,"lastAction":null,"lastLocation":null}
 ```
 파싱 실패 시 `{AGNT_DIR}/state.json.bak`으로 백업 후 기본값 재생성.
 
@@ -62,7 +62,8 @@
    - `{REFS_DIR}/shared/npcs.md`
 
 6. 현재 블록 레퍼런스 Read:
-   `{REFS_DIR}/day{currentDay}/block{currentBlock}-*.md`
+   - `{REFS_DIR}/day{currentDay}/block{currentBlock}-*.md`
+   - `{REFS_DIR}/day{currentDay}/index.json` (Day 메타데이터 — location, quests 등)
 
 7. **NPC 선택 로딩**: 블록 frontmatter의 `npc` 필드를 확인하고, `npcs.md`에서 해당 NPC 카드 섹션만 참조합니다. 나머지 NPC 카드는 무시합니다.
 
@@ -77,6 +78,9 @@
    - `completedBlocks[currentDay]`에 블록 번호 추가
    - `currentBlock++`
    - 블록별 데이터(character, interview 등) 저장
+   - `lastNpc`: 블록 frontmatter `npc` 필드값 (예: "두리")
+   - `lastAction`: 블록 title 기반 과거형 1문장 요약 (예: "Discord에 합류하고 자기소개를 마쳤다")
+   - `lastLocation`: 현재 Day의 index.json `location` 값 (예: "견습생의 마을")
 
 11. Day 모든 블록 완료 시 `completedDays`에 추가, 다음 Day 안내.
 ## 핵심 규칙
@@ -88,3 +92,4 @@
 - Day 1 `block3-deploy`는 **MCP `deploy_landing`만** 사용
 - Day 1 `block3-deploy`에서 로컬 배포 쉘 명령(`wrangler`, `vercel`, `cloudflare pages`) 실행/제안 **금지**
 - 한국어 진행. 기술 용어는 원문 유지
+- `lastNpc`, `lastAction`, `lastLocation`은 MCP 동기화 대상 아님 (로컬 전용). 기존 state에 필드 없으면 null로 처리
