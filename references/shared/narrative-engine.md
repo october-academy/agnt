@@ -348,7 +348,7 @@ GUIDE 섹션에 `### PAGE N` 구조가 있으면:
 9. RETURN 리캡에서 CHECK 정답을 직접 언급하기 (간접 환기만 허용)
 10. MCP 서버 동기화 실패 시 블록 완료 처리 (Section 11 차단 규칙 참조)
 11. NPC 연속 대사(큰따옴표 내) 6줄 초과 출력 (행동 묘사 삽입으로 분할)
-12. 유저를 외부 관리자 도구로 안내하기 (Cloudflare 대시보드, PostHog 대시보드, Vercel 대시보드 등). 유저는 agentic30 플랫폼 관리자가 아님 — 방문자 수/페이지뷰 등 분석 데이터는 agentic30 웹앱(`agentic30.app/learn/day/2` 하단 분석 대시보드)에서 확인하도록 안내
+12. 유저를 외부 관리자 도구로 안내하기 (Cloudflare 대시보드, PostHog 대시보드, Vercel 대시보드 등). 유저는 agentic30 플랫폼 관리자가 아님 — 방문자 수/페이지뷰/폼 응답/피드백 등 분석 데이터는 agentic30 웹앱(`/dashboard/analytics`)에서 확인하도록 안내
 
 ## 9. 블록 완료 시 state.json 갱신 규칙
 
