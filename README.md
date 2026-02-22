@@ -40,6 +40,7 @@ claude plugin update agnt@agentic30
 ## Uninstall
 
 ```bash
+claude mcp remove plugin:agnt:agentic30   # MCP 서버 연결 제거
 claude plugin uninstall agnt@agentic30
 claude plugin marketplace remove agentic30
 rm -rf ~/.claude/agnt                # 로컬 상태 파일 제거
