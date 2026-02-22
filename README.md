@@ -37,6 +37,17 @@ claude plugin marketplace update agentic30
 claude plugin update agnt@agentic30
 ```
 
+## Uninstall
+
+```bash
+claude plugin uninstall agnt@agentic30
+claude plugin marketplace remove agentic30
+rm -rf ~/.claude/agnt                # 로컬 상태 파일 제거
+rm -rf .claude/agnt                  # 프로젝트 스코프 상태 파일 제거 (해당 시)
+rm -rf ~/.claude/plugins/marketplaces/agentic30  # marketplace 캐시 제거
+rm -rf ~/.claude/plugins/cache/agentic30         # plugin 캐시 제거
+```
+
 ## Commands
 
 | 커맨드           | 설명                                   |
