@@ -8,13 +8,20 @@
 
 1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
 2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
-3. 둘 다 없으면 **AGNT_DIR = `~/.claude/agnt`** (기본값)
+3. 실패 시 `.codex/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `.codex/agnt`**
+4. 실패 시 `~/.codex/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.codex/agnt`**
+5. 둘 다 없으면 기본값:
+   - Claude Code 실행 시 **AGNT_DIR = `~/.claude/agnt`**
+   - Codex 실행 시 **AGNT_DIR = `~/.codex/agnt`**
 
 ### REFS_DIR (references 루트)
 
 1. `{AGNT_DIR}/references/shared/narrative-engine.md`를 Read 시도 → 성공하면 **REFS_DIR = `{AGNT_DIR}/references`**
 2. 실패 시 `~/.claude/plugins/marketplaces/agentic30/references/shared/narrative-engine.md` Read 시도 → 성공하면 **REFS_DIR = `~/.claude/plugins/marketplaces/agentic30/references`**
-3. 둘 다 없으면 에러: "references를 찾을 수 없습니다. `bun run sync:assistant-assets`를 실행하거나 플러그인을 재설치하세요."
+3. 실패 시 `.agents/skills/agnt/references/shared/narrative-engine.md` Read 시도 → 성공하면 **REFS_DIR = `.agents/skills/agnt/references`**
+4. 실패 시 `~/.codex/skills/agnt/references/shared/narrative-engine.md` Read 시도 → 성공하면 **REFS_DIR = `~/.codex/skills/agnt/references`**
+5. 둘 다 없으면 에러:
+   - "references를 찾을 수 없습니다. Claude Plugin 사용자는 `bun run sync:assistant-assets` 또는 plugin 재설치를, Codex 사용자는 `npx skills add october-academy/agnt --agent codex --skill agnt`를 실행하세요."
 
 ## 실행 절차
 
@@ -58,17 +65,24 @@
 
      🔧 연결 방법:
 
+     [Claude Code]
      1. `/mcp` 입력
      2. 목록에서 `plugin:agnt:agentic30 · △ needs authentication`
         찾기 (↑↓ 키로 이동, Enter)
      3. `Authenticate` Enter 선택
      4. 브라우저가 열리면 Agentic30 동의 화면에서 허용
      5. Google 계정으로 로그인
-     6. "인증 완료" 확인 후 터미널로 복귀
-     7. `/agnt:continue` 다시 실행
+
+     [Codex]
+     1. `codex mcp add agentic30 --url https://mcp.agentic30.app/mcp`
+     2. `codex mcp login agentic30`
+     3. `codex mcp list`로 연결 상태 확인
+
+     인증 완료 후 `/agnt:continue` 다시 실행
 
      💡 이미 인증했는데 안 되면?
-        → `/mcp`에서 agentic30 서버가 `✓ connected`인지 확인
+        → Claude Code: `/mcp`에서 agentic30가 `✓ connected`인지 확인
+        → Codex: `codex mcp list`에서 agentic30가 `enabled`인지 확인
         → 서버가 목록에 없으면 `https://github.com/october-academy/agnt` README.md 따라서 재시도
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      ```

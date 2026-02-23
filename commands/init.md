@@ -8,7 +8,11 @@
 
 1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
 2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
-3. 둘 다 없으면 **AGNT_DIR = `~/.claude/agnt`** (기본값)
+3. 실패 시 `.codex/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `.codex/agnt`**
+4. 실패 시 `~/.codex/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.codex/agnt`**
+5. 둘 다 없으면 기본값:
+   - Claude Code 실행 시 **AGNT_DIR = `~/.claude/agnt`**
+   - Codex 실행 시 **AGNT_DIR = `~/.codex/agnt`**
 
 ## 실행 절차
 

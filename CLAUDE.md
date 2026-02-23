@@ -4,7 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Package Overview
 
-Claude marketplace plugin (NOT npm 패키지). 빌드 없음. `commands/*.md`가 `/agnt:*` colon-namespace 커맨드로 동작하며, `references/`가 MUD 스타일 학습 콘텐츠를 담고 있다.
+NPM 패키지가 아닌 markdown-first 배포 패키지. 빌드 없음.
+
+- Claude marketplace plugin: `commands/*.md`가 `/agnt:*` colon-namespace 커맨드로 동작
+- Agent Skills spec: `SKILL.md`를 통해 Codex/Claude Code 등에서 `npx skills add`로 설치 가능
+- `references/`는 공통 MUD 스타일 학습 콘텐츠 SSoT
 
 ## Commands
 
@@ -37,6 +41,8 @@ references/            # 학습 콘텐츠 (커맨드가 Read해서 사용)
 .claude-plugin/
   ├── plugin.json       # 플러그인 메타 + MCP 서버 URL 정의
   └── marketplace.json  # 마켓플레이스 등록 정보
+
+SKILL.md               # Agent Skills spec 엔트리포인트 (name: agnt)
 ```
 
 ## How Commands Work
@@ -151,6 +157,7 @@ on_complete: save_character # 선택: 완료 시 추가 동작
 ## Key Conventions
 
 - **커맨드 변경 후 반드시 `bun run sync:assistant-assets`** 실행
+- Agent Skills 엔트리 변경 후 `npx skills add packages/agnt --list`로 discovery 확인
 - 블록 파일 추가/수정 시 해당 Day의 `index.json`도 동기화
 - NPC 대사는 `npcs.md` 카드와 일관되어야 함 (입버릇, 말투, 금지사항)
 - 템플릿 변수 `{{variable}}` — `state.json` 데이터로 보간 (narrative-engine.md Section 2)

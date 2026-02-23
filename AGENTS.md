@@ -2,13 +2,17 @@
 
 ## Project Structure & Module Organization
 
-`packages/agnt` is a content-first Claude plugin package for Agentic30.
+`packages/agnt` is a content-first Agentic30 package for:
+
+- Claude marketplace plugin (`/agnt:*`)
+- Agent Skills spec (`SKILL.md`) for Codex/Claude Code/other compatible agents
 
 - `commands/*.md`: slash-command behavior prompts (`init`, `continue`, `today`, `submit`, `status`).
+- `SKILL.md`: Agent Skills spec entrypoint (`name: agnt`) used by `npx skills add`.
 - `references/day*/`: day-based curriculum content. Each day includes `index.json` plus `block*-*.md` files.
 - `references/shared/*.md`: reusable narrative, interview, and world-building rules.
 - `.claude-plugin/*.json`: plugin and marketplace metadata.
-- `README.md`: installation, authentication, and command usage.
+- `README.md`: installation and operation guides for Claude Plugin, Codex, and Agent Skills.
 
 ## Build, Test, and Development Commands
 
@@ -34,6 +38,8 @@ Run from monorepo root (`/Users/yuhogyun/prj/agentic30`).
 ## Testing Guidelines
 
 - Verify each `references/day*/index.json` maps to existing block files.
+- Validate Agent Skills discovery after `SKILL.md` edits:
+  - `npx skills add packages/agnt --list`
 - Smoke-test core commands in Claude Code after edits (`/agnt:today`, `/agnt:continue`).
 - For onboarding/curriculum updates, run targeted Playwright tests in `e2e/`, then broader suites if needed.
 

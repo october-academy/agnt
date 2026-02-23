@@ -1,107 +1,153 @@
-# agnt — Agentic30 학습 가이드
+# agnt — Agentic30 Learning Guide
 
-30일 안에 실제 유저 100명, 첫 매출 5,000원 달성을 돕는 MUD 스타일 CLI 학습 프로그램.
+30일 안에 실제 유저 100명, 첫 매출 5,000원 달성을 돕는 MUD 스타일 CLI 학습 프로그램입니다.
 
-MUD 게임처럼 퀘스트를 수행하며 실제 프로덕트를 만드는 학습 경험입니다.
+이 저장소는 아래 3가지 방식으로 동작합니다.
 
-## Installation
+## Install Modes
 
-### 1. 플러그인 설치
+| 모드 | 용도 | 설치 방법 |
+| --- | --- | --- |
+| Claude Plugin | `/agnt:*` 슬래시 커맨드 | `claude plugin ...` |
+| Codex + Skill | Codex에서 자연어로 agnt 워크플로우 실행 | `npx skills add ... --agent codex` + `codex mcp ...` |
+| Agent Skills Spec | 에이전트 공통 포맷 설치 | `npx skills add <owner/repo>` |
+
+## 1) Claude Plugin
+
+### Install
 
 ```bash
 claude plugin marketplace add october-academy/agnt
 claude plugin install agnt@agentic30
 ```
 
-### 2. MCP 인증
+### MCP OAuth
 
 ```bash
 claude
 ```
 
-Claude Code가 실행되면 `/MCP` 를 입력합니다.
+Claude Code에서 `/MCP` 입력 후:
 
-MCP 서버 목록이 표시되면:
+1. `plugin:agnt:agentic30` 선택
+2. `Authenticate` 선택
+3. 브라우저에서 Google 로그인
+4. 인증 완료 후 `/agnt:continue` 실행
 
-1. 키보드 ↑↓로 `plugin:agnt:agentic30` 선택
-2. **Authenticate** 선택
-3. 브라우저가 열리면 Google 계정으로 로그인
-4. 로그인 완료 후 터미널로 돌아오면 인증 완료
+### Commands
 
-인증이 끝나면 `/agnt:continue`로 학습을 시작할 수 있습니다.
+| 커맨드 | 설명 |
+| --- | --- |
+| `/agnt:init` | 진행 상태 초기화 (Day 0부터 다시 시작) |
+| `/agnt:continue` | 학습 이어하기 (자동 재개) |
+| `/agnt:today` | 오늘의 퀘스트 보드 |
+| `/agnt:submit` | 퀘스트 검증 + 제출 |
+| `/agnt:status` | 캐릭터 시트 + 월드맵 |
 
-## Update
+### Update
 
 ```bash
 claude plugin marketplace update agentic30
 claude plugin update agnt@agentic30
 ```
 
-## Uninstall
+### Uninstall
 
 ```bash
-claude mcp remove plugin:agnt:agentic30   # MCP 서버 연결 제거
+claude mcp remove plugin:agnt:agentic30
 claude plugin uninstall agnt@agentic30
 claude plugin marketplace remove agentic30
-rm -rf ~/.claude/agnt                # 로컬 상태 파일 제거
-rm -rf .claude/agnt                  # 프로젝트 스코프 상태 파일 제거 (해당 시)
-rm -rf ~/.claude/plugins/marketplaces/agentic30  # marketplace 캐시 제거
-rm -rf ~/.claude/plugins/cache/agentic30         # plugin 캐시 제거
+rm -rf ~/.claude/agnt
+rm -rf .claude/agnt
+rm -rf ~/.claude/plugins/marketplaces/agentic30
+rm -rf ~/.claude/plugins/cache/agentic30
 ```
 
-## Commands
+## 2) Codex + Skill + MCP
 
-| 커맨드           | 설명                                   |
-| ---------------- | -------------------------------------- |
-| `/agnt:init`     | 진행 상태 초기화 (Day 0부터 다시 시작) |
-| `/agnt:continue` | 학습 이어하기 (자동 재개)              |
-| `/agnt:today`    | 오늘의 퀘스트 보드                     |
-| `/agnt:submit`   | 퀘스트 검증 + 제출                     |
-| `/agnt:status`   | 캐릭터 시트 + 월드맵                   |
+Codex에서는 플러그인 대신 Agent Skill + MCP 연결 조합을 사용합니다.
 
-## How it works
+### Install Skill
+
+```bash
+npx skills add october-academy/agnt --agent codex --skill agnt -g -y
+```
+
+### Connect MCP
+
+```bash
+codex mcp add agentic30 --url https://mcp.agentic30.app/mcp
+codex mcp login agentic30
+codex mcp list
+```
+
+`codex mcp list`에서 `agentic30`가 `enabled`이고 `Auth`가 `OAuth`면 준비 완료입니다.
+
+### Start
+
+Codex에서 자연어로 아래처럼 요청하면 됩니다.
+
+- `Agentic30 학습 이어하기`
+- `오늘 퀘스트 보여줘`
+- `현재 진행 상태 확인해줘`
+
+## Troubleshooting (First Run)
+
+### Claude Plugin
+
+- `/agnt:continue`에서 MCP 미연결이 나오면:
+  1. `/mcp` 실행
+  2. `plugin:agnt:agentic30` 선택
+  3. `Authenticate` 재실행
+- `references를 찾을 수 없습니다` 오류가 나오면:
+  - 모노레포 개발자: `bun run sync:assistant-assets`
+  - 외부 사용자: plugin 재설치 후 다시 시도
+
+### Codex
+
+- `codex mcp login agentic30`가 실패하면:
+  1. `codex mcp add agentic30 --url https://mcp.agentic30.app/mcp`
+  2. `codex mcp login agentic30`
+  3. `codex mcp list` 재확인
+- 스킬이 보이지 않으면:
+  1. `npx skills add october-academy/agnt --list`
+  2. `agnt`가 보이면 `--skill agnt`로 재설치
+
+### Agent Skills 공통
+
+- 설치 후 어떤 에이전트에 깔렸는지 확인:
+
+```bash
+npx skills list
+```
+
+## 3) Agent Skills Spec (Universal)
+
+`agnt`는 [Agent Skills specification](https://agentskills.io/specification) 형태의 `SKILL.md`를 포함합니다.
+
+다른 에이전트에서는 아래처럼 설치할 수 있습니다.
+
+```bash
+# 레포의 스킬 목록 확인
+npx skills add october-academy/agnt --list
+
+# 특정 에이전트 대상으로 설치 (예: Claude Code + Codex)
+npx skills add october-academy/agnt --skill agnt --agent claude-code --agent codex
+```
+
+## How It Works
 
 - **Day 0~7** MUD 스타일 탐험: 장소 묘사 → NPC 대화 → 퀘스트 수행
 - **레벨 시스템**: Lv.1 견습 프로그래머 ~ Lv.10 Agentic Programmer
-- **MCP 서버 연동**: Google OAuth 인증 → 진행 상황 동기화, 리더보드
-- **인터뷰 기반 개발(IDD)**: AI 코파운더와 대화하며 아이디어 검증
-- **랜딩페이지 배포**: MCP를 통해 직접 랜딩페이지 생성 + 배포
-
-## Interview Driven Development (IDD)
-
-Agentic30의 핵심 방법론. TDD가 테스트로 시작하듯, IDD는 인터뷰로 시작합니다.
-
-코드 작성 전에 "무엇을, 왜 만드는가?"를 명확히 하여 3개월 낭비를 1주일로 단축합니다.
-
-![IDD Workflow](https://agentic30.app/blog/images/idd/idd-workflow.jpg)
-
-### 6단계 워크플로우
-
-| 단계      | 산출물     | 핵심 질문               |
-| --------- | ---------- | ----------------------- |
-| 인터뷰    | 요구사항   | "무엇을, 왜 만드는가?"  |
-| 스펙      | SPEC.md    | "해결할 문제와 범위는?" |
-| 계획      | plan.md    | "어떻게, 어떤 순서로?"  |
-| 개발      | 코드       | "태스크별 구현"         |
-| 배포      | 릴리즈     | "사용자에게 전달"       |
-| 성과 검증 | KPI/피드백 | "의도대로 작동하는가?"  |
-
-각 단계에서 정보가 부족하면 이전 단계로 돌아가는 **피드백 루프**가 핵심입니다.
-
-### 인터뷰 5가지 주제
-
-1. **문제 정의 & 핵심 가치** — 무엇을, 왜 만드는가?
-2. **타겟 사용자 & 페르소나** — 누가 쓰는가?
-3. **핵심 기능 & 사용자 여정** — 어떤 경험을 제공하는가?
-4. **기술 스택 & 제약사항** — 어떤 제약 안에서 만드는가?
-5. **MVP 범위 & 우선순위** — 첫 버전에 뭐가 들어가는가?
-
-자세한 내용: [IDD 방법론 소개](https://agentic30.app/blog/idd)
+- **MCP 연동**: Google OAuth 인증 → 진행 상황 동기화, 리더보드
+- **IDD**: 인터뷰 기반 개발(Interview Driven Development)
+- **랜딩 배포**: MCP를 통한 랜딩 생성 + 배포
 
 ## Requirements
 
-- [Claude Code](https://claude.ai/code) CLI
-- Google 계정 (MCP 인증용)
+- Google 계정 (MCP OAuth)
+- Claude Plugin 모드: [Claude Code](https://claude.ai/code)
+- Codex 모드: Codex CLI + `npx skills`
 
 ## Project
 

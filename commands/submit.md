@@ -8,13 +8,18 @@
 
 1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
 2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
-3. 둘 다 없으면 → "먼저 `/agnt:continue`로 학습을 시작하세요." 출력 후 종료
+3. 실패 시 `.codex/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `.codex/agnt`**
+4. 실패 시 `~/.codex/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.codex/agnt`**
+5. 둘 다 없으면 → "먼저 `/agnt:continue`로 학습을 시작하세요." 출력 후 종료
 
 ### REFS_DIR (references 루트)
 
 1. `{AGNT_DIR}/references/shared/narrative-engine.md`를 Read 시도 → 성공하면 **REFS_DIR = `{AGNT_DIR}/references`**
 2. 실패 시 `~/.claude/plugins/marketplaces/agentic30/references/shared/narrative-engine.md` Read 시도 → 성공하면 **REFS_DIR = `~/.claude/plugins/marketplaces/agentic30/references`**
-3. 둘 다 없으면 에러: "references를 찾을 수 없습니다. `bun run sync:assistant-assets`를 실행하거나 플러그인을 재설치하세요."
+3. 실패 시 `.agents/skills/agnt/references/shared/narrative-engine.md` Read 시도 → 성공하면 **REFS_DIR = `.agents/skills/agnt/references`**
+4. 실패 시 `~/.codex/skills/agnt/references/shared/narrative-engine.md` Read 시도 → 성공하면 **REFS_DIR = `~/.codex/skills/agnt/references`**
+5. 둘 다 없으면 에러:
+   - "references를 찾을 수 없습니다. Claude Plugin 사용자는 `bun run sync:assistant-assets` 또는 plugin 재설치를, Codex 사용자는 `npx skills add october-academy/agnt --agent codex --skill agnt`를 실행하세요."
 
 ## 실행 절차
 
@@ -23,7 +28,7 @@
 1-1. **MCP 연결 확인**:
 
 - `ToolSearch`로 `+agentic30` 검색
-- **도구 없음**: "⛔ MCP 서버 연결이 필요합니다. `/mcp` 명령으로 agentic30 서버를 확인하세요." 출력 후 종료
+- **도구 없음**: "⛔ MCP 서버 연결이 필요합니다. Claude Code는 `/mcp`, Codex는 `codex mcp add/login`으로 agentic30 서버를 연결하세요." 출력 후 종료
 - **도구 발견됨**: 정상 진행
 
 2. `{REFS_DIR}/day{currentDay}/index.json`을 Read합니다.
