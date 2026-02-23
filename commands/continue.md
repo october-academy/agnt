@@ -89,12 +89,19 @@
 
 8. MCP `agentic30`의 `get_leaderboard` 호출해 새 소식 확인. 변경 시 "📬 새 소식" 표시.
 
-9. **narrative-engine.md의 규칙에 따라** 블록을 진행:
+9. **컨텍스트 로딩** (currentDay >= 1일 때만):
+   - state.json에서 `interview`, `feedback` 데이터 확인
+   - **둘 다 존재**: state.json 데이터 그대로 사용 (MCP 호출 불필요)
+   - **하나라도 null**: MCP `get_learning_context` 호출
+     - 성공 시: 반환된 데이터(character, interviews, landing)를 NPC 대화 컨텍스트로 활용
+     - 실패 시: state.json의 `character` 데이터만으로 대화 진행 (graceful degradation). NPC가 이전 기록을 자연스럽게 건너뜀
+
+10. **narrative-engine.md의 규칙에 따라** 블록을 진행:
    - YAML frontmatter에서 `stop_mode`, `quests`, `transition` 등 메타데이터를 추출
    - `{{variable}}` 패턴을 state.json 데이터로 보간 (narrative-engine.md 참조)
    - `stop_mode`에 따라 Phase 진행 (Full / Conversation / Checkpoint)
 
-10. 블록 완료 시 narrative-engine.md의 갱신 규칙에 따라 state.json 갱신:
+11. 블록 완료 시 narrative-engine.md의 갱신 규칙에 따라 state.json 갱신:
 
 - `completedBlocks[currentDay]`에 블록 번호 추가
 - `currentBlock++`
@@ -103,7 +110,7 @@
 - `lastAction`: 블록 title 기반 과거형 1문장 요약 (예: "Discord에 합류하고 자기소개를 마쳤다")
 - `lastLocation`: 현재 Day의 index.json `location` 값 (예: "견습생의 마을")
 
-11. Day 모든 블록 완료 시 `completedDays`에 추가, 다음 Day 안내.
+12. Day 모든 블록 완료 시 `completedDays`에 추가, 다음 Day 안내.
 
 ## 핵심 규칙
 
