@@ -9,7 +9,7 @@
 | 모드 | 용도 | 설치 방법 |
 | --- | --- | --- |
 | Claude Plugin | `/agnt:*` 슬래시 커맨드 | `claude plugin ...` |
-| Codex + Skill | Codex에서 자연어로 agnt 워크플로우 실행 | `npx skills add ... --agent codex` + `codex mcp ...` |
+| Codex + Skill | Codex에서 `$agnt-*` 명령(권장) + 자연어 fallback | `npx skills add ... --agent codex` + `codex mcp ...` |
 | Agent Skills Spec | 에이전트 공통 포맷 설치 | `npx skills add <owner/repo>` |
 
 ## 1) Claude Plugin
@@ -85,11 +85,39 @@ codex mcp list
 
 ### Start
 
-Codex에서 자연어로 아래처럼 요청하면 됩니다.
+Codex에서 아래 3가지 방식으로 시작할 수 있습니다.
 
-- `Agentic30 학습 이어하기`
-- `오늘 퀘스트 보여줘`
-- `현재 진행 상태 확인해줘`
+1. 권장: `$agnt-<subcommand>` 명시형
+2. 호환: `$agnt <subcommand>` 공백형
+3. fallback: 자연어 요청
+
+### Recommended Command Style (`$agnt-*`)
+
+Codex는 Claude의 slash command가 없으므로, OpenSpec 스타일처럼 `'$agnt-<subcommand>'`를 canonical로 권장합니다.
+명시형 호출은 의도 파싱 오류를 줄이고 자동화 스크립트에도 유리합니다.
+
+| Claude Code | Codex canonical | Codex 호환 호출 |
+| --- | --- | --- |
+| `/agnt:continue` | `$agnt-continue` | `$agnt continue`, `$agnt start`, `$agnt resume` |
+| `/agnt:init` | `$agnt-init` | `$agnt init`, `$agnt reset`, `$agnt restart` |
+| `/agnt:today` | `$agnt-today` | `$agnt today`, `$agnt quest`, `$agnt board` |
+| `/agnt:submit` | `$agnt-submit` | `$agnt submit`, `$agnt check`, `$agnt verify` |
+| `/agnt:status` | `$agnt-status` | `$agnt status`, `$agnt progress`, `$agnt profile` |
+
+권장 라우팅 우선순위:
+
+1. `'$agnt-<subcommand>'` canonical 입력
+2. `'$agnt <subcommand>'` 호환 입력
+3. `'$agnt ...'` 뒤 자연어 의도
+4. `'$agnt'` 단독 입력 시 기본값 `continue`
+
+예시:
+
+- `$agnt-continue`
+- `$agnt-today`
+- `$agnt-submit`
+- `$agnt continue` (호환)
+- `Agentic30 학습 이어하기` (fallback)
 
 ## Troubleshooting (First Run)
 

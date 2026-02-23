@@ -20,6 +20,7 @@ Agentic30 학습 여정을 안내하는 공용 Agent Skill입니다.
 - "오늘 퀘스트 보여줘", "진행 상태 확인"
 - "퀘스트 제출", "초기화"
 - "Agentic30 인터뷰 기반으로 진행"
+- Codex 명시형 호출: `$agnt-continue`, `$agnt-init`, `$agnt-today`, `$agnt-submit`, `$agnt-status`
 
 ## Runtime Setup
 
@@ -103,6 +104,18 @@ codex mcp list
 
 각 파일의 절차/규칙을 source of truth로 사용합니다.
 
+### Codex Command Style (`$agnt-*`)
+
+Codex에서는 아래 명령을 canonical로 사용합니다.
+
+- `$agnt-continue` → `commands/continue.md`
+- `$agnt-init` → `commands/init.md`
+- `$agnt-today` → `commands/today.md`
+- `$agnt-submit` → `commands/submit.md`
+- `$agnt-status` → `commands/status.md`
+
+호환 입력(`$agnt continue`, `$agnt init` 등)도 동일하게 매핑합니다.
+
 ## Agent Compatibility Rules
 
 `commands/*.md`는 Claude Plugin 기준 문구(`ToolSearch`, `AskUserQuestion`, `/mcp`)를 포함합니다.
@@ -118,6 +131,10 @@ Codex 등 다른 에이전트에서는 아래로 호환 처리합니다.
   - Codex에서는 `codex mcp add/login/list` 명령으로 치환합니다.
 - 경로 안내:
   - Codex에서 `commands/*.md`를 읽을 때 `.claude/agnt` 경로 표기가 나오면 `.codex/agnt`를 우선 사용합니다.
+- 명령 파싱 우선순위:
+  1. `$agnt-<subcommand>` canonical 입력
+  2. `$agnt <subcommand>` 호환 입력
+  3. 자연어 의도 입력 (예: "오늘 퀘스트 보여줘")
 
 ## Core Behavior Rules
 
