@@ -125,8 +125,16 @@
    - state.json에서 `interview`, `feedback` 데이터 확인
    - **둘 다 존재**: state.json 데이터 그대로 사용 (MCP 호출 불필요)
    - **하나라도 null**: MCP `get_learning_context` 호출
-     - 성공 시: 반환된 데이터(character, interviews, landing)를 NPC 대화 컨텍스트로 활용
+     - 성공 시: 반환된 데이터(character, interviews, landing, latestSpecVersion, latestDecision)를 NPC 대화 컨텍스트로 활용
+     - latestSpecVersion/latestDecision이 존재하면 NPC가 해당 버전 컨텍스트를 다음 Day 시작 대화에서 참조
      - 실패 시: state.json의 `character` 데이터만으로 대화 진행 (graceful degradation). NPC가 이전 기록을 자연스럽게 건너뜀
+
+9-1. **SPEC 버전 동기화** (currentDay >= 1, Day 1-7 범위):
+   - MCP `get_spec_iterations` 호출로 서버 버전 이력 조회
+   - 성공 시: state.json `specVersions`와 서버 데이터 비교
+     - **불일치**: 서버 데이터를 우선하여 state.json `specVersions` 갱신
+     - **로컬에만 있는 버전**: `save_spec_iteration` 반복 호출로 서버에 일괄 동기화
+   - 실패 시: state.json `specVersions`를 그대로 사용 (graceful degradation)
 
 10. **narrative-engine.md의 규칙에 따라** 블록을 진행:
    - YAML frontmatter에서 `stop_mode`, `quests`, `transition` 등 메타데이터를 추출

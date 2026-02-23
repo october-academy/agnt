@@ -72,8 +72,12 @@
   {✅/🔒} save_interview (Lv.1)
   {✅/🔒} submit_practice (Lv.1)
   {✅/🔒} get_leaderboard (Lv.1)
+  {✅/🔒} get_learning_context (Lv.1)
+  {✅/🔒} save_spec_iteration (Lv.1)
+  {✅/🔒} get_spec_iterations (Lv.1)
   {✅/🔒} deploy_landing (Lv.3)
-  {✅/🔒} get_landing_analytics (Lv.4)
+  {✅/🔒} get_landing_analytics (Lv.3)
+  {✅/🔒} create_utm_link (Lv.3)
 ```
 
 6. ASCII 월드맵 (동적 생성):

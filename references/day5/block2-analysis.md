@@ -35,6 +35,33 @@ transition: "Day 5 완료! 데이터로 수요를 검증했습니다. 다음은 
 
 ## GUIDE
 
+### 버전 델타 분석 (v0↔v1)
+
+한이: "이번엔 데이터를 두 개
+놓고 비교해야 해."
+
+인증 상태면:
+1. MCP `get_spec_iterations` 호출로
+   v0, v1 이력을 조회한다
+2. MCP `get_landing_analytics` 호출로
+   현재 지표를 확인한다
+3. v0 배포 시점과 v1 배포 시점의
+   지표를 비교한다:
+   - 전환율 증감
+   - 폼 응답 수 증감
+   - 채널별 도달 변화
+
+**델타 판단 기준**:
+- **개선**: v1이 v0 대비 전환 또는
+  폼 응답에서 개선 → "keep 또는 확장"
+- **악화**: v1이 v0 대비 핵심 지표
+  악화 → "rollback 또는 가설 수정"
+- **표본 부족** (방문 < 5):
+  "판단 유보" 경고 표시
+
+한이: "숫자가 작아도 괜찮아.
+방향이 보이면 돼."
+
 ### 분석 항목
 
 1. **대화 데이터 정리**:
@@ -102,6 +129,39 @@ ON_CONFIRM을 수행합니다.
 데이터 해석을 보완한 뒤
 PREVIEW → STOP을
 반복합니다.
+
+### SPEC v2 기록
+
+state.json `specVersions`에 v2를 추가한다:
+
+```json
+{
+  "version": "v2",
+  "day": 5,
+  "hypothesis": "{v0↔v1 델타 분석 기반 개선 가설}",
+  "changes": "{v1 대비 구체적 변경점}",
+  "decision": null,
+  "deltaSummary": {
+    "v0_v1_conversion_delta": "{증감}",
+    "v0_v1_form_delta": "{증감}",
+    "interpretation": "{keep/iterate/rollback 판단}"
+  }
+}
+```
+
+인증 상태면 MCP `save_spec_iteration` 호출:
+- `version`: "v2"
+- `dayNumber`: 5
+- `hypothesis`: v0↔v1 델타 분석 기반 개선 가설
+- `changes`: v1 대비 구체적 변경점
+- `metricGate`: v2에서 관찰할 지표
+- `deltaSummary`: v0↔v1 전환율/폼 응답 증감 요약
+
+한이: "v2가 기록됐어.
+Day 7에서 최종 판단할 때
+이 데이터를 쓸 거야."
+
+### 제출
 
 1. 인증 상태면 MCP `submit_practice`로 제출
 

@@ -29,8 +29,8 @@
 | ----- | ---- | ------------------ | --------------------- |
 | Lv.1  | 0    | 견습생             | 기본 도구             |
 | Lv.2  | 100  | 모험가             | -                     |
-| Lv.3  | 200  | 탐험가             | deploy_landing        |
-| Lv.4  | 350  | 빌더               | get_landing_analytics |
+| Lv.3  | 200  | 탐험가             | deploy_landing, get_landing_analytics, create_utm_link |
+| Lv.4  | 350  | 빌더               | -                     |
 | Lv.5  | 500  | 검증자             | -                     |
 | Lv.6  | 700  | 설계자             | -                     |
 | Lv.7  | 900  | 분석가             | -                     |
@@ -40,16 +40,20 @@
 
 ## 스킬 해금
 
-| 스킬                  | 해금 레벨     |
-| --------------------- | ------------- |
-| save_profile          | Lv.1          |
-| connect_discord       | Lv.1          |
-| verify_discord        | Lv.1          |
-| save_interview        | Lv.1          |
-| submit_practice       | Lv.1          |
-| get_leaderboard       | Lv.1          |
-| deploy_landing        | Lv.3 (200 XP) |
-| get_landing_analytics | Lv.4 (350 XP) |
+| 스킬                  | 해금 레벨      |
+| --------------------- | -------------- |
+| save_profile          | Lv.1           |
+| connect_discord       | Lv.1           |
+| verify_discord        | Lv.1           |
+| save_interview        | Lv.1           |
+| submit_practice       | Lv.1           |
+| get_leaderboard       | Lv.1           |
+| get_learning_context  | Lv.1           |
+| save_spec_iteration   | Lv.1           |
+| get_spec_iterations   | Lv.1           |
+| deploy_landing        | Lv.3 (200 XP)  |
+| get_landing_analytics | Lv.3 (200 XP)  |
+| create_utm_link       | Lv.3 (200 XP)  |
 
 ## 퀘스트 타입
 

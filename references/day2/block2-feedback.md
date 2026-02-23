@@ -49,8 +49,9 @@ transition: "Day 2 완료! 수요를 데이터로 검증했습니다. 다음은 
 1. **랜딩페이지 분석** (인증 시):
    - MCP `get_landing_analytics` 호출 → 방문자, 채널별 유입, 이탈률, 스크롤 깊이, 폼 응답 확인
    - 자기 제출(isSelfSubmission=true) 자동 제외
-   - 단축 URL 클릭 수로 채널별 도달 확인
+   - 단축 URL 클릭 수로 채널별 도달 확인 — Block 1에서 자동 생성된 UTM 링크의 클릭 데이터 활용
    - state.json의 channels(Block 1에서 선정한 3곳)와 PostHog channels 데이터 교차 대조
+   - **UTM 링크 클릭 vs 실제 방문 비교**: 클릭은 있는데 방문 0이면 링크/랜딩 문제 의심
    - ⚠️ Cloudflare/PostHog 대시보드 안내 금지 (유저는 관리자가 아님)
 
 2. **직접 피드백 기록**:
@@ -249,7 +250,18 @@ PostHog channels 데이터를 비교한다.
 다음 액션: {피드백 기반 개선 방향}
 ```
 
-### 3. state.json 피드백 저장
+### 3. 표본 부족 시 Graceful Degradation
+
+UTM 링크가 미생성된 경우(Block 1 실패):
+바리: "추적 링크 없이 원본 URL로 공유했으니
+채널별 정확한 유입은 못 봐.
+직접 피드백에 더 무게를 두자."
+
+전체 방문자가 5명 미만인 경우:
+바리: "데이터가 부족해.
+판단 유보하고 질적 피드백에 집중해."
+
+### 4. state.json 피드백 저장
 
 피드백 분석 결과를 state.json.feedback에 저장한다. 이후 Day 3+ 블록에서 NPC가 이 데이터를 참조한다.
 
@@ -267,7 +279,7 @@ PostHog channels 데이터를 비교한다.
 }
 ```
 
-### 4. 제출
+### 5. 제출
 
 인증 상태면 MCP `submit_practice`로 제출
 

@@ -4,20 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Package Overview
 
-NPM 패키지가 아닌 markdown-first 배포 패키지. 빌드 없음.
+NPM 패키지가 아닌 markdown-first 배포 패키지. 빌드/린트/테스트 없음.
 
-- Claude marketplace plugin: `commands/*.md`가 `/agnt:*` colon-namespace 커맨드로 동작
-- Agent Skills spec: `SKILL.md`를 통해 Codex/Claude Code 등에서 `npx skills add`로 설치 가능
-- `references/`는 공통 MUD 스타일 학습 콘텐츠 SSoT
+- **Claude marketplace plugin**: `commands/*.md`가 `/agnt:*` colon-namespace 커맨드로 동작
+- **Agent Skills spec**: `SKILL.md`를 통해 Codex/Claude Code 등에서 `npx skills add`로 설치 가능
+- **멀티 에이전트 지원**: Claude Code (`/agnt:*`), Codex (`$agnt-*`), Agent Skills 공통 포맷
 
 ## Commands
 
 ```bash
 # 커맨드/레퍼런스 변경 후 플러그인 재동기화 (root에서)
 bun run sync:assistant-assets
-```
 
-빌드, 린트, 테스트 없음. 마크다운 전용 패키지.
+# Agent Skills discovery 확인 (SKILL.md 변경 후)
+npx skills add packages/agnt --list
+```
 
 ## Architecture
 
@@ -32,17 +33,21 @@ commands/              # /agnt:* 커맨드 (Claude Code가 실행하는 프롬�
 references/            # 학습 콘텐츠 (커맨드가 Read해서 사용)
   ├── day0-7/          # Day별 블록 파일 (block*.md + index.json)
   └── shared/          # 공통 레퍼런스
-      ├── narrative-engine.md   # 블록 처리 규칙 SSoT (STOP, 페이지네이션, 톤)
-      ├── npcs.md               # NPC 캐릭터 카드 (말투, 성격, 금지사항)
-      ├── world-data.md         # Day별 장소, 레벨/칭호, 스킬 해금
-      ├── interview-guide.md    # 인터뷰 블록 원칙 (Mom Test, Follow the Thread)
-      └── landing-design-guide.md  # 랜딩페이지 생성 디자인 가이드
-
-.claude-plugin/
-  ├── plugin.json       # 플러그인 메타 + MCP 서버 URL 정의
-  └── marketplace.json  # 마켓플레이스 등록 정보
+      ├── narrative-engine.md       # 블록 처리 규칙 SSoT (STOP, 페이지네이션, 톤)
+      ├── npcs.md                   # NPC 캐릭터 카드 (말투, 성격, 금지사항)
+      ├── world-data.md             # Day별 장소, 레벨/칭호, 스킬 해금
+      ├── interview-guide.md        # 인터뷰 블록 원칙 (Mom Test, Follow the Thread)
+      ├── landing-design-guide.md   # 랜딩페이지 생성 디자인 가이드
+      ├── threads-writing-guide.md  # 스레드 작성 가이드
+      └── promotion-channels-guide.md  # 홍보 채널 가이드
 
 SKILL.md               # Agent Skills spec 엔트리포인트 (name: agnt)
+AGENTS.md              # Repository guidelines (구조, 스타일, 테스트 가이드)
+README.md              # 설치/사용법 (Claude Plugin, Codex, Agent Skills 3가지 모드)
+
+.claude-plugin/
+  ├── plugin.json       # 플러그인 메타 (v1.3.0) + MCP 서버 URL 정의
+  └── marketplace.json  # 마켓플레이스 등록 정보 (agentic30)
 ```
 
 ## How Commands Work
@@ -55,22 +60,25 @@ SKILL.md               # Agent Skills spec 엔트리포인트 (name: agnt)
 4. `narrative-engine.md` 규칙에 따라 NPC 대화 + STOP + AskUserQuestion 진행
 5. 블록 완료 시 `state.json` 갱신 + MCP `submit_practice` 호출
 
+**Codex 호환**: 커맨드 내 `ToolSearch`, `AskUserQuestion`, `/mcp` 등 Claude Code 문구는 Codex에서 호환 처리됨 (상세: `SKILL.md` "Agent Compatibility Rules")
+
 ## Block File Format
 
 모든 블록 파일(`references/day*/block*.md`)은 YAML frontmatter + 섹션 구조:
 
 ```yaml
 ---
-stop_mode: full | conversation | checkpoint # 블록 진행 모드
+stop_mode: full | conversation | checkpoint
 title: "블록 제목"
-npc: 두리 # npcs.md에서 해당 카드 참조
-quests: # 선택: 이 블록의 퀘스트
+npc: 두리        # npcs.md에서 해당 카드 참조
+quests:          # 선택
   - id: d0-goal
-    type: main
+    type: main   # main | side | hidden
     title: "목표 선언문 작성"
     xp: 50
-transition: "다음 블록 안내 메시지"
-on_complete: save_character # 선택: 완료 시 추가 동작
+transition: "다음 블록 안내 메시지"   # 선택
+on_complete: save_character            # 선택
+requires_auth: true                    # 선택
 ---
 ```
 
@@ -90,6 +98,7 @@ on_complete: save_character # 선택: 완료 시 추가 동작
 {
   "day": 0,
   "location": "견습생의 마을",
+  "description": "모든 여정의 시작.",
   "blocks": [{ "file": "block0-welcome.md", "title": "..." }],
   "quests": [{ "id": "d0-goal", "type": "main", "title": "...", "xp": 50 }]
 }
@@ -97,24 +106,39 @@ on_complete: save_character # 선택: 완료 시 추가 동작
 
 ## State Management
 
-런타임 상태는 **설치 scope에 따라** 다른 위치에 저장됩니다:
-
-| 설치 scope                        | state.json 위치             | 시나리오                    |
-| --------------------------------- | --------------------------- | --------------------------- |
-| Project/Local (`--scope project`) | `.claude/agnt/state.json`   | 모노레포 개발자             |
-| User (기본값)                     | `~/.claude/agnt/state.json` | 외부 유저 (user scope 설치) |
-
 ### 경로 결정 로직 (모든 커맨드 공통)
 
-1. `.claude/agnt/state.json` Read 시도 → 있으면 **AGNT_DIR = `.claude/agnt`** (project scope)
-2. 없으면 `~/.claude/agnt/state.json` 시도 → 있으면 **AGNT_DIR = `~/.claude/agnt`** (user scope)
-3. 둘 다 없으면 **AGNT_DIR = `~/.claude/agnt`** (기본값: user scope, 새 state 생성)
+#### AGNT_DIR (state + data 루트)
 
-### References 경로 결정 (REFS_DIR)
+아래 순서로 탐색. 첫 번째 성공한 경로 사용:
 
-1. `{AGNT_DIR}/references/` 내 파일 존재 → 사용 (sync script이 복사)
-2. 없으면 `~/.claude/plugins/marketplaces/agentic30/references/` → 사용 (marketplace clone)
-3. 둘 다 없으면 에러
+1. `.claude/agnt/state.json` → project scope (모노레포 개발자)
+2. `~/.claude/agnt/state.json` → user scope (Claude Code 외부 유저)
+3. `.codex/agnt/state.json` → project scope (Codex)
+4. `~/.codex/agnt/state.json` → user scope (Codex)
+5. 모두 없으면 → Claude Code: `~/.claude/agnt`, Codex: `~/.codex/agnt` (기본값, 새 state 생성)
+
+#### REFS_DIR (references 루트)
+
+`narrative-engine.md` 또는 `world-data.md` 존재 여부로 탐색:
+
+1. `{AGNT_DIR}/references/` → sync script이 복사한 경로
+2. `~/.claude/plugins/marketplaces/agentic30/references/` → marketplace clone
+3. `.agents/skills/agnt/references/` → Agent Skills 설치
+4. `~/.codex/skills/agnt/references/` → Codex Skills 설치
+5. 모두 없으면 에러
+
+#### REFS_PRO_DIR (Pro references, 선택적)
+
+`agnt-pro` 패키지의 확장 콘텐츠 (Day 8+). 에러가 아닌 **null 허용**:
+
+1. `{AGNT_DIR}/references-pro/`
+2. `~/.claude/plugins/marketplaces/agentic30-pro/references/`
+3. `.agents/skills/agnt-pro/references/`
+4. `~/.codex/skills/agnt-pro/references/`
+5. 모두 없으면 → `REFS_PRO_DIR = null` (Pro 미설치, 정상)
+
+### state.json 스키마
 
 ```json
 {
@@ -125,10 +149,17 @@ on_complete: save_character # 선택: 완료 시 추가 동작
   "choices": [],
   "character": null,
   "interview": null,
-  "authenticated": false
+  "authenticated": false,
+  "level": 1,
+  "title": "견습생",
+  "xp": 0,
+  "lastNpc": null,
+  "lastAction": null,
+  "lastLocation": null
 }
 ```
 
+- 파싱 실패 시 `state.json.bak`으로 백업 후 기본값 재생성
 - 서버 동기화: MCP `agentic30` 서버와 Block Sync Protocol (`narrative-engine.md` Section 11)
 - MCP 호출 실패 시 블록 완료 처리 금지 (로컬 데이터는 저장, 완료 마커 미기록)
 
@@ -150,15 +181,20 @@ on_complete: save_character # 선택: 완료 시 추가 동작
 - `submit_practice` — 퀘스트 완료 제출
 - `save_profile`, `save_interview` — 프로필/인터뷰 데이터 저장
 - `complete_onboarding` — 온보딩 완료
-- `connect_discord` — Discord OAuth 연동 (브라우저 URL 반환)
-- `verify_discord` — Discord 연동 검증
+- `connect_discord`, `verify_discord` — Discord OAuth 연동/검증
 - `deploy_landing` — 랜딩페이지 배포
+- `get_landing_analytics` — 랜딩 방문자/폼 분석
+- `create_utm_link` — UTM 단축 링크 생성
+- `get_learning_context` — 이전 학습 컨텍스트 조회
+- `save_spec_iteration`, `get_spec_iterations` — SPEC 버전 이력 저장/조회
 
 ## Key Conventions
 
 - **커맨드 변경 후 반드시 `bun run sync:assistant-assets`** 실행
-- Agent Skills 엔트리 변경 후 `npx skills add packages/agnt --list`로 discovery 확인
 - 블록 파일 추가/수정 시 해당 Day의 `index.json`도 동기화
 - NPC 대사는 `npcs.md` 카드와 일관되어야 함 (입버릇, 말투, 금지사항)
-- 템플릿 변수 `{{variable}}` — `state.json` 데이터로 보간 (narrative-engine.md Section 2)
+- 템플릿 변수 `{{variable}}` — `state.json` 데이터로 보간 (`{{var|fallback}}` 지원). 보간 대상: 내러티브, 전환 메시지, 퀘스트 설명
 - 출력 톤: 2인칭 현재형 문어체 반말, 웹소설 포맷 (~20자/줄)
+- 퀘스트 ID 네이밍: `d<day>-<slug>` (예: `d0-discord-join`)
+- 블록 파일 네이밍: `block<N>-<topic>.md`
+- 한국어 진행, 기술 용어(MCP, OAuth, CLI)는 원문 유지

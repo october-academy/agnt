@@ -41,6 +41,23 @@ transition: "Day 3 완료! 스펙을 완성했습니다. 다음은 정찰의 언
 
 ## GUIDE
 
+### 버전 누적 원칙 (v1)
+
+석이: "Day 1에서 v0를 기록했지?
+이번엔 v1이야.
+v0를 덮어쓰지 마.
+새 버전으로 추가해."
+
+**규칙**:
+- `SPEC.md`에 기존 v0 내용을 유지하고 v1 섹션을 추가한다
+- v1에는 Day 2 피드백 기반 변경점을 명시한다
+- state.json `specVersions`의 v0는 수정하지 않고 v1을 append한다
+
+state.json `feedback` 데이터가 있으면
+석이가 피드백 핵심을 참조한다:
+"Day 2에서 이런 피드백이 있었지.
+이걸 반영해서 v1을 만들자."
+
 ### SPEC.md 템플릿
 
 석이: "이 구조대로 채워."
@@ -78,6 +95,20 @@ transition: "Day 3 완료! 스펙을 완성했습니다. 다음은 정찰의 언
 - 시간: {제약}
 - 기술: {제약}
 - 자원: {제약}
+
+## Version Log
+
+### v0 (Day 1)
+- **Hypothesis**: {v0 가설 — state.specVersions에서 참조}
+- **Change Set**: 초기 설정
+- **Metric Gate**: {v0 관찰 지표}
+- **Decision**: {v0 판단 결과 또는 대기}
+
+### v1 (Day 3)
+- **Hypothesis**: {Day 2 피드백 기반 수정 가설}
+- **Change Set**: {v0 대비 구체적 변경점}
+- **Metric Gate**: {v1에서 관찰할 지표}
+- **Decision**: 대기
 ```
 
 ## PREVIEW
@@ -121,6 +152,33 @@ ON_CONFIRM을 수행합니다.
 "수정 요청"이면 GUIDE로 돌아가
 수정 후 PREVIEW → STOP을
 반복합니다.
+
+### SPEC v1 기록
+
+state.json `specVersions`에 v1을 추가한다:
+
+```json
+{
+  "version": "v1",
+  "day": 3,
+  "hypothesis": "{Day 2 피드백 기반 수정 가설}",
+  "changes": "{v0 대비 구체적 변경점}",
+  "decision": null
+}
+```
+
+인증 상태면 MCP `save_spec_iteration` 호출:
+- `version`: "v1"
+- `dayNumber`: 3
+- `hypothesis`: Day 2 피드백 기반 수정 가설
+- `changes`: v0 대비 구체적 변경점
+- `metricGate`: v1에서 관찰할 지표
+
+석이: "v1이 기록됐어.
+v0이랑 뭐가 달라졌는지
+나중에 비교할 수 있어."
+
+### 제출
 
 1. 인증 상태면 MCP `submit_practice`로 제출
 

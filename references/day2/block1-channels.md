@@ -139,6 +139,56 @@ CONVERSATION으로 돌아가
 1. state.json에
    channels 데이터 저장
 
+### NPC 자동 UTM 링크 생성
+
+인증 상태면 바리가 채널별
+UTM 단축 링크를 자동 생성한다.
+
+바리: "링크를 만들어줄게.
+채널별로 추적할 수 있게."
+
+각 채널(최대 3개)에 대해
+MCP `create_utm_link` 호출:
+- `targetUrl`: 배포된 랜딩 URL (state에서 추출)
+- `channel`: 채널명 (예: twitter, kakaotalk, threads)
+- `utmSource`: 채널명
+- `utmMedium`: 채널 유형 (social, community, messaging)
+- `utmCampaign`: "day2"
+
+성공 시 각 채널의 short URL을
+메시지 템플릿에 자동 삽입한다:
+
+```
+📢 공유 전략 (링크 포함)
+━━━━━━━━━━━
+채널 1: {이름}
+🔗 {short_url_1}
+메시지: {전문 + short URL}
+
+채널 2: {이름}
+🔗 {short_url_2}
+메시지: {전문 + short URL}
+
+채널 3: {이름}
+🔗 {short_url_3}
+메시지: {전문 + short URL}
+```
+
+바리: "이 링크들은
+`agentic30.app/dashboard/links`에서
+직접 관리할 수도 있어.
+클릭 수도 거기서 확인 가능해."
+
+**링크 생성 실패 시** (API 오류, 인증 실패, 레벨 부족):
+
+바리: "링크 생성이 안 됐어.
+괜찮아, 원본 URL을 직접 쓰면 돼.
+나중에 직접 만들려면
+`agentic30.app/dashboard/links`에서
+생성할 수 있어."
+
+→ 원본 랜딩 URL로 대체하여 진행한다.
+
 2. 바리: "이 메시지를 지금 바로
    각 채널에 공유해. 기다리지
    마."

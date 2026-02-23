@@ -52,21 +52,41 @@ transition: "결정이 내려졌습니다. 이제 Foundation Phase를 마무리�
 - [ ] No-Go라면: 배운 것을
       다음 아이디어에 어떻게 적용할지
 
+### 버전 이력 로딩
+
+인증 상태면 MCP `get_spec_iterations` 호출로
+v0~v2 이력을 조회한다.
+state.json `specVersions`도 확인한다.
+
+달이: "v0에서 v2까지
+어떻게 바뀌었는지 보자."
+
 ### 대화 시작
 
 달이가 7일간 수집한 핵심 데이터를
-요약한 후 말한다:
+요약한 후 말한다.
 
-"이 데이터를 보면서,
+버전 이력이 있으면 달이가
+v0→v1→v2 변화 추이를 먼저
+짧게 정리한다:
+
+"v0에서 시작해서
+v1에서 {변경점},
+v2에서 {변경점}을 거쳤어.
+
+이 흐름을 보면서,
 {{character.project|이 프로젝트}}를
 계속 진행해야 한다고 생각해?"
 
-### Go/No-Go 기준
+### Go/No-Go 기준 (델타 기반)
 
-달이: "기준을 알려줄게."
+달이: "기준을 알려줄게.
+이번엔 **버전 간 변화**가 핵심이야."
 
-**Go 시그널:**
+**Go 시그널 (v2↔v3 또는 전체 추이 기반):**
 
+- 최신 버전이 직전 버전 대비
+  전환 또는 폼 응답에서 개선
 - 3명 이상 같은 문제 언급 +
   현재 비용/시간 지출 중
 - 랜딩 전환율 5% 이상 또는 폼
@@ -77,16 +97,24 @@ transition: "결정이 내려졌습니다. 이제 Foundation Phase를 마무리�
 
 **Pivot 시그널:**
 
+- 최신 버전이 직전 버전 대비
+  핵심 지표에서 악화
 - 문제는 맞지만 솔루션 형태가 다름
 - 타겟이 예상과 다른 세그먼트
 - 비즈니스 모델 재고 필요
 
 **No-Go 시그널:**
 
+- v0→v2 전체 추이에서 개선 없음
 - 문제 공감 없음
 - 전환율 1% 미만 + 긍정 피드백
   없음
 - 기술적/시간적 제약으로 구현 불가
+
+**표본 부족 경고** (방문 < 5):
+달이: "데이터가 부족해.
+판단을 유보하고
+질적 피드백에 무게를 둬."
 
 ### 대화 규칙
 
@@ -140,8 +168,37 @@ CONVERSATION으로 돌아가
 근거를 보완 후 SUMMARY →
 STOP을 반복합니다.
 
-state.json에 decision
-데이터 저장.
+### SPEC v3 기록 + 최종 판단
+
+state.json에 decision 데이터 저장.
+
+state.json `specVersions`에 v3를 추가한다:
+
+```json
+{
+  "version": "v3",
+  "day": 7,
+  "hypothesis": "{최종 개선 또는 피벗 가설}",
+  "changes": "{v2 대비 구체적 변경점}",
+  "decision": "{keep/pivot/rollback}",
+  "deltaSummary": {
+    "overall_trend": "{v0→v3 전체 추이 요약}",
+    "latest_delta": "{v2↔v3 증감}",
+    "verdict": "{Go/Pivot/No-Go}"
+  }
+}
+```
+
+인증 상태면 MCP `save_spec_iteration` 호출:
+- `version`: "v3"
+- `dayNumber`: 7
+- `hypothesis`: 최종 개선 또는 피벗 가설
+- `changes`: v2 대비 구체적 변경점
+- `decision`: keep (Go) / pivot (Pivot) / rollback (No-Go)
+- `deltaSummary`: 전체 추이 + v2↔v3 증감 요약
+
+달이: "v3 최종 판단이 기록됐어.
+v0부터 여기까지 온 거야."
 
 ## MOVE
 

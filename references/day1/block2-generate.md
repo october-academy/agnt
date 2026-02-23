@@ -302,6 +302,39 @@ STOP을 반복합니다.
 1. 확인 시 소리: "좋아. 이제
    이걸 세상에 내보내자."
 
+### SPEC v0 기준선 기록
+
+소리: "배포 전에 한 가지.
+지금 네가 세운 가설을
+v0로 기록해두자.
+나중에 비교할 기준이 돼."
+
+state.json `specVersions`에 v0를 기록한다:
+
+```json
+{
+  "specVersions": [
+    {
+      "version": "v0",
+      "day": 1,
+      "hypothesis": "{인터뷰 기반 핵심 문제 + 초기 CTA 가설}",
+      "changes": null,
+      "decision": null
+    }
+  ]
+}
+```
+
+인증 상태면 MCP `save_spec_iteration` 호출:
+- `version`: "v0"
+- `dayNumber`: 1
+- `hypothesis`: 인터뷰 기반 핵심 문제 + 초기 CTA 가설 (state.interview 데이터에서 추출)
+- `metricGate`: "첫 방문자 + 폼 제출 발생 여부"
+
+소리: "v0 기준선이 기록됐어.
+앞으로 이걸 기준으로
+개선 여부를 판단할 거야."
+
 ## MOVE
 
 소리가 전망대 난간에서 몸을 돌린다.

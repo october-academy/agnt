@@ -423,6 +423,37 @@ ON_COMPLETE/ON_CONFIRM의 MCP 호출(`save_profile`, `save_interview`, `complete
 | `template`     | `{ type: "template", inputs: 입력값 }`   | 템플릿 기반 과제          |
 | `link`         | `{ type: "text", content: URL }`         | 외부 링크                 |
 | `checkbox`     | (불필요)                                 | 단순 체크박스             |
+| `versioned`    | `{ type: "text", content: "vN:decision" }` | SPEC/landing 버전 검증    |
+
+### specVersions 양방향 동기화
+
+state.json의 `specVersions` 배열은 DB `spec_iterations` 테이블과 양방향 동기화된다.
+
+**specVersions 스키마**:
+
+```json
+{
+  "specVersions": [
+    {
+      "version": "v0",
+      "day": 1,
+      "hypothesis": "...",
+      "changes": null,
+      "decision": null
+    }
+  ]
+}
+```
+
+**동기화 규칙**:
+
+1. **블록 완료 시 (Day 1-7)**: specVersions가 업데이트되면 authenticated가 true인 경우 `save_spec_iteration` MCP 호출로 현재 버전을 서버에 동기화한다.
+
+2. **세션 재개 시** (`/agnt:continue`): `get_spec_iterations`로 서버 데이터를 조회하고, state.json `specVersions`와 불일치하면 서버 데이터를 우선하여 state.json을 갱신한다.
+
+3. **오프라인 → 온라인 전환**: 미인증 상태에서 작성된 specVersions가 있고 이후 MCP 인증이 완료되면, 로컬 specVersions를 `save_spec_iteration` 반복 호출로 서버에 일괄 동기화한다.
+
+4. **충돌 해결**: 서버 우선. 기존 Block Sync Protocol의 서버 우선 원칙과 동일.
 
 ## 12. 컨텍스트 윈도우 관리
 

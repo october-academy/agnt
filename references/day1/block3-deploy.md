@@ -94,6 +94,14 @@ AskUserQuestion으로
 3. Cloudflare Pages는
    `slug.pages.dev` 형태 주소가
    된다고 안내
+4. **SPEC v0 정합성 확인**:
+   state.json `specVersions`에
+   v0가 있으면 landing.html의
+   헤드라인/CTA가 v0 가설과
+   일치하는지 확인한다.
+   불일치 시 소리가 경고:
+   "v0 가설이랑 랜딩이 안 맞아.
+   어느 쪽을 기준으로 할지 정해."
 
 AskUserQuestion:
 질문: 소리가 묻는다.
