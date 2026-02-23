@@ -1,6 +1,8 @@
 # agnt — Agentic30 Learning Guide
 
-30일 MUD 스타일 학습 프로그램입니다.  
+<video src="https://assets.october-academy.com/agnt-demo.mp4" controls width="600"></video>
+
+30일 MUD 스타일 학습 프로그램입니다.
 핵심은 **MCP 연결 후 명령 실행**입니다.
 
 ## Requirements
