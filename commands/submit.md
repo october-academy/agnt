@@ -21,6 +21,14 @@
 5. 둘 다 없으면 에러:
    - "references를 찾을 수 없습니다. Claude Plugin 사용자는 `bun run sync:assistant-assets` 또는 plugin 재설치를, Codex 사용자는 `npx skills add october-academy/agnt --agent codex --skill agnt`를 실행하세요."
 
+### REFS_PRO_DIR (Pro references, 선택적)
+
+1. `{AGNT_DIR}/references-pro/shared/world-data-extended.md`를 Read 시도 → 성공하면 **REFS_PRO_DIR = `{AGNT_DIR}/references-pro`**
+2. 실패 시 `~/.claude/plugins/marketplaces/agentic30-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.claude/plugins/marketplaces/agentic30-pro/references`**
+3. 실패 시 `.agents/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `.agents/skills/agnt-pro/references`**
+4. 실패 시 `~/.codex/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.codex/skills/agnt-pro/references`**
+5. 모두 실패 → **REFS_PRO_DIR = null** (Pro 미설치 — 에러 아님)
+
 ## 실행 절차
 
 1. `{AGNT_DIR}/state.json`을 Read (경로 결정 단계에서 이미 확인됨).
@@ -31,11 +39,12 @@
 - **도구 없음**: "⛔ MCP 서버 연결이 필요합니다. Claude Code는 `/mcp`, Codex는 `codex mcp add/login`으로 agentic30 서버를 연결하세요." 출력 후 종료
 - **도구 발견됨**: 정상 진행
 
-2. `{REFS_DIR}/day{currentDay}/index.json`을 Read합니다.
+2. `{REFS_DIR}/day{currentDay}/index.json`을 Read 시도.
    - 성공 시: index.json의 `quests` 필드에서 퀘스트 목록과 검증 정보를 가져옵니다 (step 3 생략).
-   - 실패 시 (파일 없음): fallback으로 step 3을 실행합니다.
+   - 실패하고 REFS_PRO_DIR != null이면: `{REFS_PRO_DIR}/day{currentDay}/index.json` Read 시도. 성공 시 step 3 생략.
+   - 둘 다 없으면: fallback으로 step 3을 실행합니다.
 
-3. (fallback) `{REFS_DIR}/day{currentDay}/` 의 모든 block\*.md를 Read. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 퀘스트와 검증 규칙을 추출합니다.
+3. (fallback) `{REFS_DIR}/day{currentDay}/` 의 모든 block\*.md를 Read. 없으면 REFS_PRO_DIR != null일 때 `{REFS_PRO_DIR}/day{currentDay}/`에서 Read. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 퀘스트와 검증 규칙을 추출합니다.
 
 4. 퀘스트별 로컬 검증 수행:
    - **file_exists**: 파일 시스템에서 해당 파일 존재 확인

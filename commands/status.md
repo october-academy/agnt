@@ -21,14 +21,23 @@
 5. 둘 다 없으면 에러:
    - "references를 찾을 수 없습니다. Claude Plugin 사용자는 `bun run sync:assistant-assets` 또는 plugin 재설치를, Codex 사용자는 `npx skills add october-academy/agnt --agent codex --skill agnt`를 실행하세요."
 
+### REFS_PRO_DIR (Pro references, 선택적)
+
+1. `{AGNT_DIR}/references-pro/shared/world-data-extended.md`를 Read 시도 → 성공하면 **REFS_PRO_DIR = `{AGNT_DIR}/references-pro`**
+2. 실패 시 `~/.claude/plugins/marketplaces/agentic30-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.claude/plugins/marketplaces/agentic30-pro/references`**
+3. 실패 시 `.agents/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `.agents/skills/agnt-pro/references`**
+4. 실패 시 `~/.codex/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.codex/skills/agnt-pro/references`**
+5. 모두 실패 → **REFS_PRO_DIR = null** (Pro 미설치 — 에러 아님)
+
 ## 실행 절차
 
 1. `{AGNT_DIR}/state.json`을 Read (경로 결정 단계에서 이미 확인됨).
 
 2. 현재 Day의 장소 정보를 가져옵니다:
    - `{REFS_DIR}/day{currentDay}/index.json`을 Read 시도.
+   - 실패하고 REFS_PRO_DIR != null이면: `{REFS_PRO_DIR}/day{currentDay}/index.json` Read 시도.
    - 성공 시: `location`과 `description` 필드 사용.
-   - 실패 시: `{REFS_DIR}/shared/world-data.md`를 Read해서 장소명 목록을 가져옵니다.
+   - 실패 시: `{REFS_DIR}/shared/world-data.md`를 Read해서 장소명 목록을 가져옵니다. REFS_PRO_DIR != null이면 `{REFS_PRO_DIR}/shared/world-data-extended.md`도 Read해서 합산.
 
 3. `ToolSearch`로 `+agentic30` 검색하여 MCP 연결 확인:
    - **도구 발견됨**: MCP `get_leaderboard`로 서버 최신 데이터 동기화
@@ -67,9 +76,14 @@
   {✅/🔒} get_landing_analytics (Lv.4)
 ```
 
-6. ASCII 월드맵 (Day 0-7):
+6. ASCII 월드맵 (동적 생성):
 
-각 Day의 `index.json`에서 장소명을 가져오거나, world-data.md를 fallback으로 사용합니다:
+`{REFS_DIR}/shared/world-data.md`의 Day별 장소 테이블을 Read합니다. REFS_PRO_DIR != null이면 `{REFS_PRO_DIR}/shared/world-data-extended.md`도 Read해서 합산합니다. 두 테이블의 Day 행을 합쳐서 전체 월드맵을 구성합니다.
+
+각 Day에 대해:
+- `completedDays`에 포함 → ✅
+- `currentDay`와 같으면 → 👉 (현재 위치)
+- 그 외 → 🔒
 
 ```
 🗺️ 월드맵
@@ -77,10 +91,7 @@
   ✅ Day 1: 발견의 숲
   👉 Day 2: 검증의 광장  ← 현재 위치
   🔒 Day 3: 설계의 탑
-  🔒 Day 4: 정찰의 언덕
-  🔒 Day 5: 시장의 거리
-  🔒 Day 6: 상인의 길드
-  🔒 Day 7: 회고의 호수
+  ...
 ```
 
 완료=✅, 현재=👉, 미개방=🔒

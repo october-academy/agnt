@@ -21,17 +21,26 @@
 5. 둘 다 없으면 에러:
    - "references를 찾을 수 없습니다. Claude Plugin 사용자는 `bun run sync:assistant-assets` 또는 plugin 재설치를, Codex 사용자는 `npx skills add october-academy/agnt --agent codex --skill agnt`를 실행하세요."
 
+### REFS_PRO_DIR (Pro references, 선택적)
+
+1. `{AGNT_DIR}/references-pro/shared/world-data-extended.md`를 Read 시도 → 성공하면 **REFS_PRO_DIR = `{AGNT_DIR}/references-pro`**
+2. 실패 시 `~/.claude/plugins/marketplaces/agentic30-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.claude/plugins/marketplaces/agentic30-pro/references`**
+3. 실패 시 `.agents/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `.agents/skills/agnt-pro/references`**
+4. 실패 시 `~/.codex/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.codex/skills/agnt-pro/references`**
+5. 모두 실패 → **REFS_PRO_DIR = null** (Pro 미설치 — 에러 아님)
+
 ## 실행 절차
 
 1. `{AGNT_DIR}/state.json`을 Read (경로 결정 단계에서 이미 확인됨).
 
-2. `{REFS_DIR}/day{currentDay}/index.json`을 Read합니다.
+2. `{REFS_DIR}/day{currentDay}/index.json`을 Read 시도.
    - 성공 시: index.json에서 장소명, 설명, 퀘스트 정보를 가져옵니다 (step 3-4 생략).
-   - 실패 시 (파일 없음): fallback으로 step 3-4를 실행합니다.
+   - 실패하고 REFS_PRO_DIR != null이면: `{REFS_PRO_DIR}/day{currentDay}/index.json` Read 시도. 성공 시 step 3-4 생략.
+   - 둘 다 없으면: fallback으로 step 3-4를 실행합니다.
 
-3. (fallback) `{REFS_DIR}/shared/world-data.md`를 Read해서 현재 Day의 장소명과 설명을 가져옵니다.
+3. (fallback) `{REFS_DIR}/shared/world-data.md`를 Read해서 현재 Day의 장소명과 설명을 가져옵니다. 없으면 REFS_PRO_DIR != null일 때 `{REFS_PRO_DIR}/shared/world-data-extended.md`에서 가져옵니다.
 
-4. (fallback) `{REFS_DIR}/day{currentDay}/` 디렉토리의 모든 block\*.md 파일을 Read하고, 각 블록에서 퀘스트 정보(제목, XP, 타입)를 추출합니다. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 추론합니다.
+4. (fallback) `{REFS_DIR}/day{currentDay}/` 디렉토리의 모든 block\*.md 파일을 Read합니다. 없으면 REFS_PRO_DIR != null일 때 `{REFS_PRO_DIR}/day{currentDay}/`에서 Read합니다. 각 블록에서 퀘스트 정보(제목, XP, 타입)를 추출합니다. YAML frontmatter의 `quests` 필드를 우선 확인하고, 없으면 `## QUEST` 섹션에서 추론합니다.
 
 5. state.json의 `completedBlocks[currentDay]`와 대조하여 완료 상태를 판정합니다.
 

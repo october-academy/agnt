@@ -23,6 +23,14 @@
 5. 둘 다 없으면 에러:
    - "references를 찾을 수 없습니다. Claude Plugin 사용자는 `bun run sync:assistant-assets` 또는 plugin 재설치를, Codex 사용자는 `npx skills add october-academy/agnt --agent codex --skill agnt`를 실행하세요."
 
+### REFS_PRO_DIR (Pro references, 선택적)
+
+1. `{AGNT_DIR}/references-pro/shared/world-data-extended.md`를 Read 시도 → 성공하면 **REFS_PRO_DIR = `{AGNT_DIR}/references-pro`**
+2. 실패 시 `~/.claude/plugins/marketplaces/agentic30-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.claude/plugins/marketplaces/agentic30-pro/references`**
+3. 실패 시 `.agents/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `.agents/skills/agnt-pro/references`**
+4. 실패 시 `~/.codex/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.codex/skills/agnt-pro/references`**
+5. 모두 실패 → **REFS_PRO_DIR = null** (Pro 미설치 — 에러 아님)
+
 ## 실행 절차
 
 1. `{AGNT_DIR}/state.json`을 Read. 없으면 `{AGNT_DIR}/state.json`에 기본값으로 생성 (디렉토리 없으면 함께 생성):
@@ -89,15 +97,25 @@
 
 3. `completedDays`에 현재 Day 포함 시 `currentDay++`, `currentBlock=0` 갱신.
 
-4. Day 7까지 완료했으면 졸업 축하 메시지 출력 후 종료.
+4. 졸업/완료 체크:
+   - `{REFS_DIR}/day{currentDay}/index.json` Read 시도 → 실패하고 REFS_PRO_DIR != null이면 `{REFS_PRO_DIR}/day{currentDay}/index.json` Read 시도
+   - **콘텐츠 있음**: 정상 진행 (step 5로)
+   - **콘텐츠 없음 + REFS_PRO_DIR == null** (무료 사용자):
+     Week 1 완료 축하 + Pro 안내 ("Day 8부터 계속하려면 agnt-pro를 설치하세요. https://github.com/october-academy/agnt-pro") 출력 후 종료
+   - **콘텐츠 없음 + REFS_PRO_DIR != null** (전체 완료):
+     졸업 축하 메시지 출력 후 종료
 
 5. 공유 레퍼런스 Read (**한번에 병렬로**):
    - `{REFS_DIR}/shared/narrative-engine.md`
    - `{REFS_DIR}/shared/npcs.md`
+   - REFS_PRO_DIR != null이면 `{REFS_PRO_DIR}/shared/npcs-extended.md`도 추가 Read (additive — 기존 NPC에 합산)
 
 6. 현재 블록 레퍼런스 Read:
-   - `{REFS_DIR}/day{currentDay}/block{currentBlock}-*.md`
-   - `{REFS_DIR}/day{currentDay}/index.json` (Day 메타데이터 — location, quests 등)
+   - `{REFS_DIR}/day{currentDay}/index.json` Read 시도
+     → 실패하고 REFS_PRO_DIR != null이면: `{REFS_PRO_DIR}/day{currentDay}/index.json` Read
+     → 둘 다 없으면: "Day {N} 콘텐츠를 찾을 수 없습니다. Pro 콘텐츠는 agnt-pro 설치가 필요합니다." 출력 후 종료
+   - `{REFS_DIR}/day{currentDay}/block{currentBlock}-*.md` Read 시도
+     → 실패하고 REFS_PRO_DIR != null이면: `{REFS_PRO_DIR}/day{currentDay}/block{currentBlock}-*.md` Read
 
 7. **NPC 선택 로딩**: 블록 frontmatter의 `npc` 필드를 확인하고, `npcs.md`에서 해당 NPC 카드 섹션만 참조합니다. 나머지 NPC 카드는 무시합니다.
 
