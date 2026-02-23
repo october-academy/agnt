@@ -9,13 +9,48 @@
 - Claude Code 또는 Codex CLI
 - `npx` 사용 가능 환경
 
+## Getting Started
+
+### Claude Plugin Install
+
+```bash
+claude plugin marketplace add october-academy/agnt
+claude plugin install agnt@agentic30
+```
+
+### Codex (npx skills) Install
+
+```bash
+npx skills add october-academy/agnt --agent codex --skill agnt -g -y
+```
+
+## Update
+
+### Claude (Marketplace + Plugin)
+
+```bash
+claude plugin marketplace update agentic30
+claude plugin update agnt@agentic30
+```
+
+### Codex (npx skills)
+
+```bash
+# 업데이트 확인
+npx skills check
+
+# 설치된 스킬 업데이트
+npx skills update
+
+# (선택) agnt만 최신으로 재설치
+npx skills add october-academy/agnt --agent codex --skill agnt -g -y
+```
+
 ## Quick Start
 
 ### Claude Code (`/agnt:*`)
 
 ```bash
-claude plugin marketplace add october-academy/agnt
-claude plugin install agnt@agentic30
 claude
 ```
 
@@ -28,7 +63,6 @@ Claude Code에서 `/mcp` 실행 후 `plugin:agnt:agentic30`를 `Authenticate`하
 ### Codex (`$agnt-*`)
 
 ```bash
-npx skills add october-academy/agnt --agent codex --skill agnt -g -y
 codex mcp add agentic30 --url https://mcp.agentic30.app/mcp
 codex mcp login agentic30
 codex mcp list
