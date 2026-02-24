@@ -233,7 +233,7 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 - `lastAction`: 블록 title 기반 과거형 1문장 요약 (예: "Discord에 합류하고 자기소개를 마쳤다")
 - `lastLocation`: 현재 Day의 index.json `location` 값 (예: "견습생의 마을")
 
-12. Day 모든 블록 완료 시 `completedDays`에 추가, 다음 Day 안내.
+12. Day 모든 블록 완료 시 `completedDays`에 추가. narrative-engine.md의 "MOVE 후 블록 전환 규칙"에 따라 AskUserQuestion으로 다음 Day 시작 여부를 묻습니다. "다음 Day 시작" 선택 시 step 4부터 다시 진행합니다.
 
 ## 핵심 규칙
 
