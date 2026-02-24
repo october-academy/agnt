@@ -29,6 +29,39 @@
 4. 실패 시 `~/.codex/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.codex/skills/agnt-pro/references`**
 5. 모두 실패 → **REFS_PRO_DIR = null** (Pro 미설치 — 에러 아님)
 
+## 출력 규칙 (필수)
+
+### 내부 로직 무음 처리
+
+아래 절차는 **유저에게 텍스트를 출력하지 않고** 내부적으로만 수행합니다:
+
+- AGNT_DIR / REFS_DIR / REFS_PRO_DIR 경로 탐색 및 결과
+- state.json 파싱 결과
+- 파일 Read 성공/실패 여부
+- MCP ToolSearch 결과
+- "Pro 미설치" 등 내부 상태 판정
+
+검증 결과를 즉시 출력합니다. 로딩 메시지 없이 무음 → 검증 결과 바로 표시.
+
+### 에러 메시지 — NPC 대사로 전환
+
+**references 없음** (기존: "references를 찾을 수 없습니다. Claude Plugin 사용자는..."):
+
+```
+두리가 도구함을 열다 멈춘다.
+
+"도구가 비어 있어.
+설치가 덜 된 것 같아."
+
+🔧 설치 방법:
+[Claude Code]
+claude plugin marketplace add october-academy/agnt
+claude plugin install agnt@agentic30
+
+[Codex]
+npx skills add october-academy/agnt --agent codex --skill agnt
+```
+
 ## 실행 절차
 
 1. `{AGNT_DIR}/state.json`을 Read (경로 결정 단계에서 이미 확인됨).

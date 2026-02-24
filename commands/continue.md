@@ -31,6 +31,89 @@
 4. 실패 시 `~/.codex/skills/agnt-pro/references/shared/world-data-extended.md` Read 시도 → 성공하면 **REFS_PRO_DIR = `~/.codex/skills/agnt-pro/references`**
 5. 모두 실패 → **REFS_PRO_DIR = null** (Pro 미설치 — 에러 아님)
 
+## 출력 규칙 (필수)
+
+### 내부 로직 무음 처리
+
+아래 절차는 **유저에게 텍스트를 출력하지 않고** 내부적으로만 수행합니다:
+
+- AGNT_DIR / REFS_DIR / REFS_PRO_DIR 경로 탐색 및 결과
+- state.json 생성, 파싱, 기본값 Write
+- 파일 Read 성공/실패 여부
+- MCP ToolSearch 결과 (Day 0 Block 0)
+- "Pro 미설치", "MCP 체크 면제" 등 내부 상태 판정
+
+즉, "state.json이 없으므로...", "REFS_DIR을 찾겠습니다", "REFS_PRO_DIR = null" 같은 절차 중계를 **절대** 출력하지 마세요.
+
+### 로딩 메시지 (ROOM 출력 전에 1회)
+
+모든 내부 준비가 끝난 후, ROOM 장면 묘사 **직전에** 아래 형식의 준비 메시지를 출력합니다.
+NPC는 `lastNpc` 또는 현재 블록의 `npc` 필드 값을 사용합니다.
+
+**첫 방문 (state.json 신규 생성 시):**
+
+```
+{npc}가 서랍에서 새 장부를 꺼낸다.
+잉크를 묻히고 지도를 펼친다.
+
+"다 됐어. 가자."
+
+💡 매일 `/agnt:continue`만 기억하세요
+```
+
+**재방문 (state.json 존재 시):**
+
+```
+{npc}가 장부를 넘기며 고개를 끄덕인다.
+
+"어디까지 했는지 알겠어."
+
+💡 {랜덤 팁 1개}
+```
+
+**팁 풀** (랜덤 1개 선택):
+
+- `/agnt:today`로 오늘 남은 퀘스트를 확인할 수 있어요
+- `/agnt:status`로 캐릭터 시트와 월드맵을 볼 수 있어요
+- 퀘스트를 끝냈으면 `/agnt:submit`으로 제출하세요
+- 히든 퀘스트는 조건을 만족하면 자동으로 발견됩니다
+- 사이드 퀘스트는 보너스 XP를 줍니다
+
+### 에러 메시지 — NPC 대사로 전환
+
+에러/경고 상황에서 기술적 메시지 대신 NPC 대사를 사용합니다:
+
+**references 없음** (기존: "references를 찾을 수 없습니다. Claude Plugin 사용자는..."):
+
+```
+두리가 도구함을 열다 멈춘다.
+
+"도구가 비어 있어.
+설치가 덜 된 것 같아."
+
+🔧 설치 방법:
+[Claude Code]
+claude plugin marketplace add october-academy/agnt
+claude plugin install agnt@agentic30
+
+[Codex]
+npx skills add october-academy/agnt --agent codex --skill agnt
+```
+
+**Day N 콘텐츠 없음 + Pro 미설치** (기존: "Day {N} 콘텐츠를 찾을 수 없습니다. Pro 콘텐츠는 agnt-pro 설치가 필요합니다."):
+
+```
+두리가 길 끝 잠긴 문 앞에 선다.
+
+"Week 1을 끝냈구나. 대단해."
+
+두리가 문의 자물쇠를 만지며 말한다.
+
+"여기서부터는 새 지도가 필요해."
+
+🗺️ https://github.com/october-academy/agnt-pro
+```
+
 ## 실행 절차
 
 1. `{AGNT_DIR}/state.json`을 Read. 없으면 `{AGNT_DIR}/state.json`에 기본값으로 생성 (디렉토리 없으면 함께 생성):
