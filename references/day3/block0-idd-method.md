@@ -110,16 +110,22 @@ AskUserQuestion:
    끄덕인다. "대부분 그래.
    기초부터 다시 잡으면 달라질
    거야."
+   → trust: 석이 +1
+   → tendency: validator +1
 2. "스펙을 써본 적이 없어요."
    → 반응: 석이가 도면을
    가리킨다. "괜찮아. 어렵지
    않아. 구조만 알면 돼. 하나씩
    알려줄게."
+   → trust: 석이 +0
+   → tendency: validator +1
 3. "스펙이 그렇게 중요한가요?"
    → 반응: 석이가 진지하게
    말한다. "집 짓는데 설계도
    없이 시작하면 어떻게 될까?
    같은 거야. 기초부터 다시."
+   → trust: 석이 -1
+   → tendency: validator +1
 
 → 모두 다음 SCENE으로 진행
 
@@ -170,16 +176,22 @@ AskUserQuestion:
    → 반응: 석이가 고개를
    끄덕인다. "좋아. 문제를 못
    박아야 나머지가 따라와."
+   → trust: 석이 +1
+   → tendency: validator +1
 2. "Target User부터 더
    좁힐게요."
    → 반응: 석이가 연필로 밑줄을
    긋는다. "좋아. 타겟이
    좁아지면 기능도 줄어."
+   → trust: 석이 +1
+   → tendency: validator +1
 3. "MVP Feature부터
    추릴게요."
    → 반응: 석이가 도면을
    가리킨다. "좋아. 다만 문제와
    타겟 기준으로 추려."
+   → trust: 석이 +0
+   → tendency: executor +1
 
 → 모두 다음 TASK로 진행
 

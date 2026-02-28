@@ -190,6 +190,7 @@ state.json `specVersions`에 v3를 추가한다:
 ```
 
 인증 상태면 MCP `save_spec_iteration` 호출:
+
 - `version`: "v3"
 - `dayNumber`: 7
 - `hypothesis`: 최종 개선 또는 피벗 가설

@@ -218,6 +218,20 @@ STOP의 AskUserQuestion question에는 NPC의 마무리 **질문 대사만** 포
 - 모든 선택지는 같은 다음 SCENE/TASK로 수렴
 - SCENE 당 CHOICE 최대 1개
 - 선택 기록: state.json `choices`에 `{ day, block, scene, choice }` 저장
+- 선택지 태그 파싱:
+  - `→ trust: {NPC이름} {+N|-N}` 형식 지원 (예: `→ trust: 석이 +1`)
+  - `→ tendency: executor +N` / `→ tendency: validator +N` 형식 지원
+  - 태그는 각 선택지의 반응 바로 아래에 배치하고, 없는 선택지는 변동 0으로 처리
+  - `trust`와 `tendency`가 동시에 있으면 둘 다 적용한다
+- 태그 적용 순서:
+  1. `trust` 변동 계산 및 클램핑
+  2. `tendency` 변동 계산 및 클램핑
+  3. `archetype` 재계산
+  4. `📊` 즉각 피드백 출력 (trust 변동이 있을 때만)
+- 태그 파싱 실패/미존재 fallback:
+  - 형식이 맞지 않으면 해당 태그만 무시하고 블록은 정상 진행
+  - `npcRelations` 필드 자체가 없으면 trust 태그는 무시 (하위호환)
+  - `tendency`/`archetype` 필드가 없으면 Section 9의 fallback 기본값으로 계산
 - **중복 금지**: 직전 NPC 대사(지문/행동 묘사)는 이미 출력되어 있으므로 AskUserQuestion question에 다시 포함하지 않는다. question에는 NPC의 **질문 대사만** 넣는다:
   ```
   ✅: [텍스트 출력: "두리가 게시판을 두드린다.\n\"AI 코파운더가 매일 함께할 거야.\""] → question: "두리가 묻는다. \"7일이면 짧다고 느껴져?\""
@@ -285,6 +299,7 @@ AskUserQuestion:
 - NPC는 해당 블록 frontmatter의 `npc` 필드 NPC 이름을 사용합니다.
 - **"다음 Day 시작"**: `currentDay`의 블록 0 레퍼런스를 Read하고 바로 진행합니다 (continue.md step 4부터 재실행).
 - **"오늘은 여기까지"**: NPC가 짧은 인사를 건네고 세션을 종료합니다.
+
   ```
   NPC: "잘 했어. 내일 보자."
 
@@ -408,6 +423,26 @@ GUIDE 섹션에 `### PAGE N` 구조가 있으면:
 
 CHOICE 선택 즉시 state.json `choices`에 `{ day, block, scene, choice }` append 후 저장.
 
+### 하위호환 state fallback 규칙
+
+기존 state.json에 신규 필드가 없을 수 있으므로 아래 기본값으로 처리합니다.
+
+- `npcRelations` 없음: trust 시스템 비활성. 관계 변동/피드백 출력 없이 기존 흐름 유지
+- `tendency` 없음: `0`으로 간주
+- `archetype` 없음: `null`로 간주
+- `archetypeHistory` 없음: 빈 배열 `[]`로 간주
+
+신규 state를 생성하거나 저장 시점에 필드가 비어 있으면 아래 기본값으로 보강합니다:
+
+```json
+{
+  "npcRelations": {},
+  "tendency": 0,
+  "archetype": null,
+  "archetypeHistory": []
+}
+```
+
 ## 10. Day 인덱스 파일 활용
 
 각 Day의 `index.json`이 메타데이터 SSoT. `index.json`과 블록 frontmatter `quests`가 불일치 시 `index.json` 우선.
@@ -449,13 +484,13 @@ ON_COMPLETE/ON_CONFIRM의 MCP 호출(`save_profile`, `save_interview`, `complete
 
 ### Evidence 매핑
 
-| type           | evidence                                 | 설명                      |
-| -------------- | ---------------------------------------- | ------------------------- |
-| `text`         | `{ type: "text", content: 관련 데이터 }` | 직접 입력 텍스트          |
-| `server_state` | `{ type: "text", content: "verified" }`  | MCP가 이미 서버 상태 설정 |
-| `template`     | `{ type: "template", inputs: 입력값 }`   | 템플릿 기반 과제          |
-| `link`         | `{ type: "text", content: URL }`         | 외부 링크                 |
-| `checkbox`     | (불필요)                                 | 단순 체크박스             |
+| type           | evidence                                   | 설명                      |
+| -------------- | ------------------------------------------ | ------------------------- |
+| `text`         | `{ type: "text", content: 관련 데이터 }`   | 직접 입력 텍스트          |
+| `server_state` | `{ type: "text", content: "verified" }`    | MCP가 이미 서버 상태 설정 |
+| `template`     | `{ type: "template", inputs: 입력값 }`     | 템플릿 기반 과제          |
+| `link`         | `{ type: "text", content: URL }`           | 외부 링크                 |
+| `checkbox`     | (불필요)                                   | 단순 체크박스             |
 | `versioned`    | `{ type: "text", content: "vN:decision" }` | SPEC/landing 버전 검증    |
 
 ### specVersions 양방향 동기화
@@ -511,3 +546,176 @@ Claude Code를 새로 열고
 - 현재 블록 진행 상태를 **state.json에 저장한 뒤** 안내
 - 강제 종료가 아닌 **제안** — 학습자가 계속하겠다면 진행 허용
 - STOP이 아닌 중간 진행 중이라면 가장 가까운 STOP/AskUserQuestion까지 진행 후 안내
+
+## 13. Trust System
+
+NPC 관계는 `state.json.npcRelations`를 기준으로 관리합니다.
+
+### trust 범위 및 라벨 매핑
+
+trust는 `-5 ~ +5` 정수로만 저장하며, 매 변동 시 라벨을 자동 재계산합니다.
+
+| trust 구간 | label |
+| ---------- | ----- |
+| -5 ~ -3    | 실망  |
+| -2 ~ -1    | 경계  |
+| 0          | 중립  |
+| 1 ~ 2      | 동료  |
+| 3 ~ 4      | 신뢰  |
+| 5          | 전우  |
+
+### 초기화 및 생성
+
+- 신규 state 기본값: `npcRelations: {}`
+- NPC 첫 등장 시 `npcRelations[npcName]`이 없으면 아래로 생성:
+  ```json
+  {
+    "trust": 0,
+    "label": "중립",
+    "moments": []
+  }
+  ```
+- 기존 state에 `npcRelations`가 없으면 trust 시스템 전체를 비활성하고 기존 블록 흐름을 유지합니다.
+
+### trust 변동 적용 절차
+
+1. 선택지의 `trust:` 태그 파싱 (`trust: NPC +N` / `trust: NPC -N`)
+2. 대상 NPC 관계가 없으면 생성
+3. `trust = clamp(-5, +5)`로 갱신
+4. label 재계산
+5. `moments`에 `{ day, block, scene, event, delta }` 추가
+6. `moments` FIFO 규칙 적용 (최근 5개 유지)
+7. NPC 반응 직후 `📊` 시스템 피드백 출력
+
+### 즉각 피드백 표시 형식
+
+- 라벨 전환 발생: `📊 {NPC}: {이전라벨} → {새라벨} ▲|▼`
+- 라벨 동일: `📊 {NPC}: {현재라벨} ▲|▼`
+- delta가 0이거나 trust 태그가 없으면 출력하지 않습니다.
+
+### moments FIFO(5개) 규칙
+
+- `moments.length > 5`가 되면 가장 오래된 항목(인덱스 0)을 제거합니다.
+- 새 moment는 배열 끝에 추가합니다.
+
+### 재등장 첫 대사 톤 규칙
+
+- `실망`: 차갑고 도전적, 증명 요구
+- `경계`: 조심스럽고 거리감 있는 질문
+- `중립`: 블록 원문 톤 유지
+- `동료`: 실무적 격려 + 구체적 힌트
+- `신뢰`: 먼저 맥락을 연결해주고 협력 제안
+- `전우`: 깊은 신뢰 기반 진솔한 톤 + 히든 인사이트 허용
+
+## 14. Choice Callback
+
+현재 블록 주제와 관련된 이전 CHOICE를 NPC 대사 안에서 자연스럽게 환기합니다.
+
+### 콜백 규칙
+
+- 블록당 최대 1회
+- 현재 SCENE 주제와 의미적으로 관련된 choice만 선택
+- 선택지 원문을 메타적으로 인용하지 않고 NPC 말투로 재서술
+- 관련 choice가 없으면 콜백 없이 진행
+
+### 금지 표현
+
+- `"Day N에서 X를 골랐지?"` 같은 메타 인용
+- 선택지 텍스트를 따옴표로 그대로 재사용
+
+### trust 기반 NPC 간 전달 메시지
+
+현재 NPC가 이전 NPC를 언급할 때는 이전 NPC trust 라벨을 반영합니다.
+
+| 이전 NPC trust | 전달 메시지 톤                       |
+| -------------- | ------------------------------------ |
+| `>= 3`         | "{npc}가 네 이야기를 좋게 전해줬어." |
+| `1 ~ 2`        | "{npc}가 네 이야기를 전해줬어."      |
+| `0`            | "{npc}한테서 들었어."                |
+| `<= -1`        | "{npc}가 좀 걱정하더라."             |
+
+## 15. Crisis Branching
+
+위기점 블록은 frontmatter와 BRANCH 뼈대를 기반으로 동적으로 분기합니다.
+
+### frontmatter 파싱 규칙
+
+- `crisis_point: <number>`가 있으면 위기점 블록으로 처리
+- `branch_by: [archetype, decision]`를 읽어 분기 키를 결정
+- `npc: dynamic`이면 state 기반으로 메인 NPC를 런타임 결정
+- `crisis_point`가 없으면 기존 Section 6 규칙을 그대로 적용
+
+### archetype × decision 분기 매트릭스
+
+| decision | archetype 조건  | 메인 NPC | 주제                          |
+| -------- | --------------- | -------- | ----------------------------- |
+| Go       | executor        | 한이     | "만들었는데 쓰는 사람이 없다" |
+| Go       | validator/null- | 두리     | "분석은 됐는데 코드가 없다"   |
+| Pivot    | any             | 소리     | "새 방향의 증거"              |
+| No-Go    | any             | 달이     | "다음 파도"                   |
+
+`null-`은 `archetype == null`이면서 `tendency < 0`을 뜻합니다.
+`archetype == null`이고 `tendency >= 0`이면 executor 분기를 기본값으로 사용합니다.
+
+### trust 기반 협력/도전 모드
+
+- 등장 NPC trust `>= 2`: 협력 모드 (구체적 도움, 체크리스트, 연결 제안)
+- 등장 NPC trust `<= 1`: 도전 모드 (검증 요구, 자율 미션 중심)
+
+### BRANCH 뼈대 선택 규칙
+
+- 위기점 블록의 `## BRANCH` 섹션에 명시된 조건부 뼈대 중 1개를 선택
+- 뼈대 선택 후 대사 톤/개입 강도는 trust 규칙으로 조정
+
+### NPC 취약성 모멘트 트리거
+
+아래 조건에서만 취약성 모멘트를 허용합니다.
+
+- 위기점 ②(예: Day 21 전후) AND 방문자 `< 10` 같은 무관심 시그널
+- 해당 NPC 카드에 취약성 조건이 정의되어 있음
+- 트리거 시 자기 실패 경험 1개를 짧게 공유하고, 관계 보너스 `trust +2`를 1회 적용 가능
+
+조건 미충족 시 취약성 모멘트는 사용하지 않습니다.
+
+### 위기점 ② 데이터 반영 규칙 (`get_landing_analytics`)
+
+`crisis_point: 2` 블록에서는 MCP `get_landing_analytics` 결과를 NPC 반응에 반영합니다.
+
+1. `visitors`, `conversionRate`(%)를 우선 사용
+2. 아래 시그널 테이블로 반응 모드 결정
+
+| 조건                                     | 반응 모드     | NPC 지시                                      |
+| ---------------------------------------- | ------------- | --------------------------------------------- |
+| `visitors > 50` AND `conversionRate > 5` | 성장 시그널   | 긍정 데이터 인용 + 성장 가속 미션 제시        |
+| `visitors < 10`                          | 무관심 시그널 | 취약성 모멘트 조건 점검 + 원인 분석 미션 제시 |
+| 그 외                                    | 중간 시그널   | 과잉 낙관/비관 금지, 다음 검증 실험 1개 제시  |
+
+데이터가 없거나 호출 불가면 "측정 데이터가 충분하지 않다"는 맥락으로 중간 시그널 규칙을 사용합니다.
+
+## 16. Archetype Derivation
+
+플레이어 성향은 `state.json.tendency`와 `archetype`으로 계산합니다.
+
+### tendency 변동 규칙
+
+- `tendency: executor +N` → `+N` 적용
+- `tendency: validator +N` → `-N` 적용
+- 결과는 `-5 ~ +5`로 클램핑
+
+### archetype 결정 임계값
+
+- `tendency >= +3` → `archetype = "executor"`
+- `tendency <= -3` → `archetype = "validator"`
+- `|tendency| < 3` → `archetype = null` (균형형)
+
+### Phase별 스냅샷 기록
+
+- 각 Phase 종료 시 `archetypeHistory`에 `{ phase, tendency, archetype }`를 append
+- Foundation(Week 1) 완료 시점(Day 7 완료)에는 Phase 1 스냅샷을 반드시 기록
+- 이후 Phase도 동일 규칙으로 누적 기록
+
+### 위기점에서 null archetype 처리
+
+- 위기점에서 `archetype == null`이면 `tendency` 부호를 기준으로 분기
+- `tendency >= 0`이면 executor 기본 분기
+- `tendency < 0`이면 validator 기본 분기

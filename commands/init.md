@@ -76,7 +76,11 @@
        "authenticated": false,
        "level": 1,
        "title": "견습생",
-       "xp": 0
+       "xp": 0,
+       "npcRelations": {},
+       "tendency": 0,
+       "archetype": null,
+       "archetypeHistory": []
      }
      ```
 

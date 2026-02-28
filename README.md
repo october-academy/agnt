@@ -80,13 +80,13 @@ $agnt-continue
 
 ## Command Map
 
-| 목적 | Claude | Codex (권장) |
-| --- | --- | --- |
-| 이어하기 | `/agnt:continue` | `$agnt-continue` |
-| 초기화 | `/agnt:init` | `$agnt-init` |
-| 오늘 퀘스트 | `/agnt:today` | `$agnt-today` |
-| 제출 | `/agnt:submit` | `$agnt-submit` |
-| 상태 | `/agnt:status` | `$agnt-status` |
+| 목적        | Claude           | Codex (권장)     |
+| ----------- | ---------------- | ---------------- |
+| 이어하기    | `/agnt:continue` | `$agnt-continue` |
+| 초기화      | `/agnt:init`     | `$agnt-init`     |
+| 오늘 퀘스트 | `/agnt:today`    | `$agnt-today`    |
+| 제출        | `/agnt:submit`   | `$agnt-submit`   |
+| 상태        | `/agnt:status`   | `$agnt-status`   |
 
 Codex 호환 입력: `$agnt continue`, `$agnt today` 등.
 

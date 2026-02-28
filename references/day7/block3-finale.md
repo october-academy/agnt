@@ -49,7 +49,7 @@ v0에서 v3까지 어떻게 왔는지가 핵심이야."
       state.json 또는 MCP
       저장
 - [ ] 수요 검증 결과 — 피드백
-  + 분석
+  - 분석
 - [ ] Go/No-Go 결정 —
       버전별 개선 증거 + 다음 액션
 - [ ] SPEC 버전 이력 — state.json `specVersions`에 v0~v3 기록 (인증 시 서버 동기화)

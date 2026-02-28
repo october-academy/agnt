@@ -169,6 +169,11 @@ AskUserQuestion:
    - `solution`: 해결 방법
      (landing.html의 솔루션 섹션
      또는 인터뷰 요약에서 추출)
+   - `formSchema`: landing.html의
+     `<form>` 필드에서 추출한 JSON 배열 문자열
+     (필수 전달)
+     예시:
+     `[{"name":"email","type":"email","label":"이메일","required":true},{"name":"stage","type":"select","label":"지금 단계","required":false}]`
 3. 미인증이면 인증 완료를
    먼저 안내하고 같은 slug로 재시도
    (로컬 배포 우회 금지)
@@ -422,4 +427,3 @@ PAGE 3을 다시 출력합니다.
 
 "정말 그런지,
 직접 확인해봐."
-

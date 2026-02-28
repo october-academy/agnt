@@ -13,6 +13,19 @@
 | 6   | 상인의 길드   | 가치에 가격을 매깁니다. 비즈니스 모델을 설계합니다.        |
 | 7   | 회고의 호수   | 맑은 호수에 비친 지난 7일을 돌아봅니다.                    |
 
+## 30일 NPC 등장 스케줄
+
+| NPC  | 메인 Day | 재등장 Day 목록    |
+| ---- | -------- | ------------------ |
+| 두리 | 0        | 7, 10, 14, 21, 29  |
+| 소리 | 1        | 3, 8, 12, 21, 27   |
+| 바리 | 2        | 5, 9, 15, 21, 28   |
+| 석이 | 3        | 10, 13, 18, 24     |
+| 나래 | 4        | 11, 16, 22, 26     |
+| 한이 | 5        | 10, 17, 21, 25, 30 |
+| 은이 | 6        | 12, 19, 23, 28     |
+| 달이 | 7        | 14, 21, 27, 30     |
+
 ## ASCII 배너
 
 ```
@@ -25,35 +38,35 @@
 
 ## 레벨/칭호 시스템
 
-| 레벨  | XP   | 칭호               | 해금                  |
-| ----- | ---- | ------------------ | --------------------- |
-| Lv.1  | 0    | 견습생             | 기본 도구             |
-| Lv.2  | 100  | 모험가             | -                     |
+| 레벨  | XP   | 칭호               | 해금                                                   |
+| ----- | ---- | ------------------ | ------------------------------------------------------ |
+| Lv.1  | 0    | 견습생             | 기본 도구                                              |
+| Lv.2  | 100  | 모험가             | -                                                      |
 | Lv.3  | 200  | 탐험가             | deploy_landing, get_landing_analytics, create_utm_link |
-| Lv.4  | 350  | 빌더               | -                     |
-| Lv.5  | 500  | 검증자             | -                     |
-| Lv.6  | 700  | 설계자             | -                     |
-| Lv.7  | 900  | 분석가             | -                     |
-| Lv.8  | 1100 | 전략가             | -                     |
-| Lv.9  | 1300 | 결정자             | -                     |
-| Lv.10 | 1500 | Agentic Programmer | -                     |
+| Lv.4  | 350  | 빌더               | -                                                      |
+| Lv.5  | 500  | 검증자             | -                                                      |
+| Lv.6  | 700  | 설계자             | -                                                      |
+| Lv.7  | 900  | 분석가             | -                                                      |
+| Lv.8  | 1100 | 전략가             | -                                                      |
+| Lv.9  | 1300 | 결정자             | -                                                      |
+| Lv.10 | 1500 | Agentic Programmer | -                                                      |
 
 ## 스킬 해금
 
-| 스킬                  | 해금 레벨      |
-| --------------------- | -------------- |
-| save_profile          | Lv.1           |
-| connect_discord       | Lv.1           |
-| verify_discord        | Lv.1           |
-| save_interview        | Lv.1           |
-| submit_practice       | Lv.1           |
-| get_leaderboard       | Lv.1           |
-| get_learning_context  | Lv.1           |
-| save_spec_iteration   | Lv.1           |
-| get_spec_iterations   | Lv.1           |
-| deploy_landing        | Lv.3 (200 XP)  |
-| get_landing_analytics | Lv.3 (200 XP)  |
-| create_utm_link       | Lv.3 (200 XP)  |
+| 스킬                  | 해금 레벨     |
+| --------------------- | ------------- |
+| save_profile          | Lv.1          |
+| connect_discord       | Lv.1          |
+| verify_discord        | Lv.1          |
+| save_interview        | Lv.1          |
+| submit_practice       | Lv.1          |
+| get_leaderboard       | Lv.1          |
+| get_learning_context  | Lv.1          |
+| save_spec_iteration   | Lv.1          |
+| get_spec_iterations   | Lv.1          |
+| deploy_landing        | Lv.3 (200 XP) |
+| get_landing_analytics | Lv.3 (200 XP) |
+| create_utm_link       | Lv.3 (200 XP) |
 
 ## 퀘스트 타입
 

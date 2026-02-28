@@ -143,3 +143,4 @@ Codex 등 다른 에이전트에서는 아래로 호환 처리합니다.
 - 블록/퀘스트 판정은 각 Day의 `index.json` 우선
 - MCP 연결 실패 시 fail-closed (완료 제출/동기화 금지)
 - Day 1 `block3-deploy`는 `deploy_landing` MCP 경로를 우선 사용
+- Day 1 `block3-deploy`의 `deploy_landing` 호출에는 `formSchema`(landing.html form 필드 기반 JSON 배열 문자열)를 반드시 포함

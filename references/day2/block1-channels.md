@@ -149,6 +149,7 @@ UTM 단축 링크를 자동 생성한다.
 
 각 채널(최대 3개)에 대해
 MCP `create_utm_link` 호출:
+
 - `targetUrl`: 배포된 랜딩 URL (state에서 추출)
 - `channel`: 채널명 (예: twitter, kakaotalk, threads)
 - `utmSource`: 채널명

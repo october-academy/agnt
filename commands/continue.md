@@ -131,6 +131,10 @@ npx skills add october-academy/agnt --agent codex --skill agnt
   "level": 1,
   "title": "견습생",
   "xp": 0,
+  "npcRelations": {},
+  "tendency": 0,
+  "archetype": null,
+  "archetypeHistory": [],
   "lastNpc": null,
   "lastAction": null,
   "lastLocation": null
@@ -191,6 +195,8 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 5. 공유 레퍼런스 Read (**한번에 병렬로**):
    - `{REFS_DIR}/shared/narrative-engine.md`
    - `{REFS_DIR}/shared/npcs.md`
+   - currentDay == 0 이고 currentBlock == 1이면
+     `{REFS_DIR}/shared/profile-constants.json`도 추가 Read
    - REFS_PRO_DIR != null이면 `{REFS_PRO_DIR}/shared/npcs-extended.md`도 추가 Read (additive — 기존 NPC에 합산)
 
 6. 현재 블록 레퍼런스 Read:
@@ -213,16 +219,18 @@ npx skills add october-academy/agnt --agent codex --skill agnt
      - 실패 시: state.json의 `character` 데이터만으로 대화 진행 (graceful degradation). NPC가 이전 기록을 자연스럽게 건너뜀
 
 9-1. **SPEC 버전 동기화** (currentDay >= 1, Day 1-7 범위):
-   - MCP `get_spec_iterations` 호출로 서버 버전 이력 조회
-   - 성공 시: state.json `specVersions`와 서버 데이터 비교
-     - **불일치**: 서버 데이터를 우선하여 state.json `specVersions` 갱신
-     - **로컬에만 있는 버전**: `save_spec_iteration` 반복 호출로 서버에 일괄 동기화
-   - 실패 시: state.json `specVersions`를 그대로 사용 (graceful degradation)
+
+- MCP `get_spec_iterations` 호출로 서버 버전 이력 조회
+- 성공 시: state.json `specVersions`와 서버 데이터 비교
+  - **불일치**: 서버 데이터를 우선하여 state.json `specVersions` 갱신
+  - **로컬에만 있는 버전**: `save_spec_iteration` 반복 호출로 서버에 일괄 동기화
+- 실패 시: state.json `specVersions`를 그대로 사용 (graceful degradation)
 
 10. **narrative-engine.md의 규칙에 따라** 블록을 진행:
-   - YAML frontmatter에서 `stop_mode`, `quests`, `transition` 등 메타데이터를 추출
-   - `{{variable}}` 패턴을 state.json 데이터로 보간 (narrative-engine.md 참조)
-   - `stop_mode`에 따라 Phase 진행 (Full / Conversation / Checkpoint)
+
+- YAML frontmatter에서 `stop_mode`, `quests`, `transition` 등 메타데이터를 추출
+- `{{variable}}` 패턴을 state.json 데이터로 보간 (narrative-engine.md 참조)
+- `stop_mode`에 따라 Phase 진행 (Full / Conversation / Checkpoint)
 
 11. 블록 완료 시 narrative-engine.md의 갱신 규칙에 따라 state.json 갱신:
 
@@ -243,6 +251,7 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 - 인터뷰 블록은 `{REFS_DIR}/shared/interview-guide.md`도 Read
 - `{{variable}}` 보간은 narrative-engine.md 규칙을 따름
 - Day 1 `block3-deploy`는 **MCP `deploy_landing`만** 사용
+- Day 1 `block3-deploy`에서 `deploy_landing` 호출 시 `formSchema`를 반드시 포함 (landing.html form 필드 기반 JSON 배열 문자열)
 - Day 1 `block3-deploy`에서 로컬 배포 쉘 명령(`wrangler`, `vercel`, `cloudflare pages`) 실행/제안 **금지**
 - 한국어 진행. 기술 용어는 원문 유지
 - `lastNpc`, `lastAction`, `lastLocation`은 MCP 동기화 대상 아님 (로컬 전용). 기존 state에 필드 없으면 null로 처리

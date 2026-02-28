@@ -49,6 +49,7 @@ v0를 덮어쓰지 마.
 새 버전으로 추가해."
 
 **규칙**:
+
 - `SPEC.md`에 기존 v0 내용을 유지하고 v1 섹션을 추가한다
 - v1에는 Day 2 피드백 기반 변경점을 명시한다
 - state.json `specVersions`의 v0는 수정하지 않고 v1을 append한다
@@ -99,12 +100,14 @@ state.json `feedback` 데이터가 있으면
 ## Version Log
 
 ### v0 (Day 1)
+
 - **Hypothesis**: {v0 가설 — state.specVersions에서 참조}
 - **Change Set**: 초기 설정
 - **Metric Gate**: {v0 관찰 지표}
 - **Decision**: {v0 판단 결과 또는 대기}
 
 ### v1 (Day 3)
+
 - **Hypothesis**: {Day 2 피드백 기반 수정 가설}
 - **Change Set**: {v0 대비 구체적 변경점}
 - **Metric Gate**: {v1에서 관찰할 지표}
@@ -168,6 +171,7 @@ state.json `specVersions`에 v1을 추가한다:
 ```
 
 인증 상태면 MCP `save_spec_iteration` 호출:
+
 - `version`: "v1"
 - `dayNumber`: 3
 - `hypothesis`: Day 2 피드백 기반 수정 가설
@@ -206,4 +210,3 @@ v0이랑 뭐가 달라졌는지
 1. 정찰의 언덕으로 가
 2. 나래를 찾아 — 척후야
 3. SPEC.md를 가져가."
-

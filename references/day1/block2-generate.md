@@ -326,6 +326,7 @@ state.json `specVersions`에 v0를 기록한다:
 ```
 
 인증 상태면 MCP `save_spec_iteration` 호출:
+
 - `version`: "v0"
 - `dayNumber`: 1
 - `hypothesis`: 인터뷰 기반 핵심 문제 + 초기 CTA 가설 (state.interview 데이터에서 추출)

@@ -37,6 +37,7 @@ references/            # 학습 콘텐츠 (커맨드가 Read해서 사용)
       ├── npcs.md                   # NPC 캐릭터 카드 (말투, 성격, 금지사항)
       ├── world-data.md             # Day별 장소, 레벨/칭호, 스킬 해금
       ├── interview-guide.md        # 인터뷰 블록 원칙 (Mom Test, Follow the Thread)
+      ├── profile-constants.json    # Day 0 가입 상수 (DB/Web/MCP와 동기화된 값셋)
       ├── landing-design-guide.md   # 랜딩페이지 생성 디자인 가이드
       ├── threads-writing-guide.md  # 스레드 작성 가이드
       └── promotion-channels-guide.md  # 홍보 채널 가이드
@@ -70,15 +71,15 @@ README.md              # 설치/사용법 (Claude Plugin, Codex, Agent Skills 3�
 ---
 stop_mode: full | conversation | checkpoint
 title: "블록 제목"
-npc: 두리        # npcs.md에서 해당 카드 참조
-quests:          # 선택
+npc: 두리 # npcs.md에서 해당 카드 참조
+quests: # 선택
   - id: d0-goal
-    type: main   # main | side | hidden
+    type: main # main | side | hidden
     title: "목표 선언문 작성"
     xp: 50
-transition: "다음 블록 안내 메시지"   # 선택
-on_complete: save_character            # 선택
-requires_auth: true                    # 선택
+transition: "다음 블록 안내 메시지" # 선택
+on_complete: save_character # 선택
+requires_auth: true # 선택
 ---
 ```
 

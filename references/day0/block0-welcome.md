@@ -68,16 +68,22 @@ AskUserQuestion:
    → 반응: 두리가 고개를
    끄덕인다. "좋아. 그 마음이면
    충분해. 말보다 행동이지."
+   → trust: 두리 +1
+   → tendency: executor +1
 2. "사이드 프로젝트를 완성하고
    싶어요."
    → 반응: 두리가 짧게 웃는다.
    "완성. 좋은 단어야. 여기선
    완성까지 가는 길을 같이
    걸어."
+   → trust: 두리 +2
+   → tendency: executor +1
 3. "솔직히 잘 모르겠어요."
    → 반응: 두리가 어깨를
    두드린다. "괜찮아. 해보면
    알게 돼. 말보다 행동이지."
+   → trust: 두리 +0
+   → tendency: validator +1
 
 → 모두 다음 SCENE으로 진행
 
@@ -107,10 +113,14 @@ AskUserQuestion:
    → 반응: 두리가 고개를
    끄덕인다. "좋아.
    막히면 그것만 기억해."
+   → trust: 두리 +1
+   → tendency: executor +1
 2. "잘 모르겠어요."
    → 반응: 두리가 작업대를 두드린다.
    "`/agnt:continue`.
    이것만 기억해."
+   → trust: 두리 +0
+   → tendency: validator +1
 
 → 모두 다음 SCENE으로 진행
 
@@ -143,14 +153,20 @@ AskUserQuestion:
    → 반응: 두리가 고개를
    끄덕인다. "그래. 집중하면
    돼. 말보다 행동이지."
+   → trust: 두리 +1
+   → tendency: executor +1
 2. "좀 빡빡해 보여요."
    → 반응: 두리가 단호하게
    말한다. "빡빡한 게 맞아.
    하루씩 해보면 알게 돼."
+   → trust: 두리 +0
+   → tendency: validator +1
 3. "잘 모르겠어요."
    → 반응: 두리가 게시판을
    가리킨다. "일단 시작해.
    해보면 감이 와."
+   → trust: 두리 +0
+   → tendency: validator +1
 
 → 모두 다음 TASK로 진행
 

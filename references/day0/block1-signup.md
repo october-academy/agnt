@@ -52,127 +52,115 @@ MCP `agentic30` 서버 연결을 확인합니다.
 4. 인증 완료 → 다음 단계로 진행
 5. 인증 실패 → 두리: "뭔가 막힌 것 같아. 다시 해봐." 안내 후 재시도
 
-### 2단계: 프로필 수집 (AskUserQuestion 4단계)
+### 2단계: 프로필 수집 (기본 4단계 + 빠른 경로)
 
 **사전 준비**: MCP `get_user_info` 호출하여
 사용자 정보를 가져옵니다.
-응답의 `googleName` 필드가 Google 계정
-실명입니다.
-⚠️ 이름을 **절대 추측하거나 생성하지
+
+값셋 상수는 Supabase `profiles` CHECK 제약과
+`@agentic30/shared/profile-constants`를
+SSoT로 사용합니다.
+추가로 `profile-constants.json`을 Read해서
+질문 선택지를 동적으로 구성합니다.
+(`{REFS_DIR}/shared/profile-constants.json`
+우선, 경로 변수 미지원 환경은
+`references/shared/profile-constants.json`)
+
+- 이름 후보:
+  - `name` (기존 프로필명)
+  - `googleName` (Google 계정 실명)
+- 온보딩 데이터:
+  - `onboarding.background`
+  - `onboarding.sideproject_experience`
+  - `onboarding.referral_source`
+  - `onboarding.enrolled_at`
+  - `hasOnboardingProfile`
+- 상수 데이터 (`profile-constants.json`):
+  - `backgroundHierarchy`
+  - `backgroundValues`
+  - `sideprojectExperienceOptions`
+  - `sideprojectExperienceValues`
+  - `referralSourceOptions`
+  - `referralSourceValues`
+
+⚠️ 이름/기존 값은 **절대 추측하거나 생성하지
 마세요**. 반드시 `get_user_info` 응답값만
 사용합니다.
+
+**빠른 경로: 기존 회원가입 정보 재사용**
+
+`hasOnboardingProfile=true`면
+AskUserQuestion:
+질문: "웹에서 입력한 가입 정보를 그대로
+사용할까?"
+
+1. "기존 정보 그대로 사용"
+2. "일부 수정"
+
+- 1번 선택:
+  - Q1~Q4를 생략하고 바로 PREVIEW로 이동
+  - 값은 아래처럼 채웁니다:
+    - `name`: `name` 우선, 없으면 `googleName`
+    - `background`: `onboarding.background`
+    - `sideproject_experience`: `onboarding.sideproject_experience`
+    - `referral_source`: `onboarding.referral_source`
+- 2번 선택:
+  - 아래 Q1~Q4 일반 흐름 진행
+  - 기존 값이 있으면 기본값으로 제시
 
 **Q1. 이름 확인**
 AskUserQuestion:
 
 - "등록할 이름을 확인해주세요."
-- `googleName`이 있을 때:
+- `name`이 있을 때:
+  1. "{name}으로 등록"
+- `name`이 없고 `googleName`이 있을 때:
   1. "{googleName}으로 등록"
      (시스템이 "Other" 선택지를
      자동 추가하므로 별도 "다른 이름"
      선택지 불필요)
 
-**Q2. 배경 — 1차 대분류**
+**Q2. 배경 (상수 파일 기반 동적 질문)**
 AskUserQuestion:
 질문: "현재 어떤 일을 하고 계세요?"
 
-1. "개발" → Q2-dev-sub로
-2. "디자인" → Q2-design로
-3. "기획/PM" → Q2-pm로
-4. "마케팅/그로스" → Q2-marketing로
-5. "비즈니스" → Q2-biz로
-6. "기타" → Q2-etc로
+옵션은 `backgroundHierarchy[*].label`을
+그대로 사용합니다.
 
-**Q2-dev-sub. 개발 — 2차 중분류**
-질문: "어떤 분야의 개발을 하세요?"
+선택된 category에 따라:
 
-1. "웹/앱 개발" → Q2-dev-web으로
-2. "데이터/AI" → Q2-dev-data로
-3. "인프라/보안" → Q2-dev-infra로
-4. "기타 개발" → Q2-dev-etc로
-
-**Q2-dev-web. 웹/앱 개발 — 3차 세분류**
-질문: "구체적으로 어떤 역할이세요?"
-
-1. "프론트엔드" → background=`frontend`
-2. "백엔드" → background=`backend`
-3. "풀스택" → background=`fullstack`
-4. "모바일 (iOS/Android)" → background=`mobile`
-
-**Q2-dev-data. 데이터/AI — 3차 세분류**
-질문: "구체적으로 어떤 역할이세요?"
-
-1. "데이터 엔지니어" → background=`data-engineer`
-2. "ML/AI 엔지니어" → background=`ml-engineer`
-3. "데이터 분석가" → background=`data-analyst`
-
-**Q2-dev-infra. 인프라/보안 — 3차 세분류**
-질문: "구체적으로 어떤 역할이세요?"
-
-1. "DevOps/인프라" → background=`devops`
-2. "보안" → background=`security`
-
-**Q2-dev-etc. 기타 개발 — 3차 세분류**
-질문: "구체적으로 어떤 역할이세요?"
-
-1. "QA/테스트" → background=`qa`
-2. "게임" → background=`game`
-
-**Q2-design. 디자인 — 2차 세부**
-질문: "어떤 디자인을 하세요?"
-
-1. "UI/UX 디자이너" → background=`ui-ux`
-2. "프로덕트 디자이너" → background=`product-designer`
-3. "그래픽/브랜드 디자이너" → background=`graphic`
-
-**Q2-pm. 기획/PM — 2차 세부**
-질문: "어떤 역할이세요?"
-
-1. "프로덕트 매니저" → background=`pm`
-2. "서비스 기획자" → background=`planner`
-3. "프로젝트 매니저" → background=`project-manager`
-
-**Q2-marketing. 마케팅/그로스 — 2차 세부**
-질문: "어떤 역할이세요?"
-
-1. "마케터" → background=`marketer`
-2. "그로스 해커" → background=`growth`
-3. "콘텐츠 크리에이터" → background=`content-creator`
-
-**Q2-biz. 비즈니스 — 2차 세부**
-질문: "어떤 역할이세요?"
-
-1. "창업자/대표" → background=`founder`
-2. "사업개발/BD" → background=`biz-dev`
-3. "영업/세일즈" → background=`sales`
-
-**Q2-etc. 기타 — 2차 세부**
-질문: "어떤 역할이세요?"
-
-1. "학생" → background=`student`
-2. "기타" → background=`other`
+- `subcategories`가 있으면:
+  - 질문: "어떤 분야를 하고 계세요?"
+  - 옵션: `subcategories[*].label`
+  - 다시 질문: "구체적으로 어떤 역할이세요?"
+  - 옵션: 선택한 subcategory의
+    `options[*].label`
+  - 최종 선택된 option의 `value`를
+    `background`로 저장
+- `options`만 있으면:
+  - 질문: "구체적으로 어떤 역할이세요?"
+  - 옵션: 선택한 category의
+    `options[*].label`
+  - 최종 선택된 option의 `value`를
+    `background`로 저장
 
 **Q3. 사이드 프로젝트 경험**
 AskUserQuestion:
 질문: "사이드 프로젝트 경험이 어떻게
 되세요?"
 
-1. "처음 도전"
-2. "시도했지만 완성 못함"
-3. "완성은 했지만 유저 없음"
-4. "유저는 있지만 매출 없음"
+옵션은 `sideprojectExperienceOptions`에서
+`label`을 사용하고, 선택 결과는 해당
+`value`를 `sideproject_experience`로 저장합니다.
 
 **Q4. 유입 경로**
 AskUserQuestion:
 질문: "Agentic30을 어떻게 알게
 되셨나요?"
 
-1. "지인 추천"
-2. "SNS
-   (Threads/LinkedIn)"
-3. "콘텐츠
-   (YouTube/블로그)"
-4. "검색"
+옵션은 `referralSourceOptions`에서
+`label`을 사용하고, 선택 결과는 해당
+`value`를 `referral_source`로 저장합니다.
 
 Q4에서 "지인 추천" 선택 시 추가
 질문:
@@ -180,6 +168,18 @@ Q4에서 "지인 추천" 선택 시 추가
 - "추천해주신 분의 이메일을
   알려주시면 감사 포인트를
   드립니다. (선택사항)"
+  - 조건: `referral_source === "friend"`
+
+**값 검증 (필수)**
+
+PREVIEW 전에 아래를 검증합니다.
+
+- `background ∈ backgroundValues`
+- `sideproject_experience ∈ sideprojectExperienceValues`
+- `referral_source ∈ referralSourceValues`
+
+하나라도 불일치하면 해당 항목 질문으로
+되돌아가 다시 선택받습니다.
 
 ## PREVIEW
 
@@ -231,6 +231,10 @@ ON_CONFIRM을 수행합니다.
      referral_source,
      referrer_email(선택)
      전달
+   - 빠른 경로(기존 정보 그대로 사용)에서도
+     동일하게 호출합니다.
+     (`already_enrolled=true` 응답으로
+     syncState를 받아 로컬 상태를 동기화)
    - 성공 시: 두리: "등록
      완료. 이제 모험가야."
    - 실패 시: 에러 메시지 표시

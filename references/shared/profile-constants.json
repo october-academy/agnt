@@ -1,0 +1,159 @@
+{
+  "source": "@agentic30/shared/profile-constants.ts",
+  "backgroundValues": [
+    "frontend",
+    "backend",
+    "fullstack",
+    "mobile",
+    "data-engineer",
+    "ml-engineer",
+    "data-analyst",
+    "devops",
+    "security",
+    "qa",
+    "game",
+    "ui-ux",
+    "product-designer",
+    "graphic",
+    "pm",
+    "planner",
+    "project-manager",
+    "marketer",
+    "growth",
+    "content-creator",
+    "founder",
+    "biz-dev",
+    "sales",
+    "student",
+    "other"
+  ],
+  "backgroundHierarchy": [
+    {
+      "value": "dev",
+      "label": "개발",
+      "subcategories": [
+        {
+          "value": "web-app",
+          "label": "웹/앱 개발",
+          "options": [
+            { "value": "frontend", "label": "프론트엔드" },
+            { "value": "backend", "label": "백엔드" },
+            { "value": "fullstack", "label": "풀스택" },
+            { "value": "mobile", "label": "모바일 (iOS/Android)" }
+          ]
+        },
+        {
+          "value": "data-ai",
+          "label": "데이터/AI",
+          "options": [
+            { "value": "data-engineer", "label": "데이터 엔지니어" },
+            { "value": "ml-engineer", "label": "ML/AI 엔지니어" },
+            { "value": "data-analyst", "label": "데이터 분석가" }
+          ]
+        },
+        {
+          "value": "infra-security",
+          "label": "인프라/보안",
+          "options": [
+            { "value": "devops", "label": "DevOps/인프라" },
+            { "value": "security", "label": "보안" }
+          ]
+        },
+        {
+          "value": "etc-dev",
+          "label": "기타 개발",
+          "options": [
+            { "value": "qa", "label": "QA/테스트" },
+            { "value": "game", "label": "게임" }
+          ]
+        }
+      ]
+    },
+    {
+      "value": "design",
+      "label": "디자인",
+      "options": [
+        { "value": "ui-ux", "label": "UI/UX 디자이너" },
+        { "value": "product-designer", "label": "프로덕트 디자이너" },
+        { "value": "graphic", "label": "그래픽/브랜드 디자이너" }
+      ]
+    },
+    {
+      "value": "pm",
+      "label": "기획/PM",
+      "options": [
+        { "value": "pm", "label": "프로덕트 매니저" },
+        { "value": "planner", "label": "서비스 기획자" },
+        { "value": "project-manager", "label": "프로젝트 매니저" }
+      ]
+    },
+    {
+      "value": "marketing",
+      "label": "마케팅/그로스",
+      "options": [
+        { "value": "marketer", "label": "마케터" },
+        { "value": "growth", "label": "그로스 해커" },
+        { "value": "content-creator", "label": "콘텐츠 크리에이터" }
+      ]
+    },
+    {
+      "value": "business",
+      "label": "비즈니스",
+      "options": [
+        { "value": "founder", "label": "창업자/대표" },
+        { "value": "biz-dev", "label": "사업개발/BD" },
+        { "value": "sales", "label": "영업/세일즈" }
+      ]
+    },
+    {
+      "value": "etc",
+      "label": "기타",
+      "options": [
+        { "value": "student", "label": "학생" },
+        { "value": "other", "label": "기타" }
+      ]
+    }
+  ],
+  "sideprojectExperienceValues": [
+    "first-time",
+    "incomplete",
+    "no-users",
+    "no-revenue"
+  ],
+  "sideprojectExperienceOptions": [
+    { "value": "first-time", "label": "처음 도전" },
+    { "value": "incomplete", "label": "시도했지만 완성 못함" },
+    { "value": "no-users", "label": "완성은 했지만 유저 없음" },
+    { "value": "no-revenue", "label": "유저는 있지만 매출 없음" }
+  ],
+  "referralSourceValues": [
+    "friend",
+    "threads",
+    "linkedin",
+    "youtube",
+    "blog",
+    "search",
+    "other"
+  ],
+  "referralSourceOptions": [
+    { "value": "friend", "label": "지인 추천" },
+    { "value": "threads", "label": "Threads" },
+    { "value": "linkedin", "label": "LinkedIn" },
+    { "value": "youtube", "label": "YouTube" },
+    { "value": "blog", "label": "블로그/뉴스레터" },
+    { "value": "search", "label": "검색 (Google 등)" },
+    { "value": "other", "label": "기타" }
+  ],
+  "goalCategoryValues": [
+    "startup",
+    "side_income",
+    "ai_learning",
+    "employment",
+    "job_change"
+  ],
+  "cliToolValues": [
+    "claude-code",
+    "codex",
+    "both"
+  ]
+}

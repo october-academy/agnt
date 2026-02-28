@@ -57,6 +57,7 @@ transition: "Day 5 완료! 데이터로 수요를 검증했습니다. 다음은 
 `agentic30.app/blog/agentic30`"
 
 인증 상태면:
+
 1. MCP `get_spec_iterations` 호출로
    v0, v1 이력을 조회한다
 2. MCP `get_landing_analytics` 호출로
@@ -68,6 +69,7 @@ transition: "Day 5 완료! 데이터로 수요를 검증했습니다. 다음은 
    - 채널별 도달 변화
 
 **델타 판단 기준**:
+
 - **개선**: v1이 v0 대비 전환 또는
   폼 응답에서 개선 → "keep 또는 확장"
 - **악화**: v1이 v0 대비 핵심 지표
@@ -166,6 +168,7 @@ state.json `specVersions`에 v2를 추가한다:
 ```
 
 인증 상태면 MCP `save_spec_iteration` 호출:
+
 - `version`: "v2"
 - `dayNumber`: 5
 - `hypothesis`: v0↔v1 델타 분석 기반 개선 가설
@@ -203,4 +206,3 @@ Day 7에서 최종 판단할 때
 "상인의 길드에 가.
 네가 만든 게 얼마짜리인지
 물을 거야."
-
