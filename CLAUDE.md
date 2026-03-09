@@ -150,10 +150,17 @@ requires_auth: true # 선택
   "choices": [],
   "character": null,
   "interview": null,
+  "builderContext": null,
+  "branchMode": null,
+  "recommendedMode": null,
   "authenticated": false,
   "level": 1,
   "title": "견습생",
   "xp": 0,
+  "npcRelations": {},
+  "tendency": 0,
+  "archetype": null,
+  "archetypeHistory": [],
   "lastNpc": null,
   "lastAction": null,
   "lastLocation": null
@@ -161,6 +168,8 @@ requires_auth: true # 선택
 ```
 
 - 파싱 실패 시 `state.json.bak`으로 백업 후 기본값 재생성
+- `builderContext`는 MCP `syncState.builderContext`의 캐시다. 서버 값이 있으면 로컬 캐시보다 우선한다.
+- `branchMode` / `recommendedMode`는 discovery / audit / diagnosis / planning 흐름 재개용 로컬 필드다.
 - 서버 동기화: MCP `agentic30` 서버와 Block Sync Protocol (`narrative-engine.md` Section 11)
 - MCP 호출 실패 시 블록 완료 처리 금지 (로컬 데이터는 저장, 완료 마커 미기록)
 

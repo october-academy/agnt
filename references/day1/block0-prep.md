@@ -42,6 +42,27 @@ transition: "좋습니다. 이제 숲 깊숙이 들어가 AI 코파운더를 만
 "정말 그런가?
 오늘 그걸 확인해볼 거야."
 
+오늘부터는 builderContext 기준으로
+분기합니다:
+
+- `no_idea` / `idea_only` → discovery flow
+- `landing_live` → asset audit flow
+- `product_live` → bottleneck diagnosis flow
+- `revenue_live` → launch/planning flow
+
+겉모습은 Day 1이지만,
+질문과 결과물은 현재 자산 단계에
+맞춰 달라집니다.
+
+Founder Lens guidance는
+`packages/shared/src/founder-lenses.ts`
+registry를 기준으로 해석합니다.
+
+이 문서에 founder 매핑을
+하드코딩하지 말고,
+registry의 trigger와 shortCopy를
+우선합니다.
+
 ## SCENE 1: 왜 만든 것이 쓰이지 않는가
 
 소리가 숲 바닥에

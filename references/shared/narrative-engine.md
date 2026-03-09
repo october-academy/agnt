@@ -436,12 +436,18 @@ CHOICE 선택 즉시 state.json `choices`에 `{ day, block, scene, choice }` app
 
 ```json
 {
+  "builderContext": null,
+  "branchMode": null,
+  "recommendedMode": null,
   "npcRelations": {},
   "tendency": 0,
   "archetype": null,
   "archetypeHistory": []
 }
 ```
+
+- `builderContext`는 MCP `syncState.builderContext`가 있으면 서버 값을 우선합니다.
+- `branchMode`는 discovery_interview / asset_audit_interview / bottleneck_diagnosis / launch_planning_coach 중 하나로 유지합니다.
 
 ## 10. Day 인덱스 파일 활용
 

@@ -5,8 +5,8 @@
   "blocks": [
     { "file": "block0-welcome.md", "title": "견습생의 마을에 오신 것을 환영합니다" },
     { "file": "block1-signup.md", "title": "회원가입 — 모험가 등록" },
-    { "file": "block2-character.md", "title": "캐릭터 생성 — 나는 누구인가" },
-    { "file": "block3-goal.md", "title": "목표 선언 — 왜 독립인가" },
+    { "file": "block2-character.md", "title": "캐릭터 생성 — 문제를 깊게 탐색하기" },
+    { "file": "block3-goal.md", "title": "목표 선언 — 무엇을 만들지 최종 확정" },
     { "file": "block4-discord.md", "title": "Discord 합류 — 동료 모험가를 만나다" }
   ],
   "quests": [

@@ -113,3 +113,4 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 - 한국어 출력
 - 히든 퀘스트는 trigger 조건 미충족 시 `[???]`로 표시
 - MCP 연결 시 서버 동기화, 미연결 시 로컬 캐시 기반 (경고 표시)
+- state.json을 다시 쓸 때는 `builderContext`, `branchMode`, `recommendedMode`를 보존합니다.

@@ -73,14 +73,20 @@
        "choices": [],
        "character": null,
        "interview": null,
+       "builderContext": null,
+       "branchMode": null,
+       "recommendedMode": null,
        "authenticated": false,
        "level": 1,
        "title": "견습생",
        "xp": 0,
-       "npcRelations": {},
-       "tendency": 0,
-       "archetype": null,
-       "archetypeHistory": []
+        "npcRelations": {},
+        "tendency": 0,
+        "archetype": null,
+       "archetypeHistory": [],
+       "lastNpc": null,
+       "lastAction": null,
+       "lastLocation": null
      }
      ```
 
@@ -102,6 +108,7 @@
 ## 규칙
 
 - 기본값 생성/초기화 시 state 스키마를 정확히 유지합니다.
+- `builderContext`, `branchMode`, `recommendedMode` 기본값도 반드시 포함합니다.
 - 사용자 확인 없이 상태를 삭제/초기화하지 않습니다.
 - 한국어로 출력합니다.
 - 이 커맨드는 **로컬 state만** 초기화합니다. 서버 리더보드/제출 기록은 유지됩니다.

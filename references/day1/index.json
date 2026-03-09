@@ -1,10 +1,10 @@
 {
   "day": 1,
   "location": "발견의 숲",
-  "description": "문제의 실마리가 숨어 있는 깊은 숲. AI 코파운더를 만납니다.",
+  "description": "AI 코파운더가 discovery, audit, diagnosis, planning 중 맞는 경로로 안내하는 숲.",
   "blocks": [
     { "file": "block0-prep.md", "title": "IDD 방법론 — 인터뷰 주도 개발" },
-    { "file": "block1-interview.md", "title": "AI 코파운더 심층 인터뷰" },
+    { "file": "block1-interview.md", "title": "AI 코파운더 검증 인터뷰" },
     { "file": "block2-generate.md", "title": "랜딩페이지 생성 — 발견을 세상에 보여주기" },
     { "file": "block3-deploy.md", "title": "랜딩페이지 배포 — 세상에 공개하기" }
   ],

@@ -96,6 +96,16 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+4-1. `builderContext` 또는 `branchMode`가 있으면 아래 섹션을 추가합니다:
+
+```
+🧭 Builder 상태
+  모드: {branchMode|recommendedMode|discovery_interview}
+  진입 단계: {builderContext.entryMode|null}
+  자산 단계: {builderContext.assetStage|null}
+  현재 병목: {builderContext.primaryBottleneck|null}
+```
+
 5. 스킬 해금 상태:
 
 ```
@@ -183,4 +193,5 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 ## 규칙
 
 - MCP 연결 시 서버 동기화, 미연결 시 로컬 캐시 기반 (경고 표시)
+- 서버 `syncState.builderContext`가 있으면 로컬 `builderContext`를 갱신해서 표시합니다.
 - 한국어 출력

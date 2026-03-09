@@ -127,6 +127,9 @@ npx skills add october-academy/agnt --agent codex --skill agnt
   "choices": [],
   "character": null,
   "interview": null,
+  "builderContext": null,
+  "branchMode": null,
+  "recommendedMode": null,
   "authenticated": false,
   "level": 1,
   "title": "견습생",
@@ -211,12 +214,16 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 8. MCP `agentic30`의 `get_leaderboard` 호출해 새 소식 확인. 변경 시 "📬 새 소식" 표시.
 
 9. **컨텍스트 로딩** (currentDay >= 1일 때만):
-   - state.json에서 `interview`, `feedback` 데이터 확인
-   - **둘 다 존재**: state.json 데이터 그대로 사용 (MCP 호출 불필요)
+   - state.json에서 `interview`, `feedback`, `builderContext`, `branchMode` 데이터 확인
+   - `builderContext`와 `branchMode`가 모두 유효하면 로컬 branch를 우선 사용
+   - `builderContext`가 없거나 불완전하면 MCP `get_learning_context` 호출
+   - **interview/feedback + builderContext가 모두 존재**: state.json 데이터 그대로 사용 (MCP 호출 불필요)
    - **하나라도 null**: MCP `get_learning_context` 호출
-     - 성공 시: 반환된 데이터(character, interviews, landing, latestSpecVersion, latestDecision)를 NPC 대화 컨텍스트로 활용
+     - 성공 시: 반환된 데이터(character, interviews, landing, latestSpecVersion, latestDecision, builderContext, recommendedMode, interviewMode)를 NPC 대화 컨텍스트로 활용
+     - `syncState.builderContext`가 있으면 state.json의 `builderContext`를 서버 값으로 덮어쓴다
+     - `recommendedMode` 또는 `interviewMode`가 있으면 state.json `branchMode` / `recommendedMode`를 함께 갱신한다
      - latestSpecVersion/latestDecision이 존재하면 NPC가 해당 버전 컨텍스트를 다음 Day 시작 대화에서 참조
-     - 실패 시: state.json의 `character` 데이터만으로 대화 진행 (graceful degradation). NPC가 이전 기록을 자연스럽게 건너뜀
+     - 실패 시: state.json의 `character` / `builderContext` 데이터만으로 대화 진행 (graceful degradation). NPC가 이전 기록을 자연스럽게 건너뜀
 
 9-1. **SPEC 버전 동기화** (currentDay >= 1, Day 1-7 범위):
 
@@ -253,5 +260,6 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 - Day 1 `block3-deploy`는 **MCP `deploy_landing`만** 사용
 - Day 1 `block3-deploy`에서 `deploy_landing` 호출 시 `formSchema`를 반드시 포함 (landing.html form 필드 기반 JSON 배열 문자열)
 - Day 1 `block3-deploy`에서 로컬 배포 쉘 명령(`wrangler`, `vercel`, `cloudflare pages`) 실행/제안 **금지**
+- `builderContext`, `branchMode`, `recommendedMode`는 MCP 동기화/재개용 필드이므로 `/agnt:*` 어느 커맨드에서도 삭제하거나 구형 스키마로 덮어쓰지 않는다
 - 한국어 진행. 기술 용어는 원문 유지
 - `lastNpc`, `lastAction`, `lastLocation`은 MCP 동기화 대상 아님 (로컬 전용). 기존 state에 필드 없으면 null로 처리

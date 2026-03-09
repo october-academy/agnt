@@ -115,9 +115,12 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 ```
 
 8. state.json 갱신: 서버 syncState 반영.
+   - `syncState.builderContext`가 있으면 state.json `builderContext`를 서버 값으로 갱신합니다.
+   - `builderContext`, `branchMode`, `recommendedMode`는 제출 결과를 기록할 때도 유지합니다.
 
 ## 규칙
 
 - 로컬 검증 실패 시 서버 제출하지 않음
 - 이미 완료된 퀘스트는 "✅ 이미 완료" 표시
+- state.json 갱신 시 builder-aware 필드를 구형 스키마로 덮어쓰지 않음
 - 한국어 출력. 실패 가이드는 구체적으로
