@@ -84,7 +84,10 @@ npx skills add october-academy/agnt --agent codex --skill agnt
    - **url_format**: URL 형식 regex 검증
    - **content_quality**: 파일을 Read하여 내용 품질 평가 (구조, 분량, 핵심 요소)
    - **text/template**: state.json 또는 관련 파일에서 데이터 존재 확인
-   - **server_state**: MCP 검증 필요 표시
+   - **server_state**:
+     - `check=verify_discord`면 MCP `verify_discord` 호출
+     - 그 외 Week 1 proof-loop 체크(`interview_saved`, `proof_surface_live`, `proof_responses_gte` 등)는 MCP `verify_server_state` 호출
+     - `params.count`가 있으면 `count`로 전달
 
 5. 검증 결과를 표시:
 
@@ -101,6 +104,8 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 
 6. 통과한 퀘스트를 MCP `submit_practice`로 제출:
    - questId, evidence(type + data) 전달
+   - monetization proof처럼 구조화된 증거가 필요한 경우 `proofArtifacts`도 함께 전달
+     - 예: `[{ evidenceClass:"monetization", proofType:"bank_transfer_received", status:"received", summary:"...", amount:10000, currency:"KRW", reference:"bank://tx-1" }]`
    - 응답의 XP, 레벨업, 해금 스킬 표시
 
 7. 레벨업 발생 시:

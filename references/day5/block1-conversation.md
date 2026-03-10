@@ -1,92 +1,75 @@
 ---
 stop_mode: conversation
-title: "수요 검증 대화 — 고객과 직접 대화하기"
+title: "추가 customer proof 확보"
 npc: 한이
 quests:
   - id: d5-interviews
     type: main
-    title: "수요 검증 인터뷰 3건"
+    title: "추가 customer proof 3건"
     xp: 100
-transition: "대화 가이드를 완성했습니다. 실제로 3명과 대화한 후 돌아오세요."
+transition: "추가 proof를 정리했습니다. 이제 delta를 읽고 SPEC v2로 묶읍시다."
 ---
 
-# 수요 검증 대화 — 고객과 직접 대화하기
+# 추가 customer proof 확보
 
 ## ROOM
 
 거리 안쪽 작은 찻집에 들어선다.
-
-따뜻한 차 향이 나고,
-나지막한 대화 소리가 들린다.
+잔 부딪히는 소리와
+낮은 대화가 이어진다.
 
 ## NPC
 
-한이가 탁자에 앉으며 말한다.
+한이가 빈 종이를 민다.
 
 🔨 장인 한이
 
-"자,
-{{character.target|타겟 고객}}을
-직접 만나기 전에
-준비부터 하자.
+"오늘 필요한 건
+아무 대화 3건이 아니야.
 
-사는 사람이 있어?
-그걸 확인하려면
-직접 물어봐야 해."
+아까 정한 delta 기준을
+더 선명하게 만들
+추가 proof 3건이지."
 
 ## CONVERSATION
 
 ### 완성 체크리스트
 
-- [ ] 대화할 대상 3명 이상
-      특정 (이름/커뮤니티 닉네임)
-- [ ] 대화 접근법 (DM?
-      커뮤니티 글? 대면?)
-- [ ] 대화 스크립트 (Mom
-      Test 기반 질문 5개)
-- [ ] 성공 기준 (어떤 반응이면
-      Go, 어떤 반응이면 Pivot)
+- [ ] 추가 customer proof 3건
+- [ ] 각 proof가 어떤 delta를 보강하는지
+- [ ] v2에 넣을 strongest proof 1개
 
-### 대화 시작
+### 질문 기준
 
-한이가 차를 한 모금 마시며 말한다:
+- 같은 문제를 반복적으로 말하는가
+- 이전보다 objection이 선명해졌는가
+- CTA 이후 행동이 있었는가
+- Day 6 ask로 이어질 근거가 보이는가
 
-"Day 2에서 채널에 랜딩페이지를
-공유했잖아.
-거기서 반응이 있었던 사람이나,
-{{character.target|타겟}}과
-직접 대화할 수 있는 채널이 있어?"
+### 기록 형식
 
-### 대화 규칙
+```text
+proof 1:
+- 누구:
+- 어떤 장면:
+- 이전과 비교해 달라진 점:
 
-- 학습자가 실제로 접근할 수 있는
-  현실적 경로를 찾기
-- Mom Test 기반 질문
-  스크립트를 함께 작성
-- 거절 시나리오도 미리 준비
-- 한이 말투: "그래서 되나?
-  5명에게 물어봐서 3명이 같은
-  문제를 언급하면 신호야."
+proof 2:
+...
+```
 
 ## SUMMARY
 
-한이가 정리한다.
-
-대화 가이드를 보여줍니다.
-
-한이: "이거면 돼?"
+한이:
+"좋아.
+이제 단순 인터뷰 메모가 아니라
+v2 판단 재료가 됐네."
 
 ## STOP
 
-한이가 자리에서 일어나며 말한다.
-
-"가이드는 됐어.
-이제 진짜로 나가서
-대화해."
-
 AskUserQuestion:
-질문: 한이가 묻는다. "대화 실행
-계획이 준비됐어?"
+질문: 한이가 묻는다. "추가 customer proof가
+정리됐어?"
 
 1. "확인"
 2. "수정 요청"
@@ -98,23 +81,15 @@ AskUserQuestion:
 AskUserQuestion에서
 "확인"을 선택했을 때만
 ON_COMPLETE를 수행합니다.
-"수정 요청"이면
-CONVERSATION으로 돌아가
-보완 후 SUMMARY → STOP을
-반복합니다.
 
-대화 가이드를 정리하고
-state.json에 저장합니다.
-
-인증 상태면 MCP `save_interview`를 호출합니다:
-
-- `save_interview({ topic: "demand_validation", day: 5, turns: 대화 턴 수, summary: 대화 가이드 요약 })`
-
-한이: "이 가이드를 가지고 실제로 3명과 대화해. 완료 후 `/agnt:continue`로 돌아와."
+1. state.json에
+   추가 proof와 strongest proof를 저장합니다.
+2. `d5-interviews` 제출을 준비합니다.
 
 ## MOVE
 
-한이가 찻집 문을 가리킨다.
+한이가 분석소를 가리킨다.
 
-"나가서 해.
-결과 가지고 돌아와."
+"좋아.
+이제 delta를 읽고
+`SPEC v2`를 적자."

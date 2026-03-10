@@ -1,87 +1,65 @@
 ---
 stop_mode: checkpoint
-title: "비즈니스 모델 문서화"
+title: "Proof capture + SPEC 반영"
 npc: 은이
 quests:
   - id: d6-unit-economics
     type: side
-    title: "유닛 이코노믹스"
+    title: "Offer log + 근거 정리"
     xp: 30
-transition: "Day 6 완료! 비즈니스 모델을 설계하고 문서화했습니다. 다음은 회고의 호수에서 7일을 돌아봅니다."
+transition: "Day 6 완료! 이제 Week 1 verdict를 내릴 준비가 됐습니다."
 ---
 
-# 비즈니스 모델 문서화
+# Proof capture + SPEC 반영
 
 ## ROOM
 
-길드 건물 기록실에 들어선다.
-
-선반에 장부가 빼곡히 꽂혀 있고,
-탁자 위에 깨끗한 종이가 놓여 있다.
+기록실 책상 위에
+빈 종이와 오늘 메모가 놓여 있다.
 
 ## NPC
 
-은이가 종이를 정리하며 말한다.
+은이가 손가락으로 두 줄을 짚는다.
 
 💰 길드장 은이
 
-"이제 정한 걸 문서로 남기자.
-말로만 하면 잊어버려.
-그래서 얼마야?
-SPEC.md에 적자."
+"오늘 남긴 걸
+내일 바로 읽을 수 있게
+정리하자.
+
+모든 증거를 보고 내리는
+최종 판단 — 그게 'verdict'야.
+내일 달이가 이 verdict를 기록할 거니까
+오늘 재료를 빠짐없이 남겨."
 
 ## GUIDE
 
-### SPEC.md 업데이트
+오늘은 두 가지만 남긴다.
 
-은이: "이 구조로 추가해."
+1. `Monetization Checkpoint` (수익화 점검)
+2. `제안 기록 (Offer log) / follow-up plan`
 
-SPEC.md에 Business
-Model 섹션을 추가합니다:
+예:
 
-```markdown
-## Business Model
+```text
+Monetization Checkpoint:
+- proofType: payment_commitment
+- status: payment_commitment
+- amount: 50000
+- reference: dm://pilot-1
+- summary: 1:1 파일럿 의향 확인
 
-### Revenue Model
-
-{선택한 모델}: {근거}
-
-### Pricing
-
-- 무료 티어: {포함 내용}
-- 유료 플랜: {가격} / {주기}
-
-### First Revenue Scenario
-
-- 타겟: {구체적 사람/세그먼트}
-- 시기: {예상 시점}
-- 금액: {첫 매출 목표}
-
-### Unit Economics (간략)
-
-- CAC: {예상 고객 획득 비용}
-- LTV: {예상 고객 생애 가치}
+제안 기록 (Offer Log):
+- 어떤 ask가 먹혔는가
+- 어떤 objection이 남았는가
+- 내일 verdict에서 어떻게 읽을 것인가
 ```
-
-사이드 퀘스트: 간단한 매출
-시뮬레이션 (유저 10/50/100명
-x 가격)을 계산해봅니다.
-
-## PREVIEW
-
-업데이트된 SPEC.md를
-프리뷰합니다.
 
 ## STOP
 
-은이가 종이를 내려놓으며 말한다.
-
-"확인해봐.
-수지가 맞아?"
-
 AskUserQuestion:
-질문: 은이가 묻는다.
-"비즈니스 모델 문서화를 확정할까?"
+질문: 은이가 묻는다. "제안 기록과
+checkpoint를 확정할까?"
 
 1. "확인"
 2. "수정 요청"
@@ -93,31 +71,20 @@ AskUserQuestion:
 AskUserQuestion에서
 "확인"을 선택했을 때만
 ON_CONFIRM을 수행합니다.
-"수정 요청"이면 GUIDE로 돌아가
-수정 후 PREVIEW → STOP을
-반복합니다.
 
-1. 인증 상태면 MCP `submit_practice`로 제출
+1. state.json에
+   제안 기록(offer log)과 follow-up plan을 저장합니다.
+2. state.json `specVersions.v2`의
+   `monetizationCheckpoint`가 비어 있지 않다면
+   authenticated 상태에서
+   `save_spec_iteration(version: "v2")`를 다시 호출해
+   최신 checkpoint를 서버 `spec_iterations`에도 반영합니다.
+3. `d6-unit-economics` 제출을 처리합니다.
 
 ## MOVE
 
-은이가 길드 문 밖을 가리킨다.
+은이가 호수 방향을 가리킨다.
 
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎉 Day 6 완료!
-📍 상인의 길드
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-  💰 비즈니스 모델을 설계하고
-  📄 문서화했다
-
-  📍 다음: 회고의 호수
-  🎯 지난 7일을 돌아본다
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-은이가 마지막으로 말한다.
-
-"마지막이야.
-회고의 호수에 달이라는 어부가 있어.
-숫자를 다 펼쳐놓고 봐."
+"좋아.
+이제 이번 주 proof를
+한 번에 펼쳐보자."

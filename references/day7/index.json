@@ -1,17 +1,57 @@
 {
   "day": 7,
   "location": "회고의 호수",
-  "description": "맑은 호수에 비친 지난 7일을 돌아봅니다.",
+  "description": "Week 1 proof를 종합해 SPEC v3 verdict와 Week 2 handoff를 남기는 날.",
   "blocks": [
-    { "file": "block0-data.md", "title": "데이터 수집 — 7일의 기록" },
-    { "file": "block1-kptl.md", "title": "KPTL 회고 — Keep, Problem, Try, Learn" },
-    { "file": "block2-decision.md", "title": "Go/No-Go 결정 — 다음 23일을 어떻게 보낼 것인가" },
-    { "file": "block3-finale.md", "title": "Foundation Phase 완료 — 새로운 시작" }
+    { "file": "block0-data.md", "title": "Week 1 proof review" },
+    { "file": "block1-kptl.md", "title": "KPTL + 배운 점 정리" },
+    { "file": "block2-decision.md", "title": "SPEC v3 verdict" },
+    { "file": "block3-finale.md", "title": "Week 2 handoff" }
   ],
   "quests": [
-    { "id": "d7-data-collect", "type": "main", "title": "회고 데이터 수집", "xp": 30 },
-    { "id": "d7-kptl", "type": "main", "title": "KPTL 회고 완료", "xp": 80 },
-    { "id": "d7-go-nogo", "type": "main", "title": "Go/No-Go 결정", "xp": 50 },
-    { "id": "d7-letter", "type": "side", "title": "미래의 나에게 편지", "xp": 30 }
+    {
+      "id": "d7-data-collect",
+      "type": "main",
+      "title": "Week 1 proof review",
+      "description": "customer/channel/monetization evidence를 한 번에 모아 본다.",
+      "xp": 50,
+      "verificationRule": { "type": "text", "minLength": 20 },
+      "evidenceClass": "decision",
+      "proofType": "proof_review",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d7-kptl",
+      "type": "side",
+      "title": "KPTL 회고",
+      "description": "Week 1에서 유지/문제/시도/배움을 짧게 정리한다.",
+      "xp": 80,
+      "verificationRule": { "type": "text", "minLength": 50 },
+      "evidenceClass": "decision",
+      "proofType": "retrospective",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d7-go-nogo",
+      "type": "main",
+      "title": "SPEC v3 verdict",
+      "description": "최신 델타와 monetization checkpoint를 바탕으로 Week 1 verdict를 기록한다.",
+      "xp": 100,
+      "verificationRule": { "type": "text", "minLength": 20 },
+      "evidenceClass": "decision",
+      "proofType": "spec_iteration_v3",
+      "proofStatus": "validated"
+    },
+    {
+      "id": "d7-letter",
+      "type": "side",
+      "title": "Week 2 handoff note",
+      "description": "Week 2에서 가장 먼저 지켜야 할 우선순위와 next move를 남긴다.",
+      "xp": 30,
+      "verificationRule": { "type": "text", "minLength": 50 },
+      "evidenceClass": "decision",
+      "proofType": "week2_handoff",
+      "proofStatus": "captured"
+    }
   ]
 }

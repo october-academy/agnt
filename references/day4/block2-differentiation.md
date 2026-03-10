@@ -1,92 +1,69 @@
 ---
 stop_mode: checkpoint
-title: "차별화 전략 수립"
+title: "Change Set refinement"
 npc: 나래
 quests:
   - id: d4-differentiation
     type: main
-    title: "차별화 전략 수립"
+    title: "Change Set refinement"
     xp: 100
   - id: d4-positioning
     type: side
-    title: "포지셔닝 맵"
+    title: "다음 proof target 정리"
     xp: 30
-transition: "Day 4 완료! 차별화 전략을 세웠습니다. 다음은 시장의 거리에서 실제 고객을 만납니다."
+transition: "Day 4 완료! 이제 변화의 크기(delta)를 읽고 SPEC v2를 적을 차례입니다."
 ---
 
-# 차별화 전략 수립
+# Change Set refinement
 
 ## ROOM
 
-언덕 정상에 다시 올라선다.
-
-사방이 탁 트이고,
-저 멀리 여러 마을이 보인다.
+정상 바위 위에 다시 선다.
 
 ## NPC
 
-나래가 정상에서
-전체 풍경을 내려다보며 말한다.
+나래가 짧게 말한다.
 
 🦅 척후 나래
 
-"여기서 보면
-전체 전장이 보이지.
+"좋아.
+오늘 마지막은
+네 줄이면 끝나.
 
-경쟁자 분석을 바탕으로
-{{character.project|네 프로젝트}}의
-차별화 전략을 세우자."
+참, 내일부터 한이가
+변화의 크기를 재는 기준을 알려줄 거야.
+그걸 'delta'라고 불러.
+오늘은 그 전 단계 — 뭘 바꿀지 정하는 날이지."
 
 ## GUIDE
 
-### 차별화 전략 프레임워크
-
-나래: "세 가지를 도출해."
-
-1. **Competitive
-   Advantage**: 경쟁자가
-   못하는 것 중 네가 할 수 있는
-   것
-2. **Market Gap**:
-   경쟁자가 서비스하지 않는
-   세그먼트
-3. **Positioning**:
-   "X를 위한 Y" 한 문장
-   포지셔닝
-
-### SPEC.md 업데이트
-
-SPEC.md에 Competition
-섹션을 추가합니다:
-
-```markdown
-## Competition
-
-| 서비스 | 타입 | 강점 | 약점 |
-| ------ | ---- | ---- | ---- |
-| {이름} | 직접 | ...  | ...  |
-
-### Differentiation
-
-{포지셔닝 한 문장}
-{핵심 차별화 근거}
+```text
+유지 (Keep):
+제거 (Drop):
+수정 (Change):
+시험 (Test):
 ```
 
-## PREVIEW
+그리고 마지막에
+`next proof target` 1개를 적는다.
 
-업데이트된 SPEC.md를
-프리뷰합니다.
+예:
+
+- 유지 (Keep): 문제 장면 중심 메시지
+- 제거 (Drop): 추상적인 생산성 문구
+- 수정 (Change): CTA를 "출시 알림"에서 "파일럿 문의"로
+- 시험 (Test): Discord 대신 직접 연락
+- next proof target: 명시적 결제 의향이 나오는지
+
+"좋은 change set은
+보기 좋은 아이디어가 아니라
+다음 proof를 빨리 받게 만드는 수정안이야."
 
 ## STOP
 
-나래가 망원경을 내려놓으며 말한다.
-
-"확인해봐.
-고칠 거 있으면 말해."
-
 AskUserQuestion:
-질문: 나래가 묻는다. "차별화 전략이
-정리됐어?"
+질문: 나래가 묻는다. "change set과
+next proof target이 정리됐어?"
 
 1. "확인"
 2. "수정 요청"
@@ -98,33 +75,16 @@ AskUserQuestion:
 AskUserQuestion에서
 "확인"을 선택했을 때만
 ON_CONFIRM을 수행합니다.
-"수정 요청"이면 GUIDE로 돌아가
-수정 후 PREVIEW → STOP을
-반복합니다.
 
-1. 인증 상태면 MCP `submit_practice`로 제출
+1. `d4-differentiation` 제출
+2. `d4-positioning` 제출
+3. state.json에
+   `changeSet`, `nextProofTarget` 저장
 
 ## MOVE
 
-나래가 언덕 아래 시장 방향을
-가리킨다.
+나래가 시장 쪽을 가리킨다.
 
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎉 Day 4 완료!
-📍 정찰의 언덕
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-  🔍 경쟁자를 분석하고
-  ⚔️ 차별화 전략을 세웠다
-
-  📍 다음: 시장의 거리
-  🎯 실제 고객을 만난다
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-나래가 마지막으로 말한다.
-
-"시장의 거리에
-한이라는 장인이 있어.
-아이디어만으로는 안 산다는 거.
-저기 좀 봐."
+"좋아.
+이제 숫자와 반응의
+delta — 변화의 크기를 읽으러 가."

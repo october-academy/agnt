@@ -1,15 +1,45 @@
 {
   "day": 4,
   "location": "정찰의 언덕",
-  "description": "경쟁자의 영토를 살핍니다. 차별화 전략을 세웁니다.",
+  "description": "반응을 해석하고 다음 버전에 반영할 change set을 좁히는 날.",
   "blocks": [
-    { "file": "block0-framework.md", "title": "경쟁자 분석 프레임워크" },
-    { "file": "block1-research.md", "title": "경쟁자 리서치 + 분석" },
-    { "file": "block2-differentiation.md", "title": "차별화 전략 수립" }
+    { "file": "block0-framework.md", "title": "반응 해석 프레임워크" },
+    { "file": "block1-research.md", "title": "신호 읽기 + 패턴 정리" },
+    { "file": "block2-differentiation.md", "title": "Change Set refinement" }
   ],
   "quests": [
-    { "id": "d4-competitors", "type": "main", "title": "경쟁자 3곳 분석", "xp": 50 },
-    { "id": "d4-differentiation", "type": "main", "title": "차별화 전략 수립", "xp": 100 },
-    { "id": "d4-positioning", "type": "side", "title": "포지셔닝 맵", "xp": 30 }
+    {
+      "id": "d4-competitors",
+      "type": "main",
+      "title": "반응 해석",
+      "description": "고객 반응, 오해, 전환 저항을 구조적으로 해석한다.",
+      "xp": 50,
+      "verificationRule": { "type": "template", "fields": ["signal1", "signal2", "signal3"] },
+      "evidenceClass": "customer",
+      "proofType": "response_interpretation",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d4-differentiation",
+      "type": "main",
+      "title": "Change Set refinement",
+      "description": "다음 버전에 넣을 change set과 버릴 change set을 정리한다.",
+      "xp": 100,
+      "verificationRule": { "type": "text", "minLength": 50 },
+      "evidenceClass": "decision",
+      "proofType": "change_set",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d4-positioning",
+      "type": "side",
+      "title": "다음 proof target 정리",
+      "description": "내일 확인할 핵심 지표와 다음 proof target을 한 줄로 고정한다.",
+      "xp": 30,
+      "verificationRule": { "type": "text", "minLength": 20 },
+      "evidenceClass": "decision",
+      "proofType": "next_proof_target",
+      "proofStatus": "captured"
+    }
   ]
 }

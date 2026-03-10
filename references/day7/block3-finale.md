@@ -1,105 +1,55 @@
 ---
 stop_mode: checkpoint
-title: "Foundation Phase 완료 — 새로운 시작"
+title: "Week 2 handoff"
 npc: 달이
 quests:
   - id: d7-letter
     type: side
-    title: "미래의 나에게 편지"
+    title: "Week 2 handoff note"
     xp: 30
-transition: "Foundation Phase 완료! 축하합니다."
+transition: "Week 1 proof loop가 마무리되었습니다."
 ---
 
-# Foundation Phase 완료 — 새로운 시작
+# Week 2 넘기기 (handoff)
 
 ## ROOM
 
-호수를 떠나
-뚝 위에 다시 선다.
-
-석양이 호수 위로 내려앉고,
-수면에 주황빛이 번진다.
-
-바람이 부드럽게 분다.
+둑 위에 다시 선다.
+석양이 물가에 길게 번진다.
 
 ## NPC
 
-달이가 뚝 위에 나란히 서며
-석양을 바라본다.
+달이가 마지막으로 말한다.
 
 🎣 어부 달이
 
-"7일이 끝났어.
-물에 비친 걸 봐.
-처음과 지금이 다르지?"
+"좋아.
+Week 1을 끝내는 문장은
+반드시 Week 2 첫 행동으로
+이어져야 해.
+이걸 '넘기기(handoff)'라고 하지."
 
 ## GUIDE
 
-### 최종 산출물 점검
+좋은 넘기기(handoff)는
+verdict와 모순되지 않는다.
 
-달이: "마지막으로 확인하자.
-v0에서 v3까지 어떻게 왔는지가 핵심이야."
+- 진행 (Go): 확장할 한 가지
+- 반복 (Iterate): 다시 검증할 한 가지
+- 방향 전환 (Pivot): 바꿀 축 한 가지
+- 중단 (No-Go): 다음 아이디어에 가져갈 기준 한 가지
 
-프로젝트에 다음 파일이 있는지
-확인합니다:
+예:
 
-- [ ] `SPEC.md` — v0~v3 버전 로그 포함 (Problem, Target, Features, Business Model + Version Log)
-- [ ] `landing.html` — 배포된 랜딩페이지
-- [ ] 인터뷰 데이터 —
-      state.json 또는 MCP
-      저장
-- [ ] 수요 검증 결과 — 피드백
-  - 분석
-- [ ] Go/No-Go 결정 —
-      버전별 개선 증거 + 다음 액션
-- [ ] SPEC 버전 이력 — state.json `specVersions`에 v0~v3 기록 (인증 시 서버 동기화)
-
-인증 상태면 MCP `get_spec_iterations`로
-서버에 저장된 버전 이력을 확인한다.
-누락된 버전이 있으면 달이가 안내:
-"v{N}이 기록되지 않았어.
-보완하고 싶으면 말해."
-
-### 성과 요약 생성
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-🏆 Foundation Phase 완료
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-  🧙 Lv.{{state.level}} {{state.title}}
-  💰 총 XP: {total_xp}
-  ⚔️ 퀘스트: {completed}/{total}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-  📄 SPEC.md         ✅
-  🚀 Landing Page    ✅
-  🎤 인터뷰 {turns}턴 ✅
-  📊 수요 검증       {verdict}
-  🎯 결정            {decision}
-  📐 SPEC 버전       v0→v3 ({iterations}회)
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-  "7일 만에 4번의 이터레이션으로
-   아이디어를 검증하고
-   실제 랜딩페이지를 배포했습니다."
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-## PREVIEW
-
-성과 요약을 보여줍니다.
+- "paid pilot ask 5명에게 보내고 commitment 1건 확보"
+- "reply는 나오지만 click이 약하니 hero + CTA만 수정"
+- "problem은 유지, target segment만 freelancer PM으로 좁힘"
 
 ## STOP
 
-달이가 석양을 바라보며 말한다.
-
-"다 확인했으면
-`완료`,
-보완할 게 있으면
-`수정 요청`을 골라."
-
 AskUserQuestion:
-질문: 달이가 묻는다.
-"Foundation Phase를 완료
-처리할까?"
+질문: 달이가 묻는다. "Week 2 넘기기를
+확정할까?"
 
 1. "완료"
 2. "수정 요청"
@@ -111,39 +61,15 @@ AskUserQuestion:
 AskUserQuestion에서
 "완료"를 선택했을 때만
 ON_CONFIRM을 수행합니다.
-"수정 요청"이면 GUIDE로 돌아가
-누락 산출물을 보완한 뒤
-PREVIEW → STOP을
-반복합니다.
 
-1. Discord에 회고 공유 안내
-   (사이드 퀘스트):
-   달이: "동료들에게 네 여정을
-   공유하면 어떨까? Discord #회고 채널에 남기면 +30
-   XP."
-
-2. 인증 상태면 MCP `submit_practice`로 최종 제출
+1. state.json에
+   `week2Handoff`를 저장합니다.
+2. `d7-letter` 제출을 처리합니다.
 
 ## MOVE
 
-달이가 호수를 마지막으로 바라보며
-말한다.
+달이가 웃는다.
 
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  축하해.
-
-  7일 Foundation Phase를 완료했어.
-
-  아이디어 → 인터뷰 → 검증 → 스펙 → 배포까지
-  독립의 전체 사이클을 경험했지.
-
-  Day 8부터는 실제 개발을 시작해.
-  (유료 플랜 오픈 시 안내 예정)
-
-  "흘러간 물은 다시 오지 않지만,
-   네가 건져올린 것들은 남아 있어."
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+"좋아.
+Week 1은 끝났고,
+이제 근거 있는 Week 2로 넘어간다."

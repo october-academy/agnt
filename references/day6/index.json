@@ -1,15 +1,45 @@
 {
   "day": 6,
   "location": "상인의 길드",
-  "description": "가치에 가격을 매깁니다. 비즈니스 모델을 설계합니다.",
+  "description": "명시적 수익화 제안을 만들고 실제 결제 의향 증거를 캡처하는 날.",
   "blocks": [
-    { "file": "block0-models.md", "title": "비즈니스 모델 탐색" },
-    { "file": "block1-pricing.md", "title": "가격 전략 수립" },
-    { "file": "block2-document.md", "title": "비즈니스 모델 문서화" }
+    { "file": "block0-models.md", "title": "Monetization ask 설계" },
+    { "file": "block1-pricing.md", "title": "Monetization proof 캡처" },
+    { "file": "block2-document.md", "title": "Proof capture + SPEC 반영" }
   ],
   "quests": [
-    { "id": "d6-model", "type": "main", "title": "비즈니스 모델 설계", "xp": 50 },
-    { "id": "d6-pricing", "type": "main", "title": "가격 전략 수립", "xp": 80 },
-    { "id": "d6-unit-economics", "type": "side", "title": "유닛 이코노믹스", "xp": 30 }
+    {
+      "id": "d6-model",
+      "type": "main",
+      "title": "Monetization ask 설계",
+      "description": "이번 주에 제안할 가격/offer/요청 문구를 정리한다.",
+      "xp": 50,
+      "verificationRule": { "type": "text", "minLength": 50 },
+      "evidenceClass": "decision",
+      "proofType": "offer_ask_plan",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d6-pricing",
+      "type": "main",
+      "title": "Monetization proof 캡처",
+      "description": "명시적 결제 의향, 수동 이체, 광고 수익 중 하나를 기록한다.",
+      "xp": 100,
+      "verificationRule": { "type": "text", "minLength": 30 },
+      "evidenceClass": "monetization",
+      "proofType": "payment_commitment",
+      "proofStatus": "payment_commitment"
+    },
+    {
+      "id": "d6-unit-economics",
+      "type": "side",
+      "title": "Offer log + 근거 정리",
+      "description": "어떤 제안이 먹혔고 어떤 금전 신호가 약했는지 기록한다.",
+      "xp": 30,
+      "verificationRule": { "type": "text", "minLength": 20 },
+      "evidenceClass": "decision",
+      "proofType": "monetization_notes",
+      "proofStatus": "captured"
+    }
   ]
 }

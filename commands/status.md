@@ -104,6 +104,11 @@ npx skills add october-academy/agnt --agent codex --skill agnt
   진입 단계: {builderContext.entryMode|null}
   자산 단계: {builderContext.assetStage|null}
   현재 병목: {builderContext.primaryBottleneck|null}
+  오퍼 타입: {builderContext.offerType|null}
+  monetization rail: {builderContext.monetizationRail|null}
+  strongest proof: {builderContext.monetizationProof.summary|null}
+  latest decision: {builderContext.latestDecision.summary|null}
+  next proof target: {state.nextProofTarget|builderContext.latestDecision.nextStep|null}
 ```
 
 5. 스킬 해금 상태:
@@ -113,6 +118,7 @@ npx skills add october-academy/agnt --agent codex --skill agnt
   {✅/🔒} save_profile (Lv.1)
   {✅/🔒} connect_discord (Lv.1)
   {✅/🔒} verify_discord (Lv.1)
+  {✅/🔒} verify_server_state (Lv.1)
   {✅/🔒} save_interview (Lv.1)
   {✅/🔒} submit_practice (Lv.1)
   {✅/🔒} get_leaderboard (Lv.1)

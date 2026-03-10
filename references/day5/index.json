@@ -1,16 +1,56 @@
 {
   "day": 5,
   "location": "시장의 거리",
-  "description": "실제 고객을 만납니다. 수요를 검증합니다.",
+  "description": "델타를 읽고 SPEC v2를 기록해 무엇을 유지/수정할지 판단하는 날.",
   "blocks": [
-    { "file": "block0-target.md", "title": "타겟 고객 심화 — 진짜 고객을 찾아라" },
-    { "file": "block1-conversation.md", "title": "수요 검증 대화 — 고객과 직접 대화하기" },
-    { "file": "block2-analysis.md", "title": "수요 검증 분석 — 데이터로 판단하기" }
+    { "file": "block0-target.md", "title": "델타 읽기 기준 정리" },
+    { "file": "block1-conversation.md", "title": "추가 customer proof 확보" },
+    { "file": "block2-analysis.md", "title": "델타 분석 + SPEC v2" }
   ],
   "quests": [
-    { "id": "d5-target", "type": "main", "title": "타겟 고객 정의", "xp": 30 },
-    { "id": "d5-interviews", "type": "main", "title": "수요 검증 인터뷰 3건", "xp": 100 },
-    { "id": "d5-analysis", "type": "main", "title": "수요 검증 결과 분석", "xp": 100 },
-    { "id": "d5-analytics", "type": "side", "title": "랜딩 분석 데이터 확인", "xp": 30 }
+    {
+      "id": "d5-target",
+      "type": "main",
+      "title": "델타 읽기 기준 정리",
+      "description": "v0→v1에서 무엇을 개선/악화로 볼지 기준을 정한다.",
+      "xp": 50,
+      "verificationRule": { "type": "text", "minLength": 20 },
+      "evidenceClass": "decision",
+      "proofType": "delta_frame",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d5-interviews",
+      "type": "main",
+      "title": "추가 customer proof 3건",
+      "description": "핵심 가설을 더 날카롭게 만들 추가 반응 3건을 확보한다.",
+      "xp": 100,
+      "verificationRule": { "type": "template", "fields": ["interview1", "interview2", "interview3"] },
+      "evidenceClass": "customer",
+      "proofType": "delta_feedback",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d5-analysis",
+      "type": "main",
+      "title": "SPEC v2 업데이트",
+      "description": "델타 분석을 반영해 SPEC v2와 다음 변경점을 기록한다.",
+      "xp": 100,
+      "verificationRule": { "type": "text", "minLength": 50 },
+      "evidenceClass": "decision",
+      "proofType": "spec_iteration_v2",
+      "proofStatus": "validated"
+    },
+    {
+      "id": "d5-analytics",
+      "type": "side",
+      "title": "v0→v1 데이터 차이 확인",
+      "description": "폼 응답, 클릭, reply 같은 신호의 차이를 짧게 정리한다.",
+      "xp": 30,
+      "verificationRule": { "type": "text", "minLength": 20 },
+      "evidenceClass": "channel",
+      "proofType": "signal_delta",
+      "proofStatus": "captured"
+    }
   ]
 }

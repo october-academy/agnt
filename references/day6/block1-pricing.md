@@ -1,91 +1,67 @@
 ---
 stop_mode: conversation
-title: "가격 전략 수립"
+title: "Monetization proof 캡처"
 npc: 은이
 quests:
   - id: d6-pricing
     type: main
-    title: "가격 전략 수립"
-    xp: 80
-transition: "가격 전략이 완성되었습니다. 이제 문서화합시다."
+    title: "Monetization proof 캡처"
+    xp: 100
+transition: "monetization checkpoint가 잡혔습니다. 이제 SPEC와 제안 기록에 반영합시다."
 ---
 
-# 가격 전략 수립
+# Monetization proof 캡처
 
 ## ROOM
 
-길드 건물 안쪽
 작은 회의실에 들어선다.
-
-탁자 위에
-장부와 주판이 놓여 있다.
+탁자 위에 메모지와
+송금 알림 화면이 놓여 있다.
 
 ## NPC
 
-은이가 탁자에 앉으며
-주판을 밀어놓는다.
+은이가 펜을 들어 올린다.
 
 💰 길드장 은이
 
-"자,
-{{character.project|프로젝트}}의
-가격을 정하자.
-그래서 얼마야?"
+"좋아.
+이제 말이 아니라
+남길 수 있는 proof를 적자."
 
 ## CONVERSATION
 
 ### 완성 체크리스트
 
-- [ ] 비즈니스 모델 1개 선정
-      (근거 포함)
-- [ ] 가격대 결정 (경쟁자 비교
-      기반)
-- [ ] 무료/유료 경계 정의
-      (Freemium의 경우)
-- [ ] 첫 매출 시나리오 (누가,
-      언제, 얼마를)
-
-### 대화 시작
-
-은이가 장부를 펼치며 말한다:
-
-"Day 5에서 수요 검증 결과를
-확인했지.
-이 데이터를 바탕으로
-어떤 비즈니스 모델이 맞을지
-이야기해보자."
+- [ ] 증거 유형 (proofType) 1개 확정
+- [ ] status 1개 확정
+- [ ] amount / currency / reference 정리
+- [ ] 왜 현재 product direction과 연결되는지 설명
 
 ### 대화 규칙
 
-- 학습자가 선택한 모델의 현실성을
-  점검
-- 경쟁자 가격과 비교하여 적정
-  가격대 도출
-- "첫 유료 고객 1명"에 집중 —
-  대규모 스케일 논의는 시기상조
-- 가격에 대한 심리적 저항이 있으면
-  인정하고 극복 방법 논의
-- 은이 말투: "그래서 얼마야?"
-  숫자에 집중, "수지가 맞아?"
+- 막연한 관심은 proof로 올려 읽지 않음
+- `amount`나 `reference` 없이 claim만 적지 않음
+- 은이 말투: "그래서 얼마야? 어디서 확인할 수 있어?"
 
 ## SUMMARY
 
-은이가 장부에 적은 내용을 보여준다.
+은이가 장부에 적는 형식:
 
-가격 전략을 정리합니다.
-
-은이: "이거면 돼?"
+```text
+proofType: ...
+status: ...
+amount: ...
+currency: ...
+reference: ...
+summary: ...
+context: ...
+```
 
 ## STOP
 
-은이가 주판을 밀어놓으며 말한다.
-
-"확인하고
-고칠 거 있으면 말해."
-
 AskUserQuestion:
 질문: 은이가 묻는다.
-"가격 전략을 이대로 확정할까?"
+"이 monetization proof를 기록할까?"
 
 1. "확인"
 2. "수정 요청"
@@ -97,17 +73,27 @@ AskUserQuestion:
 AskUserQuestion에서
 "확인"을 선택했을 때만
 ON_COMPLETE를 수행합니다.
-"수정 요청"이면
-CONVERSATION으로 돌아가
-보완 후 SUMMARY → STOP을
-반복합니다.
 
-가격 전략을 정리하고
-state.json에 저장합니다.
+1. state.json에
+   `monetizationCheckpoint`를 저장합니다.
+2. 인증 상태면
+   `proofArtifacts`를 명시적으로 담아
+   `submit_practice`를 호출합니다.
+3. 인증 상태고 state.json에
+   최신 `specVersions`의 `v2`가 있으면
+   같은 checkpoint를 반영한 뒤
+   `save_spec_iteration(version: "v2")`로
+   현재 canonical field를 다시 동기화합니다.
+4. `proofType`는
+   `payment_commitment`,
+   `bank_transfer_received`,
+   `ad_revenue_received`
+   중 하나만 사용합니다.
 
 ## MOVE
 
 은이가 기록실 쪽을 가리킨다.
 
 "좋아.
-이제 이걸 문서로 남기자."
+이제 이걸 verdict에 쓸 수 있게
+문서에 반영하자."
