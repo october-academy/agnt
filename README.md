@@ -121,7 +121,6 @@ Codex 호환 입력: `$agnt continue`, `$agnt today` 등.
 ### Claude Code
 
 ```bash
-claude mcp remove plugin:agnt:agentic30
 claude plugin uninstall agnt@agentic30
 claude plugin marketplace remove agentic30
 rm -rf ~/.claude/agnt .claude/agnt
