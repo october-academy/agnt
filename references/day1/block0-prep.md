@@ -23,17 +23,35 @@ transition: "좋습니다. 이제 숲 깊숙이 들어가 AI 코파운더를 만
 질문으로 이끄는 사려깊은 안내자
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-"오늘은 다 같이
-같은 숙제를 하는 날이 아니야.
+"오늘은 네 출발선을 고정하고
+`SPEC v0` 기준선을 만들 거야.
 
-지금 네가
-아이디어가 없는 상태인지,
-랜딩을 운영 중인지,
-제품을 운영 중인지,
-매출이 발생하고 있는지부터
-분명히 해야 한다.
+출발선이 다르면
+검증 방향도 달라지거든.
 
-그래야 맞는 검증을 잡을 수 있어."
+예쁜 답보다
+실제 장면이 필요해."
+
+## CONTEXT_GATE
+
+state.json에 `builderContext.entryMode`가 존재하거나 `character.exploration`이 존재하면:
+
+소리가 노트를 넘긴다.
+
+"좋아. 네 상태는 이미 알아.
+{character.exploration.stage}이고,
+{character.exploration.bottleneck}이
+가장 큰 벽이라고.
+
+오늘은 그 진단을
+다른 각도에서 파볼 거야."
+
+→ SCENE 1, SCENE 2, TASK, STOP, RETURN을 건너뛰고 MOVE로 진행합니다.
+
+> `{단일중괄호}` 변수는 AI가 state.json에서 직접 읽어 채웁니다 (RECAP 규칙과 동일).
+> `character.exploration`이 없고 `builderContext`만 있으면, `builderContext.assetStage`/`primaryBottleneck`의 한국어 라벨(용어 도입 프로토콜 카테고리 4)을 사용합니다.
+
+둘 다 없으면 아래 SCENE 1부터 정상 진행합니다.
 
 ## SCENE 1: Builder state를 왜 먼저 보나
 
@@ -125,5 +143,4 @@ AskUserQuestion:
 소리가 숲 안쪽을 가리킨다.
 
 "이제 앉아.
-네가 어디 서 있는지부터
-정확히 보자."
+기준선을 잡자."
