@@ -9,7 +9,7 @@ quests:
     xp: 150
   - id: d1-discord-project
     type: side
-    title: "Week 1 baseline 공유"
+    title: "프로젝트 소개"
     xp: 30
   - id: d1-branding
     type: hidden
@@ -41,7 +41,10 @@ transition: "Day 1 완료! 첫 검증 채널이 정리되었습니다. 다음은
 첫 surface를 띄우고,
 이미 surface가 있는 사람은
 지금 가설에 맞게
-정리하고 다시 공개한다."
+정리하고 다시 공개한다.
+
+그리고 Discord에
+프로젝트 소개도 남겨."
 
 ## GUIDE
 
@@ -64,23 +67,25 @@ transition: "Day 1 완료! 첫 검증 채널이 정리되었습니다. 다음은
 
 ### `d1-discord-project`
 
-Discord에는
-이 세 줄이 들어가면 충분하다.
+Discord #프로젝트-소개 채널에
+프로젝트를 소개한다.
 
-- 지금 stage
-- 이번 주 hypothesis
-- next 검증 목표
+인터뷰에서 정리한 내용이
+모달에 미리 채워져 있으니
+확인하고 제출하면 된다.
 
-예:
-"랜딩 운영 중 상태이고,
-이번 주엔 유료 시범 제안으로 가설을 본다.
-이번 주 검증 목표은 CTA 응답 3건이다."
+- 프로젝트 한 줄 소개
+- 해결하려는 문제
+- 해결 방법
+
+"프로젝트 소개하기" 버튼을 눌러
+모달을 열고 제출해.
 
 ## STOP
 
 AskUserQuestion:
 질문: 소리가 묻는다. "검증 채널 공개와
-baseline 공유가 끝났어?"
+프로젝트 소개가 끝났어?"
 
 1. "확인"
 2. "수정 요청"
@@ -96,7 +101,7 @@ ON_CONFIRM을 수행합니다.
 1. `d1-landing`:
    live surface가 확인되면 제출합니다.
 2. `d1-discord-project`:
-   baseline 공유가 확인되면 제출합니다.
+   프로젝트 소개가 확인되면 제출합니다.
 3. `d1-branding`:
    `package.json`이 있으면 hidden quest로 처리합니다.
 

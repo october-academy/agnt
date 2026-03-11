@@ -34,8 +34,8 @@
     {
       "id": "d1-discord-project",
       "type": "side",
-      "title": "Week 1 baseline 공유",
-      "description": "Discord에 현재 가설과 다음 검증 목표를 짧게 공유한다.",
+      "title": "프로젝트 소개",
+      "description": "Discord #프로젝트-소개 채널에 프로젝트를 소개한다.",
       "xp": 30,
       "verificationRule": {
         "type": "server_state",

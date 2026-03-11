@@ -3,11 +3,26 @@
   "location": "검증의 광장",
   "description": "고객 검증과 채널 검증을 모아 Day 3 SPEC v1 입력으로 바꾸는 날.",
   "blocks": [
+    { "file": "block-baseline.md", "title": "Week 1 baseline 공유" },
     { "file": "block0-momtest.md", "title": "The Mom Test — 말보다 행동을 듣기" },
     { "file": "block1-channels.md", "title": "공유 채널 선정 + 증거로 쓸 수 있는 메시지" },
     { "file": "block2-feedback.md", "title": "고객 반응 수집 + 신호 정리" }
   ],
   "quests": [
+    {
+      "id": "d2-baseline",
+      "type": "main",
+      "title": "Week 1 baseline 공유",
+      "description": "Discord에 현재 stage, 이번 주 가설, 검증 목표를 baseline으로 공유한다.",
+      "xp": 30,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "send_baseline"
+      },
+      "evidenceClass": "channel",
+      "proofType": "baseline_share",
+      "proofStatus": "validated"
+    },
     {
       "id": "d2-channels",
       "type": "main",
