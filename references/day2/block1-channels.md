@@ -1,6 +1,6 @@
 ---
 stop_mode: conversation
-title: "공유 채널 선정 + 증거로 쓸 수 있는 메시지"
+title: "공유 채널 선정 + 추적 링크 생성"
 npc: 바리
 quests:
   - id: d2-channels
@@ -11,10 +11,14 @@ quests:
     type: main
     title: "공유 메시지 작성"
     xp: 50
-transition: "공유 전략이 준비되었습니다. 메시지를 보낸 후 피드백을 수집해봅시다."
+  - id: d2-tracking-links
+    type: main
+    title: "채널별 추적 링크 생성"
+    xp: 40
+transition: "추적 링크가 준비되었습니다. 메시지를 보낸 후 피드백을 수집해봅시다."
 ---
 
-# 공유 채널 선정 + 증거로 쓸 수 있는 메시지
+# 공유 채널 선정 + 추적 링크 생성
 
 ## ROOM
 
@@ -32,7 +36,11 @@ transition: "공유 전략이 준비되었습니다. 메시지를 보낸 후 피
 
 오늘은
 '내가 검증을 받을 수 있는 곳'만
-고른다."
+고른다.
+
+그리고 채널마다
+**다른 추적 링크**를 만들어야
+어디서 반응이 왔는지 알 수 있어."
 
 ## CONVERSATION
 
@@ -42,6 +50,7 @@ transition: "공유 전략이 준비되었습니다. 메시지를 보낸 후 피
 - [ ] 채널별 메시지 1개씩
 - [ ] 검증 CTA가 들어간 문장
 - [ ] 적어도 1곳은 낯선 사람 채널
+- [ ] 채널별 추적 링크 생성
 
 ### 증거로 쓸 수 있는 메시지 기준
 
@@ -87,11 +96,55 @@ transition: "공유 전략이 준비되었습니다. 메시지를 보낸 후 피
 - 이번에 꼭 받고 싶은 반응: ...
 ```
 
+### 채널별 추적 링크
+
+바리가 게시판 옆 도구함을 가리킨다.
+
+"메시지에 링크를 넣을 거잖아.
+그냥 URL을 쓰면
+어느 채널에서 반응이 왔는지 모른다.
+
+채널마다 다른 추적 링크를 만들어야
+나중에 '이 채널이 먹혔다'고
+데이터로 말할 수 있어."
+
+MCP `create_utm_link`로
+**채널별 3개 추적 링크**를 만든다.
+
+UTM 파라미터는 대화 맥락에서 결정한다:
+
+- `targetUrl`: 검증 채널 URL (Day 1에서 배포한 랜딩 또는 기존 surface)
+- `utm_source`: 각 채널명 (예: `twitter`, `kakaotalk-open-chat`, `reddit`)
+- `utm_medium`: 채널 유형 (예: `social`, `community`, `messenger`, `forum`)
+- `utm_campaign`: `d2-channel-test`
+- `utm_content`: 메시지 핵심 키워드 또는 변형 식별자 (예: `problem-scene`, `direct-ask`) — 선택
+- `utm_term`: 타겟 키워드가 있으면 추가 (예: `report-automation`) — 선택
+- `channel`: 각 채널명
+
+랜딩 ID가 있으면 `landingId`도 연결한다.
+
+예시 (3개 채널):
+
+```text
+채널 1 (트위터): https://a30.link/abc123
+  → utm_source=twitter, utm_medium=social
+
+채널 2 (카카오 오픈챗): https://a30.link/def456
+  → utm_source=kakaotalk, utm_medium=messenger
+
+채널 3 (디스코드 서버): https://a30.link/ghi789
+  → utm_source=discord-community, utm_medium=community
+```
+
+> 생성된 링크는 https://agentic30.app/dashboard/links 에서
+> 수정, 삭제, 성과 모니터링이 가능하다.
+> 메시지의 raw URL을 이 추적 링크로 교체해서 보내라.
+
 ## STOP
 
 AskUserQuestion:
-질문: 바리가 묻는다. "채널과 메시지가
-정리됐어?"
+질문: 바리가 묻는다. "채널, 메시지,
+추적 링크가 다 준비됐어?"
 
 1. "확인"
 2. "수정 요청"
@@ -109,6 +162,15 @@ ON_COMPLETE를 수행합니다.
 2. state.json에
    `channels`, `shareMessages`,
    `proofCTA`를 저장합니다.
+3. `d2-tracking-links`:
+   MCP `create_utm_link`를 채널 수만큼 호출합니다.
+   - 각 채널에 맞는 `utm_source`, `utm_medium` 설정
+   - `utm_campaign`: `d2-channel-test`
+   - `utm_content`: 채널별 메시지 특성 키워드 — 선택
+   - `utm_term`: 타겟 키워드 — 선택
+   - `landingId`: Day 1 랜딩 ID (있으면)
+   - 생성된 3개 short URL을 유저에게 보여준다
+   - state.json에 `trackingLinks` 배열로 저장한다
 
 ## MOVE
 
@@ -119,4 +181,8 @@ ON_COMPLETE를 수행합니다.
 
 숫자든 댓글이든 DM이든
 내일 쓸 수 있게
-구조적으로 남겨야 해."
+구조적으로 남겨야 해.
+
+추적 링크 성과는
+반응을 다 모은 뒤에
+데이터로 확인할 거야."

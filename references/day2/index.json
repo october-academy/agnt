@@ -5,8 +5,9 @@
   "blocks": [
     { "file": "block-baseline.md", "title": "Week 1 baseline 공유" },
     { "file": "block0-momtest.md", "title": "The Mom Test — 말보다 행동을 듣기" },
-    { "file": "block1-channels.md", "title": "공유 채널 선정 + 증거로 쓸 수 있는 메시지" },
-    { "file": "block2-feedback.md", "title": "고객 반응 수집 + 신호 정리" }
+    { "file": "block1-channels.md", "title": "공유 채널 선정 + 추적 링크 생성" },
+    { "file": "block2-feedback.md", "title": "고객 반응 수집 + 신호 정리" },
+    { "file": "block3-analytics.md", "title": "성과 분석 + 대시보드 가이드" }
   ],
   "quests": [
     {
@@ -46,6 +47,20 @@
       "proofStatus": "captured"
     },
     {
+      "id": "d2-tracking-links",
+      "type": "main",
+      "title": "채널별 추적 링크 생성",
+      "description": "선정한 3개 채널에 UTM 추적 링크를 만들어 채널별 성과를 비교할 준비를 한다.",
+      "xp": 40,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "utm_link_created"
+      },
+      "evidenceClass": "channel",
+      "proofType": "tracking_links",
+      "proofStatus": "captured"
+    },
+    {
       "id": "d2-feedback",
       "type": "main",
       "title": "피드백 3건 수집",
@@ -66,6 +81,20 @@
       "evidenceClass": "customer",
       "proofType": "evidence_insight",
       "proofStatus": "captured"
+    },
+    {
+      "id": "d2-analytics",
+      "type": "main",
+      "title": "성과 분석 + 대시보드 확인",
+      "description": "추적 링크와 랜딩 분석 데이터로 채널별 성과를 비교하고 대시보드 사용법을 익힌다.",
+      "xp": 40,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "analytics_reviewed"
+      },
+      "evidenceClass": "channel",
+      "proofType": "analytics_review",
+      "proofStatus": "validated"
     },
     {
       "id": "d2-first-fan",

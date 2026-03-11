@@ -32,6 +32,20 @@
       "proofStatus": "captured"
     },
     {
+      "id": "d1-first-link",
+      "type": "side",
+      "title": "첫 추적 링크 생성",
+      "description": "검증 채널에 UTM 추적 링크를 만들어 공유 성과를 측정할 준비를 한다.",
+      "xp": 30,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "utm_link_created"
+      },
+      "evidenceClass": "channel",
+      "proofType": "tracking_link",
+      "proofStatus": "captured"
+    },
+    {
       "id": "d1-discord-project",
       "type": "side",
       "title": "프로젝트 소개",
