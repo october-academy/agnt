@@ -84,13 +84,74 @@ AskUserQuestion:
    있는 것에서 검증해보자."
    → trust: 두리 +1
    → tendency: executor +1
+   → LANDING_SCOUT로 진행
 3. "뭘 해야 할지 아직 흐릿해요."
    → 반응: "괜찮아.
    오늘은 선명하게 만드는 날이야."
    → trust: 두리 +0
    → tendency: validator +1
 
-→ 모두 다음 TASK로 진행
+→ 1, 3번은 다음 TASK로 진행
+→ 2번은 LANDING_SCOUT 후 TASK로 진행
+
+### LANDING_SCOUT
+
+2번("이미 랜딩이나 제품이 있어요") 선택 시에만 진행합니다.
+
+두리가 작업대에서 확대경을 꺼낸다.
+
+"있다고 했지?
+주소를 알려줘.
+직접 가서 볼게."
+
+AskUserQuestion:
+질문: 두리가 묻는다. "랜딩이나 제품
+주소가 뭐야?"
+선택지:
+1. "아직 주소는 없어"
+
+**"아직 주소는 없어" 선택 시**:
+두리: "그래도 괜찮아.
+있는 것 기준으로 가자."
+→ TASK로 진행
+
+**사용자가 URL을 직접 입력한 경우**:
+
+1. WebFetch로 해당 URL에 접속합니다.
+   - 실패 시 WebSearch로 URL 또는 도메인을 검색하여 맥락을 파악합니다.
+2. 페이지 내용에서 아래 정보를 추출합니다:
+   - 제품/서비스 이름
+   - 핵심 가치 제안 (어떤 문제를 해결하는가)
+   - 타겟 사용자
+   - 현재 CTA (Call-to-Action)
+   - 페이지 구성 (히어로, 기능 소개, 가격, 소셜 증거 등)
+   - 전반적 완성도와 개선 여지
+
+두리가 분석 결과를 짧게 요약합니다:
+
+"봤어.
+[제품명/서비스 한 줄].
+[핵심 가치 제안 요약].
+[현재 상태 또는 눈에 띄는 점 1개]."
+
+state.json `character.existingLanding`에 저장합니다:
+
+```json
+{
+  "url": "입력된 URL",
+  "productName": "추출된 제품/서비스명",
+  "valueProp": "핵심 가치 제안",
+  "target": "타겟 사용자",
+  "cta": "현재 CTA",
+  "structure": ["히어로", "기능", ...],
+  "analysis": "전반적 분석 2-3문장"
+}
+```
+
+이 데이터는 이후 block1(캐릭터 생성)과 block2(목표 선언)에서
+NPC가 참조하여 대화를 진행합니다.
+
+→ TASK로 진행
 
 ## TASK
 
@@ -171,7 +232,7 @@ ToolSearch로 `+agentic30` 검색합니다.
 "네 기록이 남으려면
 장부가 열려야 해."
 
-Bash로 `open https://agentic30.app` 실행하여
+Bash로 `open https://go.agentic30.app/join` 실행하여
 브라우저를 엽니다.
 
 "브라우저가 열렸어.

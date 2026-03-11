@@ -44,17 +44,42 @@ Day 8부터는 유료 구독으로 Day 30까지 이어집니다.
 
 ## Getting Started
 
-### Claude Plugin Install
+### Claude Code
 
 ```bash
+# 1. 설치
 claude plugin marketplace add october-academy/agnt
 claude plugin install agnt@agentic30
+
+# 2. Claude Code 실행
+claude
 ```
 
-### Codex (npx skills) Install
+Claude Code 안에서:
+
+```text
+# 3. MCP 인증 (필수 — 최초 1회)
+/mcp
+→ plugin:agnt:agentic30 선택 → Authenticate → 브라우저에서 Google 로그인
+
+# 4. 시작
+/agnt:continue
+```
+
+### Codex
 
 ```bash
+# 1. 설치
 npx skills add october-academy/agnt --agent codex --skill agnt -g -y
+
+# 2. MCP 인증 (필수 — 최초 1회)
+codex mcp add agentic30 --url https://mcp.agentic30.app/mcp
+codex mcp login agentic30
+codex mcp list   # agentic30가 enabled + Auth: OAuth이면 정상
+
+# 3. 시작
+codex
+$agnt-continue
 ```
 
 ## Update
@@ -78,36 +103,6 @@ npx skills update
 # (선택) agnt만 최신으로 재설치
 npx skills add october-academy/agnt --agent codex --skill agnt -g -y
 ```
-
-## Quick Start
-
-### Claude Code (`/agnt:*`)
-
-```bash
-claude
-```
-
-Claude Code에서 `/mcp` 실행 후 `plugin:agnt:agentic30`를 `Authenticate`하고 시작:
-
-```text
-/agnt:continue
-```
-
-### Codex (`$agnt-*`)
-
-```bash
-codex mcp add agentic30 --url https://mcp.agentic30.app/mcp
-codex mcp login agentic30
-codex mcp list
-```
-
-시작:
-
-```text
-$agnt-continue
-```
-
-`codex mcp list`에서 `agentic30`가 `enabled` + `Auth: OAuth`이면 정상입니다.
 
 ## Command Map
 
