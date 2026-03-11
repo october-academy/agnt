@@ -7,7 +7,7 @@ quests:
     type: side
     title: "KPTL 회고"
     xp: 80
-transition: "회고가 끝났습니다. 이제 SPEC v3 verdict를 내립니다."
+transition: "회고가 끝났습니다. 이제 SPEC v3 최종 판단을 내립니다."
 ---
 
 # KPTL + 배운 점 정리
@@ -22,8 +22,8 @@ transition: "회고가 끝났습니다. 이제 SPEC v3 verdict를 내립니다."
 
 🎣 어부 달이
 
-"회고는 verdict(최종 판단)를 대신하지 않아.
-하지만 verdict를 더 선명하게 해.
+"회고는 최종 판단을 대신하지 않아.
+하지만 최종 판단을 더 선명하게 해.
 
 KPTL — Keep/Problem/Try/Learn,
 유지/문제/시도/배운 것.

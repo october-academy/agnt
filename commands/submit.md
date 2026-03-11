@@ -86,7 +86,7 @@ npx skills add october-academy/agnt --agent codex --skill agnt
    - **text/template**: state.json 또는 관련 파일에서 데이터 존재 확인
    - **server_state**:
      - `check=verify_discord`면 MCP `verify_discord` 호출
-     - 그 외 Week 1 proof-loop 체크(`interview_saved`, `proof_surface_live`, `proof_responses_gte` 등)는 MCP `verify_server_state` 호출
+     - 그 외 Week 1 검증 루프 체크(`interview_saved`, `proof_surface_live`, `proof_responses_gte` 등)는 MCP `verify_server_state` 호출
      - `params.count`가 있으면 `count`로 전달
 
 5. 검증 결과를 표시:

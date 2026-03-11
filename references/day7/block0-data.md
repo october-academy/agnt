@@ -1,16 +1,16 @@
 ---
 stop_mode: checkpoint
-title: "Week 1 proof review"
+title: "Week 1 검증 리뷰"
 npc: 달이
 quests:
   - id: d7-data-collect
     type: main
-    title: "Week 1 proof review"
+    title: "Week 1 검증 리뷰"
     xp: 50
-transition: "proof review가 완료되었습니다. 이제 회고와 verdict를 정리합니다."
+transition: "검증 리뷰가 완료되었습니다. 이제 회고와 최종 판단을 정리합니다."
 ---
 
-# Week 1 proof review
+# Week 1 검증 리뷰
 
 ## ROOM
 
@@ -27,22 +27,22 @@ transition: "proof review가 완료되었습니다. 이제 회고와 verdict를 
 "오늘은 흩어진 걸
 한 번에 모아서 보자.
 
-customer,
-channel,
-monetization,
-decision.
+고객 검증,
+채널 검증,
+수익 검증,
+최종 판단.
 
 이 네 줄기가 같이 보여야
-verdict(최종 판단)를 낼 수 있어."
+최종 판단을 낼 수 있어."
 
 ## GUIDE
 
 다음을 모읍니다.
 
-1. customer proof
-2. channel proof
-3. monetization proof
-4. decision proof
+1. 고객 검증
+2. 채널 검증
+3. 수익 검증
+4. 최종 판단
 
 각 항목마다
 "무엇이 가장 강했는가"를
@@ -51,7 +51,7 @@ verdict(최종 판단)를 낼 수 있어."
 ## STOP
 
 AskUserQuestion:
-질문: 달이가 묻는다. "Week 1 proof review가
+질문: 달이가 묻는다. "Week 1 검증 리뷰가
 됐어?"
 
 1. "확인"

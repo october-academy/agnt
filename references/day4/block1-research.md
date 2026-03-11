@@ -26,7 +26,7 @@ transition: "패턴 정리가 끝났습니다. 이제 change set을 좁힙니다
 "좋아.
 이제 반응을
 한 줄 감상으로 끝내지 말고
-패턴으로 남기자."
+패턴으로 남겨."
 
 ## CONVERSATION
 
@@ -57,7 +57,7 @@ transition: "패턴 정리가 끝났습니다. 이제 change set을 좁힙니다
 
 - 누가/어디서/무슨 반응인지 빠지면 다시 묻기
 - customer/channel/monetization 중 어떤 축인지 구분하기
-- 칭찬과 proof를 섞지 않기
+- 칭찬과 검증을 섞지 않기
 
 ## SUMMARY
 

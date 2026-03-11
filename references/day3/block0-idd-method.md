@@ -1,16 +1,16 @@
 ---
 stop_mode: full
-title: "Proof CTA 설계"
+title: "검증 CTA 설계"
 npc: 석이
 quests:
   - id: d3-idd-method
     type: main
-    title: "Proof CTA 설계"
+    title: "검증 CTA 설계"
     xp: 50
-transition: "proof CTA가 정리되었습니다. 이제 이걸 SPEC v1 구조에 묶어봅시다."
+transition: "검증 CTA가 정리되었습니다. 이제 이걸 SPEC v1 구조에 묶어봅시다."
 ---
 
-# Proof CTA 설계
+# 검증 CTA 설계
 
 ## ROOM
 
@@ -31,9 +31,9 @@ Day 2에서 모은 증거를 바탕으로
 이번 주에 받고 싶은 반응을
 한 문장으로 고정하는 거지.
 
-그게 `proof CTA`야."
+그게 `검증 CTA`야."
 
-## SCENE 1: proof CTA란
+## SCENE 1: 검증 CTA란
 
 석이가 세 칸을 그린다.
 
@@ -55,19 +55,22 @@ Day 2에서 모은 증거를 바탕으로
 그게 'objection'이야.
 
 거절이 아니라
-아직 넘어가지 못한 장벽이지.
-이게 보여야 다음 change set이 나와."
+아직 넘어야 할 장벽이지.
+이게 보여야 다음 수정 사항이 나와.
+
+뭘 유지하고 뭘 바꿀지 정리한 것,
+'수정 사항'이라 부르자."
 
 "좋아 보이세요?"는
-proof CTA가 아니다.
+검증 CTA가 아니다.
 반응을 어떻게 읽을지까지
-포함돼야 한다.
+포함시켜야 한다.
 
 ### CHOICE
 
 AskUserQuestion:
 질문: 석이가 묻는다. "어떤 문장이
-proof CTA에 더 가깝지?"
+검증 CTA에 더 가깝지?"
 선택지:
 
 1. "관심 있으시면 봐주세요"
@@ -79,16 +82,16 @@ proof CTA에 더 가깝지?"
 석이가 고개를 끄덕인다.
 "맞아.
 행동이나 objection이 남아야
-내일 change set으로 이어져."
+내일 수정 사항으로 이어져."
 
 ## SCENE 2: Day 3에서 고정할 것
 
 석이가 오늘 산출물을 적는다.
 
-- proof CTA
+- 검증 CTA
 - v1 hypothesis
-- v0 대비 change set
-- 다음 metric gate
+- v0 대비 수정 사항
+- 다음 목표 수치
 
 "Day 3는 스펙의 뼈대를 늘리는 날이 아니라
 Day 2 증거를 기준으로
@@ -103,12 +106,12 @@ Day 2 증거를 기준으로
 1. 누구에게 보낼지
 2. 어떤 반응을 받고 싶은지
 3. 그 반응이 나오면
-   무엇을 keep / change 할지
+   무엇을 유지 / 변경 할지
 
 ## STOP
 
 AskUserQuestion:
-질문: 석이가 묻는다. "proof CTA가
+질문: 석이가 묻는다. "검증 CTA가
 한 문장으로 정리됐어?"
 
 1. "다음"
@@ -124,7 +127,7 @@ AskUserQuestion:
 선택지:
 
 1. "feature list"
-2. "proof CTA와 change set"
+2. "검증 CTA와 수정 사항"
 3. "경쟁사 전체 분석"
 
 정답: 2번.

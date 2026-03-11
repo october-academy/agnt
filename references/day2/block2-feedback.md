@@ -16,7 +16,7 @@ quests:
     title: "첫 팬"
     xp: 50
     trigger: "landing_form_responses >= 3"
-transition: "Day 2 완료! customer/channel proof가 모였습니다. 다음은 설계의 탑에서 SPEC v1을 적습니다."
+transition: "Day 2 완료! 고객 검증과 채널 검증이 모였습니다. 다음은 설계의 탑에서 SPEC v1을 적습니다."
 ---
 
 # 고객 반응 수집 + 신호 정리
@@ -35,16 +35,16 @@ transition: "Day 2 완료! customer/channel proof가 모였습니다. 다음은 
 
 "좋아.
 이제 막연한 느낌 말고
-남길 수 있는 proof를 적자.
+남길 수 있는 검증 결과를 적자.
 
 오늘 필요한 건
-customer proof 3건,
+고객 검증 3건,
 그리고 내일 `SPEC v1`에 넣을
 수정 사항 힌트야.
 
 인터뷰와 피드백을 보고
 바꾸기로 한 목록 —
-그게 'change set'이야."
+그게 '수정 사항'이야."
 
 ## GUIDE
 
@@ -63,7 +63,7 @@ customer proof 3건,
 누가:
 어디서:
 무슨 반응:
-이게 customer proof / channel proof 중 무엇인지:
+이게 고객 검증 / 채널 검증 중 무엇인지:
 내일 SPEC에 반영할 포인트:
 ```
 
@@ -79,16 +79,16 @@ customer proof 3건,
 바리가 네 칸으로 정리하라고 말한다.
 
 ```text
-customer proof:
+고객 검증:
 - ...
 
-channel proof:
+채널 검증:
 - ...
 
 약한 신호:
 - ...
 
-내일 v1에 반영할 수정 사항 (change set):
+내일 v1에 반영할 수정 사항:
 - ...
 ```
 
@@ -118,7 +118,7 @@ ON_CONFIRM을 수행합니다.
 1. `d2-feedback`은
    구조화된 3건 이상 반응이 있는지 확인합니다.
 2. `d2-insights`는
-   weak signal / strongest proof / next change-set이
+   weak signal / strongest evidence / next 수정 사항이
    남았는지 확인합니다.
 3. state.json에
    `customerProof`, `channelProof`,

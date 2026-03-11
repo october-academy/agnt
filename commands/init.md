@@ -40,7 +40,7 @@
 1. `{AGNT_DIR}/state.json`을 Read합니다.
    - 파일이 없으면 `{AGNT_DIR}/state.json`에 기본 상태를 생성 (디렉토리 없으면 함께 생성)하고 아래 메시지를 출력한 뒤 종료:
      ```
-     📦 초기 상태를 만들었습니다.
+     📦 초기 상태를 만들었다.
      이제 `/agnt:continue`로 Day 0부터 시작하세요.
      ```
    - 파싱 실패 시 `{AGNT_DIR}/state.json.bak`으로 백업 후 기본 상태로 재생성합니다.

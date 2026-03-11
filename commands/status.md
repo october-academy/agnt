@@ -106,9 +106,9 @@ npx skills add october-academy/agnt --agent codex --skill agnt
   현재 병목: {builderContext.primaryBottleneck|null}
   오퍼 타입: {builderContext.offerType|null}
   monetization rail: {builderContext.monetizationRail|null}
-  strongest proof: {builderContext.monetizationProof.summary|null}
+  가장 강한 검증 결과: {builderContext.monetizationProof.summary|null}
   latest decision: {builderContext.latestDecision.summary|null}
-  next proof target: {state.nextProofTarget|builderContext.latestDecision.nextStep|null}
+  다음 검증 목표: {state.nextProofTarget|builderContext.latestDecision.nextStep|null}
 ```
 
 5. 스킬 해금 상태:

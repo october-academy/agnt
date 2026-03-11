@@ -1,10 +1,10 @@
 {
   "day": 5,
   "location": "시장의 거리",
-  "description": "델타를 읽고 SPEC v2를 기록해 무엇을 유지/수정할지 판단하는 날.",
+  "description": "변화량을 읽고 SPEC v2를 기록해 무엇을 유지/수정할지 판단하는 날.",
   "blocks": [
     { "file": "block0-target.md", "title": "델타 읽기 기준 정리" },
-    { "file": "block1-conversation.md", "title": "추가 customer proof 확보" },
+    { "file": "block1-conversation.md", "title": "추가 고객 검증 확보" },
     { "file": "block2-analysis.md", "title": "델타 분석 + SPEC v2" }
   ],
   "quests": [
@@ -22,7 +22,7 @@
     {
       "id": "d5-interviews",
       "type": "main",
-      "title": "추가 customer proof 3건",
+      "title": "추가 고객 검증 3건",
       "description": "핵심 가설을 더 날카롭게 만들 추가 반응 3건을 확보한다.",
       "xp": 100,
       "verificationRule": { "type": "template", "fields": ["interview1", "interview2", "interview3"] },

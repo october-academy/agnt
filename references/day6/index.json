@@ -1,11 +1,11 @@
 {
   "day": 6,
   "location": "상인의 길드",
-  "description": "명시적 수익화 제안을 만들고 실제 결제 의향 증거를 캡처하는 날.",
+  "description": "명시적 수익화 제안을 만들고 실제 결제 의향 검증을 캡처하는 날.",
   "blocks": [
     { "file": "block0-models.md", "title": "Monetization ask 설계" },
-    { "file": "block1-pricing.md", "title": "Monetization proof 캡처" },
-    { "file": "block2-document.md", "title": "Proof capture + SPEC 반영" }
+    { "file": "block1-pricing.md", "title": "수익 검증 캡처" },
+    { "file": "block2-document.md", "title": "검증 기록 + SPEC 반영" }
   ],
   "quests": [
     {
@@ -22,7 +22,7 @@
     {
       "id": "d6-pricing",
       "type": "main",
-      "title": "Monetization proof 캡처",
+      "title": "수익 검증 캡처",
       "description": "명시적 결제 의향, 수동 이체, 광고 수익 중 하나를 기록한다.",
       "xp": 100,
       "verificationRule": { "type": "text", "minLength": 30 },

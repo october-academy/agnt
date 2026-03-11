@@ -1,18 +1,18 @@
 {
   "day": 7,
   "location": "회고의 호수",
-  "description": "Week 1 proof를 종합해 SPEC v3 verdict와 Week 2 handoff를 남기는 날.",
+  "description": "Week 1 검증을 종합해 SPEC v3 최종 판단과 Week 2 handoff를 남기는 날.",
   "blocks": [
-    { "file": "block0-data.md", "title": "Week 1 proof review" },
+    { "file": "block0-data.md", "title": "Week 1 검증 리뷰" },
     { "file": "block1-kptl.md", "title": "KPTL + 배운 점 정리" },
-    { "file": "block2-decision.md", "title": "SPEC v3 verdict" },
+    { "file": "block2-decision.md", "title": "SPEC v3 최종 판단" },
     { "file": "block3-finale.md", "title": "Week 2 handoff" }
   ],
   "quests": [
     {
       "id": "d7-data-collect",
       "type": "main",
-      "title": "Week 1 proof review",
+      "title": "Week 1 검증 리뷰",
       "description": "customer/channel/monetization evidence를 한 번에 모아 본다.",
       "xp": 50,
       "verificationRule": { "type": "text", "minLength": 20 },
@@ -34,8 +34,8 @@
     {
       "id": "d7-go-nogo",
       "type": "main",
-      "title": "SPEC v3 verdict",
-      "description": "최신 델타와 monetization checkpoint를 바탕으로 Week 1 verdict를 기록한다.",
+      "title": "SPEC v3 최종 판단",
+      "description": "최신 변화량과 수익 검증 checkpoint를 바탕으로 Week 1 최종 판단을 기록한다.",
       "xp": 100,
       "verificationRule": { "type": "text", "minLength": 20 },
       "evidenceClass": "decision",

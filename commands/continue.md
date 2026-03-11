@@ -198,8 +198,6 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 5. 공유 레퍼런스 Read (**한번에 병렬로**):
    - `{REFS_DIR}/shared/narrative-engine.md`
    - `{REFS_DIR}/shared/npcs.md`
-   - currentDay == 0 이고 currentBlock == 1이면
-     `{REFS_DIR}/shared/profile-constants.json`도 추가 Read
    - REFS_PRO_DIR != null이면 `{REFS_PRO_DIR}/shared/npcs-extended.md`도 추가 Read (additive — 기존 NPC에 합산)
 
 6. 현재 블록 레퍼런스 Read:

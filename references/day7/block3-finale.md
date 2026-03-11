@@ -7,7 +7,7 @@ quests:
     type: side
     title: "Week 2 handoff note"
     xp: 30
-transition: "Week 1 proof loop가 마무리되었습니다."
+transition: "Week 1 검증 루프가 마무리되었습니다."
 ---
 
 # Week 2 넘기기 (handoff)
@@ -32,7 +32,7 @@ Week 1을 끝내는 문장은
 ## GUIDE
 
 좋은 넘기기(handoff)는
-verdict와 모순되지 않는다.
+최종 판단과 모순되지 않는다.
 
 - 진행 (Go): 확장할 한 가지
 - 반복 (Iterate): 다시 검증할 한 가지

@@ -8,7 +8,7 @@ quests:
     title: "Builder 상태 진단 + SPEC v0 기준선"
     xp: 100
 on_complete: save_interview
-transition: "기준선이 잡혔습니다. 이제 이번 주에 검증할 proof surface와 next proof target을 정리해봅시다."
+transition: "기준선이 잡혔습니다. 이제 이번 주 검증 채널과 다음 검증 목표를 정리해봅시다."
 ---
 
 # Builder 진단 + SPEC v0 기준선
@@ -32,7 +32,7 @@ transition: "기준선이 잡혔습니다. 이제 이번 주에 검증할 proof 
 1. 지금 stage를 고정한다
 2. 가장 큰 병목을 고른다
 3. `SPEC v0` 기준선을 만든다
-4. 이번 주 첫 proof target을 좁힌다
+4. 이번 주 첫 검증 목표를 좁힌다
 
 예쁜 답보다
 실제 장면이 필요해."
@@ -43,24 +43,24 @@ transition: "기준선이 잡혔습니다. 이제 이번 주에 검증할 proof 
 
 - [ ] 현재 stage 1개
 - [ ] 핵심 병목 1개
-- [ ] 현재 surface 또는 만들 surface 1개
+- [ ] 현재 채널 또는 만들 채널 1개
 - [ ] 기준 가설 1개
-- [ ] 이번 주 first proof target 1개
+- [ ] 이번 주 첫 검증 목표 1개
 
 ### 대화 규칙
 
 - "누구를 위해 무엇을 확인하려는가"가 빠지면 다시 묻기
-- 기존 자산 유저는 새 아이디어로 도망가지 않기
+- 이미 뭔가 만든 사람은 새 아이디어로 빠지지 않기
 - no_idea 유저는 문제 장면 없이 solution으로 점프하지 않기
 - 소리 말투: "정말 그런가? 어떤 장면에서?"
 
 ### 인터뷰 핵심 질문
 
-1. 지금 자산 단계는 무엇인가
+1. 지금 단계는 무엇인가
 2. 현재 가장 큰 병목은 무엇인가
 3. 이 병목을 보여주는 최근 증거는 무엇인가
 4. 이번 주 무엇이 증명되면 앞으로 밀 수 있는가
-5. 어떤 surface에서 그 proof를 받을 것인가
+5. 어떤 채널에서 그 검증을 받을 것인가
 
 ## SUMMARY
 
@@ -69,11 +69,11 @@ transition: "기준선이 잡혔습니다. 이제 이번 주에 검증할 proof 
 ```text
 Day 1 기준선
 - 진입 경로 (entry mode): ...
-- 자산 단계 (asset stage): ...
+- 현재 단계 (asset stage): ...
 - 핵심 병목 (primary bottleneck): ...
 - 기준 가설 (baseline hypothesis): ...
-- 이번 주 proof target: ...
-- 첫 proof surface: ...
+- 이번 주 검증 목표: ...
+- 첫 검증 채널: ...
 ```
 
 소리:

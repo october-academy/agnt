@@ -28,17 +28,17 @@ transition: "v1 초안이 잡혔습니다. 이제 문서로 기록하고 놓친 
 ### 완성 체크리스트
 
 - [ ] 핵심 가설 (Hypothesis)
-- [ ] 변경 사항 (Change Set)
+- [ ] 수정 사항 (Change Set)
 - [ ] 증거 요약 (Evidence Summary)
-- [ ] 판단 기준 (Metric Gate)
-- [ ] Proof CTA
+- [ ] 목표 수치 (Metric Gate)
+- [ ] 검증 CTA
 - [ ] Day 4에서 읽을 신호
 
 ### 인터뷰 규칙
 
-- Day 2 evidence에서 바로 이어지지 않는 문장 금지
+- Day 2 evidence에서 바로 이어지지 않는 주장은 넣지 않기
 - v0 대비 무엇이 바뀌었는지 분명히 적기
-- CTA 이후 어떤 proof가 나오면 keep / change 할지 말하기
+- CTA 이후 어떤 검증 결과가 나오면 유지 / 변경 할지 말하기
 - 석이 말투: "그건 근거가 아니라 주장인데?"
 
 ### 석이가 묻는 핵심 질문
@@ -56,10 +56,10 @@ transition: "v1 초안이 잡혔습니다. 이제 문서로 기록하고 놓친 
 ```text
 v1 초안
 - 핵심 가설 (Hypothesis): ...
-- 변경 사항 (Change Set): ...
+- 수정 사항 (Change Set): ...
 - 증거 요약 (Evidence Summary): ...
-- 판단 기준 (Metric Gate): ...
-- Proof CTA: ...
+- 목표 수치 (Metric Gate): ...
+- 검증 CTA: ...
 - 다음 단계 (Next Step): Day 4에서 읽을 신호
 ```
 

@@ -7,7 +7,7 @@ quests:
     type: main
     title: "Monetization ask 설계"
     xp: 50
-transition: "유효한 monetization rail을 골랐습니다. 이제 실제 proof를 캡처합시다."
+transition: "유효한 monetization rail을 골랐습니다. 이제 실제 검증을 캡처합시다."
 ---
 
 # 수익화 제안 (Monetization ask) 설계
@@ -25,11 +25,11 @@ transition: "유효한 monetization rail을 골랐습니다. 이제 실제 proof
 💰 길드장 은이
 
 "오늘은 가격표를 예쁘게 쓰는 날이 아니야.
-누가 현재 product direction에
+누가 지금 이 방향의 제품에
 실제로 돈을 낼 의향이 있는지
 수익화 제안을 던지는 날이지."
 
-## SCENE 1: 인정되는 proof
+## SCENE 1: 인정되는 검증
 
 은이가 세 줄만 적는다.
 
@@ -38,12 +38,12 @@ transition: "유효한 monetization rail을 골랐습니다. 이제 실제 proof
 - `ad_revenue_received` (광고 수입 확인)
 
 "이 셋 말고는
-오늘 수익화 proof로
+오늘 수익 검증으로
 올려 읽지 마.
 
 waitlist나 막연한 관심은
-proof가 아니라
-다음 질문 재료야."
+검증이 아니라
+다음 질문 거리일 뿐이야."
 
 ## SCENE 2: ask 구조
 
@@ -98,5 +98,5 @@ AskUserQuestion:
 은이가 안쪽 회의실을 가리킨다.
 
 "좋아.
-이제 실제로 남길 proof를
+이제 실제로 남길 검증을
 적자."

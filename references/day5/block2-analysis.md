@@ -11,7 +11,7 @@ quests:
     type: side
     title: "v0→v1 데이터 차이 확인"
     xp: 30
-transition: "Day 5 완료! 이제 monetization ask와 proof checkpoint를 만듭니다."
+transition: "Day 5 완료! 이제 monetization ask와 검증 checkpoint를 만듭니다."
 ---
 
 # 델타 분석 + SPEC v2
@@ -29,7 +29,7 @@ transition: "Day 5 완료! 이제 monetization ask와 proof checkpoint를 만듭
 
 "좋아.
 이제 기분 말고
-delta를 읽자."
+변화량을 읽자."
 
 ## GUIDE
 
@@ -37,7 +37,7 @@ delta를 읽자."
 
 1. response 증가/감소
 2. CTA 이후 행동 변화
-3. customer proof의 질 변화
+3. 고객 검증의 질 변화
 4. Day 6 ask로 이어질 근거
 
 ### `SPEC v2` 최소 구조
@@ -46,10 +46,10 @@ delta를 읽자."
 {
   "version": "v2",
   "day": 5,
-  "hypothesis": "{delta를 반영한 현재 가설 (핵심 가설)}",
-  "changes": "{v1 대비 변경 사항 (change set)}",
-  "evidenceSummary": "{response와 proof 핵심 요약 (증거 요약)}",
-  "metricGate": "{다음에 통과해야 할 기준 (판단 기준)}",
+  "hypothesis": "{변화량을 반영한 현재 가설 (핵심 가설)}",
+  "changes": "{v1 대비 수정 사항}",
+  "evidenceSummary": "{response와 검증 핵심 요약 (증거 요약)}",
+  "metricGate": "{다음에 통과해야 할 목표 수치 (판단 기준)}",
   "monetizationCheckpoint": {
     "proofType": null,
     "status": null,
@@ -60,11 +60,11 @@ delta를 읽자."
   },
   "decision": null,
   "deltaSummary": {
-    "response_delta": "{반응 증감}",
-    "cta_delta": "{CTA 증감}",
+    "response_delta": "{반응 변화량}",
+    "cta_delta": "{CTA 변화량}",
     "strongest_proof": "{핵심 변화}"
   },
-  "nextStep": "{Day 6에서 확인할 수익화 proof (다음 단계)}"
+  "nextStep": "{Day 6에서 확인할 수익 검증 (다음 단계)}"
 }
 ```
 
