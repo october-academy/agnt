@@ -40,6 +40,21 @@
       "evidenceClass": "decision",
       "proofType": "spec_review",
       "proofStatus": "captured"
+    },
+    {
+      "id": "d3-reading",
+      "type": "side",
+      "title": "Day 3 추천 읽기",
+      "description": "마케팅은 영업이다, 개발자 영업, Build In Public 중 1개 이상 읽기.",
+      "xp": 20,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "link_clicks_gte",
+        "params": { "count": 1 }
+      },
+      "evidenceClass": "channel",
+      "proofType": "blog_reading",
+      "proofStatus": "captured"
     }
   ]
 }

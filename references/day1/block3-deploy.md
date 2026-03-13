@@ -11,10 +11,18 @@ quests:
     type: side
     title: "첫 추적 링크 생성"
     xp: 30
+  - id: d1-bio-landing
+    type: side
+    title: "바이오에 랜딩 카드 연결"
+    xp: 30
   - id: d1-discord-project
     type: side
     title: "프로젝트 소개"
     xp: 30
+  - id: d1-reading
+    type: side
+    title: "Day 1 추천 읽기"
+    xp: 20
   - id: d1-branding
     type: hidden
     title: "프로젝트 브랜딩"
@@ -100,6 +108,48 @@ UTM 파라미터는 대화 맥락에서 결정한다:
 > 확인, 수정, 삭제할 수 있다.
 > 내일 Day 2에서 채널별 링크를 더 만들 거다.
 
+### `d1-bio-landing` — 바이오에 랜딩 카드 연결
+
+검증 채널이 live 상태가 되면
+바이오 페이지에 `landing_card` 블록을 추가한다.
+
+`manage_bio_blocks` MCP 도구:
+- `action`: "add"
+- `block_type`: "landing_card"
+- `data`: { "landing_id": "{랜딩 ID}" } (랜딩 배포한 경우)
+  또는 `block_type`: "link", `data`: { "url": "{검증 채널 URL}", "title": "{프로젝트명}" }
+
+소리:
+"바이오에 네 검증 채널이 걸렸어.
+사람들이 프로필 보고
+바로 눌러볼 수 있다."
+
+> 바이오 수정: https://agentic30.app/settings/bio
+
+### `d1-reading` — Day 1 추천 읽기
+
+소리가 가죽 주머니에서 종이를 꺼낸다.
+
+"오늘 만든 SPEC과 검증 채널은
+이 방법론들의 출발점이야."
+
+`create_utm_link` MCP 도구로
+`{REFS_DIR}/shared/week1-reading-list.md`의 Day 1 섹션을 Read합니다.
+
+- 공통값: `channel="blog"`, `utmSource="agnt"`, `utmMedium="reading"`
+- 항목별 `url`, `title`, `utmCampaign`, `utmContent`는 Day 1 섹션을 그대로 사용합니다.
+- 3개 링크를 생성하고 short URL을 아래 형식으로 정리합니다.
+
+```
+📚 Day 1 추천 읽기
+1. 인터뷰 주도 개발 → {shortUrl}
+2. 랜딩페이지 전환율 → {shortUrl}
+3. The Mom Test 기초 → {shortUrl}
+```
+
+소리: "내일 고객 반응을 모으기 전에
+읽어두면 질문이 달라진다."
+
 ### `d1-discord-project`
 
 Discord #프로젝트-소개 채널에
@@ -146,9 +196,16 @@ ON_CONFIRM을 수행합니다.
    - 랜딩 배포한 경우 `landingId` 연결
    - 생성된 short URL을 유저에게 보여준다
    - state.json에 `firstTrackingLink`로 저장한다
-3. `d1-discord-project`:
+3. `d1-bio-landing`:
+   `get_bio`로 바이오에 landing_card 또는 link 블록이 있는지 확인합니다.
+   없으면 `manage_bio_blocks`로 추가 후 제출합니다.
+4. `d1-discord-project`:
    프로젝트 소개가 확인되면 제출합니다.
-4. `d1-branding`:
+5. `d1-reading`:
+   `get_links` source: "manual"로 조회하여
+   utmMedium: "reading", utmCampaign: "day1"인 링크 중
+   click_count > 0인 것이 1개 이상이면 제출합니다.
+6. `d1-branding`:
    `package.json`이 있으면 hidden quest로 처리합니다.
 
 ## MOVE

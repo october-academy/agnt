@@ -127,7 +127,7 @@ npx skills add october-academy/agnt --agent codex --skill agnt
   {✅/🔒} get_spec_iterations (Lv.1)
   {✅/🔒} deploy_landing (Lv.3)
   {✅/🔒} get_landing_analytics (Lv.3)
-  {✅/🔒} create_utm_link (Lv.3)
+  {✅/🔒} create_utm_link (Lv.1)
 ```
 
 6. NPC 관계 맵:

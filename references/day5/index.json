@@ -34,7 +34,7 @@
       "id": "d5-analysis",
       "type": "main",
       "title": "SPEC v2 업데이트",
-      "description": "델타 분석을 반영해 SPEC v2와 다음 변경점을 기록한다.",
+      "description": "델타 분석을 반영해 SPEC v2와 다음 변경점을 기록한다. get_links + get_landing_analytics 데이터 비교 기반.",
       "xp": 100,
       "verificationRule": { "type": "text", "minLength": 50 },
       "evidenceClass": "decision",
@@ -45,11 +45,26 @@
       "id": "d5-analytics",
       "type": "side",
       "title": "v0→v1 데이터 차이 확인",
-      "description": "폼 응답, 클릭, reply 같은 신호의 차이를 짧게 정리한다.",
+      "description": "링크 클릭, 폼 응답, 전환율의 변화를 실제 수치로 비교 정리한다.",
       "xp": 30,
       "verificationRule": { "type": "text", "minLength": 20 },
       "evidenceClass": "channel",
       "proofType": "signal_delta",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d5-reading",
+      "type": "side",
+      "title": "Day 5 추천 읽기",
+      "description": "Jon Yongfook, Tony Dinh, Marc Lou 빠른 반복 케이스 중 1개 이상 읽기.",
+      "xp": 20,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "link_clicks_gte",
+        "params": { "count": 1 }
+      },
+      "evidenceClass": "channel",
+      "proofType": "blog_reading",
       "proofStatus": "captured"
     }
   ]

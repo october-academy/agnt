@@ -39,10 +39,25 @@
       "xp": 30,
       "verificationRule": {
         "type": "server_state",
-        "check": "utm_link_created"
+        "check": "utm_links_gte",
+        "params": { "count": 1 }
       },
       "evidenceClass": "channel",
       "proofType": "tracking_link",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d1-bio-landing",
+      "type": "side",
+      "title": "바이오에 랜딩 카드 연결",
+      "description": "바이오 페이지에 검증 채널 링크 또는 랜딩 카드를 추가한다.",
+      "xp": 30,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "bio_setup"
+      },
+      "evidenceClass": "channel",
+      "proofType": "bio_landing_card",
       "proofStatus": "captured"
     },
     {
@@ -54,11 +69,30 @@
       "verificationRule": {
         "type": "server_state",
         "check": "verify_discord",
-        "params": { "check": "message_exists" }
+        "params": {
+          "check": "message_exists",
+          "channelId": "1463468616807743619",
+          "questId": "d1-discord-project"
+        }
       },
       "evidenceClass": "channel",
       "proofType": "project_share",
       "proofStatus": "validated"
+    },
+    {
+      "id": "d1-reading",
+      "type": "side",
+      "title": "Day 1 추천 읽기",
+      "description": "IDD, 랜딩 전환율, Mom Test 블로그 글 중 1개 이상 읽기.",
+      "xp": 20,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "link_clicks_gte",
+        "params": { "count": 1 }
+      },
+      "evidenceClass": "channel",
+      "proofType": "blog_reading",
+      "proofStatus": "captured"
     },
     {
       "id": "d1-branding",

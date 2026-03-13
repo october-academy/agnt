@@ -13,7 +13,7 @@
       "id": "d7-data-collect",
       "type": "main",
       "title": "Week 1 검증 리뷰",
-      "description": "customer/channel/monetization evidence를 한 번에 모아 본다.",
+      "description": "customer/channel/monetization evidence를 get_links + get_landing_analytics + get_bio 데이터와 함께 종합한다.",
       "xp": 50,
       "verificationRule": { "type": "text", "minLength": 20 },
       "evidenceClass": "decision",
@@ -51,6 +51,21 @@
       "verificationRule": { "type": "text", "minLength": 50 },
       "evidenceClass": "decision",
       "proofType": "week2_handoff",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d7-reading",
+      "type": "side",
+      "title": "Day 7 추천 읽기",
+      "description": "Go/Pivot/No-Go 프레임, Pieter Levels, Agentic Engineer 역량 중 1개 이상 읽기.",
+      "xp": 20,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "link_clicks_gte",
+        "params": { "count": 1 }
+      },
+      "evidenceClass": "channel",
+      "proofType": "blog_reading",
       "proofStatus": "captured"
     }
   ]

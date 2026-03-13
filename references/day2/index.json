@@ -3,11 +3,11 @@
   "location": "검증의 광장",
   "description": "고객 검증과 채널 검증을 모아 Day 3 SPEC v1 입력으로 바꾸는 날.",
   "blocks": [
-    { "file": "block-baseline.md", "title": "Week 1 baseline 공유" },
-    { "file": "block0-momtest.md", "title": "The Mom Test — 말보다 행동을 듣기" },
-    { "file": "block1-channels.md", "title": "공유 채널 선정 + 추적 링크 생성" },
-    { "file": "block2-feedback.md", "title": "고객 반응 수집 + 신호 정리" },
-    { "file": "block3-analytics.md", "title": "성과 분석 + 대시보드 가이드" }
+    { "file": "block0-baseline.md", "title": "Week 1 baseline 공유" },
+    { "file": "block1-momtest.md", "title": "The Mom Test — 말보다 행동을 듣기" },
+    { "file": "block2-channels.md", "title": "공유 채널 선정 + 추적 링크 생성" },
+    { "file": "block3-feedback.md", "title": "고객 반응 수집 + 신호 정리" },
+    { "file": "block4-analytics.md", "title": "성과 분석 + 대시보드 가이드" }
   ],
   "quests": [
     {
@@ -18,7 +18,7 @@
       "xp": 30,
       "verificationRule": {
         "type": "server_state",
-        "check": "send_baseline"
+        "check": "baseline_sent"
       },
       "evidenceClass": "channel",
       "proofType": "baseline_share",
@@ -27,10 +27,14 @@
     {
       "id": "d2-channels",
       "type": "main",
-      "title": "공유 채널 3곳 선정",
-      "description": "지금 검증을 얻을 수 있는 고객 채널 3곳을 선정한다.",
+      "title": "공유 채널 3곳 선정 + UTM 링크 생성",
+      "description": "고객 채널 3곳을 선정하고 채널별 UTM 추적 링크를 생성한다.",
       "xp": 50,
-      "verificationRule": { "type": "template", "fields": ["channel1", "channel2", "channel3"] },
+      "verificationRule": {
+        "type": "server_state",
+        "check": "channels_active_gte",
+        "params": { "count": 3 }
+      },
       "evidenceClass": "channel",
       "proofType": "channel_selection",
       "proofStatus": "captured"
@@ -54,7 +58,8 @@
       "xp": 40,
       "verificationRule": {
         "type": "server_state",
-        "check": "utm_link_created"
+        "check": "utm_links_gte",
+        "params": { "count": 3 }
       },
       "evidenceClass": "channel",
       "proofType": "tracking_links",
@@ -90,11 +95,27 @@
       "xp": 40,
       "verificationRule": {
         "type": "server_state",
-        "check": "analytics_reviewed"
+        "check": "utm_links_gte",
+        "params": { "count": 1 }
       },
       "evidenceClass": "channel",
       "proofType": "analytics_review",
       "proofStatus": "validated"
+    },
+    {
+      "id": "d2-reading",
+      "type": "side",
+      "title": "Day 2 추천 읽기",
+      "description": "Mom Test 실전, 한국 채널 가이드, UTM 설계, Cold DM 중 1개 이상 읽기.",
+      "xp": 20,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "link_clicks_gte",
+        "params": { "count": 1 }
+      },
+      "evidenceClass": "channel",
+      "proofType": "blog_reading",
+      "proofStatus": "captured"
     },
     {
       "id": "d2-first-fan",

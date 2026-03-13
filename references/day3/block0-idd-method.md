@@ -73,10 +73,10 @@ AskUserQuestion:
 검증 CTA에 더 가깝지?"
 선택지:
 
-1. "관심 있으시면 봐주세요"
+1. "출시 알림을 받고 싶으시면 이메일 남겨주세요"
 2. "이 페이지를 보고
    가장 안 와닿는 지점을 말해주세요"
-3. "서비스가 멋진지 평가해주세요"
+3. "서비스가 필요한지 평가해주세요"
 
 정답: 2번.
 석이가 고개를 끄덕인다.
@@ -96,6 +96,27 @@ AskUserQuestion:
 "Day 3는 스펙의 뼈대를 늘리는 날이 아니라
 Day 2 증거를 기준으로
 무엇을 바꿨는지 남기는 날이야."
+
+### 📚 Day 3 추천 읽기
+
+석이가 책장에서 세 권을 꺼낸다.
+
+"CTA를 설계하기 전에
+세일즈와 커뮤니케이션 감각을 잡아."
+
+`create_utm_link` MCP 도구로
+`{REFS_DIR}/shared/week1-reading-list.md`의 Day 3 섹션을 Read합니다.
+
+- 공통값: `channel="blog"`, `utmSource="agnt"`, `utmMedium="reading"`
+- 항목별 `url`, `title`, `utmCampaign`, `utmContent`는 Day 3 섹션을 그대로 사용합니다.
+- 3개 링크를 생성하고 short URL을 아래 형식으로 정리합니다.
+
+```
+📚 Day 3 추천 읽기
+1. 마케팅은 영업이다 → {shortUrl}
+2. 개발자에게 영업이란 → {shortUrl}
+3. Build In Public 전략 → {shortUrl}
+```
 
 ## TASK
 
@@ -126,9 +147,9 @@ AskUserQuestion:
 "Day 3에서 제일 먼저 고정해야 할 건?"
 선택지:
 
-1. "feature list"
+1. "v0의 가설을 더 넓히기"
 2. "검증 CTA와 수정 사항"
-3. "경쟁사 전체 분석"
+3. "Day 2 피드백을 리포트로 정리"
 
 정답: 2번.
 석이가 웃는다.

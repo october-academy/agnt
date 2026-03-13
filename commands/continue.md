@@ -195,17 +195,27 @@ npx skills add october-academy/agnt --agent codex --skill agnt
    - **콘텐츠 없음 + REFS_PRO_DIR != null** (전체 완료):
      졸업 축하 메시지 출력 후 종료
 
-5. 공유 레퍼런스 Read (**한번에 병렬로**):
-   - `{REFS_DIR}/shared/narrative-engine.md`
-   - `{REFS_DIR}/shared/npcs.md`
-   - REFS_PRO_DIR != null이면 `{REFS_PRO_DIR}/shared/npcs-extended.md`도 추가 Read (additive — 기존 NPC에 합산)
-
-6. 현재 블록 레퍼런스 Read:
+5. 현재 Day/Block authored source 확인:
    - `{REFS_DIR}/day{currentDay}/index.json` Read 시도
      → 실패하고 REFS_PRO_DIR != null이면: `{REFS_PRO_DIR}/day{currentDay}/index.json` Read
      → 둘 다 없으면: "Day {N} 콘텐츠를 찾을 수 없습니다. Pro 콘텐츠는 agnt-pro 설치가 필요합니다." 출력 후 종료
-   - `{REFS_DIR}/day{currentDay}/block{currentBlock}-*.md` Read 시도
-     → 실패하고 REFS_PRO_DIR != null이면: `{REFS_PRO_DIR}/day{currentDay}/block{currentBlock}-*.md` Read
+   - `index.json.blocks[currentBlock]`를 우선 source of truth로 사용하여 현재 block file/title을 결정
+   - `blocks[currentBlock].file`이 있으면 그 정확한 파일명을 Read
+   - legacy fallback으로만 `block{currentBlock}-*.md` 패턴을 사용
+
+6. 공유 레퍼런스 Read (**현재 block context 기준으로 병렬 로드**):
+   - 기본 core:
+     - `{REFS_DIR}/shared/narrative-engine.md`
+     - `{REFS_DIR}/shared/npcs.md`
+   - 인터뷰 block이면 추가:
+     - `{REFS_DIR}/shared/interview-guide.md`
+   - 추천 읽기 quest/section이 있는 block이면 추가:
+     - `{REFS_DIR}/shared/week1-reading-list.md`
+   - `crisis_point`, `branch_by`, extended narrative/NPC 규칙이 필요한 block이면 추가:
+     - `{REFS_DIR}/extended/narrative-engine-extended.md`
+     - `{REFS_DIR}/extended/npcs-extended.md`
+   - REFS_PRO_DIR != null이고 active block/day가 Pro additive NPC/world rule을 요구하면 추가:
+     - `{REFS_PRO_DIR}/shared/npcs-extended.md`
 
 7. **NPC 선택 로딩**: 블록 frontmatter의 `npc` 필드를 확인하고, `npcs.md`에서 해당 NPC 카드 섹션만 참조합니다. 나머지 NPC 카드는 무시합니다.
 
@@ -253,7 +263,10 @@ npx skills add october-academy/agnt --agent codex --skill agnt
 - STOP PROTOCOL **절대 위반 금지** (narrative-engine.md Section 8 참조)
 - Full STOP에서 STOP 이전 CHECK/QUIZ AskUserQuestion **금지** (STOP 확인용 AskUserQuestion은 허용)
 - 블록 내용은 references/에서 Read한 대로 진행
-- 인터뷰 블록은 `{REFS_DIR}/shared/interview-guide.md`도 Read
+- 인터뷰 블록만 `{REFS_DIR}/shared/interview-guide.md`를 추가 Read
+- 추천 읽기 block만 `{REFS_DIR}/shared/week1-reading-list.md`를 추가 Read
+- runtime-only guide(`references/runtime/*`)는 default learner path에서 Read하지 않음
+- extended asset(`references/extended/*`, `references-pro/shared/*-extended.md`)은 active block/context가 요구할 때만 additive로 Read
 - `{{variable}}` 보간은 narrative-engine.md 규칙을 따름
 - Day 1 `block3-deploy`는 **MCP `deploy_landing`만** 사용
 - Day 1 `block3-deploy`에서 `deploy_landing` 호출 시 `formSchema`를 반드시 포함 (landing.html form 필드 기반 JSON 배열 문자열)

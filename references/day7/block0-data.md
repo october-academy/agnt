@@ -37,6 +37,60 @@ transition: "검증 리뷰가 완료되었습니다. 이제 회고와 최종 판
 
 ## GUIDE
 
+### Week 1 종합 데이터 수집 (자동)
+
+MCP 도구 3개를 호출하여 전체 수치를 모읍니다:
+
+1. `get_links` source: "manual" — 전체 추적 링크 클릭 현황
+2. `get_landing_analytics` — 퍼널 분석 (플랫폼 랜딩 유저)
+3. `get_bio` — 바이오 페이지 상태 + 블록 수
+
+달이가 네 줄기를 모아 적는다:
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 Week 1 종합 리포트
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+채널 검증:
+- 총 링크: {totalLinks}개 / 총 클릭: {totalClicks}회
+- 채널별: {channel1} {clicks}, {channel2} {clicks}, ...
+- 가장 효과적 채널: {best}
+
+랜딩 검증 (플랫폼 유저):
+- 방문자: {uniqueVisitors} / 전환율: {formConversion}%
+- 폼 제출: {formSubmissions}건
+- 퍼널: viewed → cta → form → signup
+
+바이오:
+- 페이지: {bioUrl}
+- 블록 수: {blockCount}개
+
+대시보드: https://agentic30.app/dashboard/links
+바이오 설정: https://agentic30.app/settings/bio
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### 📚 Day 7 추천 읽기
+
+`create_utm_link` MCP 도구로
+`{REFS_DIR}/shared/week1-reading-list.md`의 Day 7 섹션을 Read합니다.
+
+- 공통값: `channel="blog"`, `utmSource="agnt"`, `utmMedium="reading"`
+- 항목별 `url`, `title`, `utmCampaign`, `utmContent`는 Day 7 섹션을 그대로 사용합니다.
+- 3개 링크를 생성하고 short URL을 아래 형식으로 정리합니다.
+
+```
+📚 Day 7 추천 읽기
+1. Go/Pivot/No-Go 프레임 → {shortUrl}
+2. Pieter Levels 빌드 철학 → {shortUrl}
+3. Agentic Engineer 역량 → {shortUrl}
+```
+
+달이: "최종 판단 전에 읽어.
+Go/Pivot/No-Go가 특히 중요해."
+
+### 증거 정리
+
 다음을 모읍니다.
 
 1. 고객 검증

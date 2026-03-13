@@ -99,11 +99,12 @@ AskUserQuestion에서
 "확인"을 선택했을 때만
 ON_COMPLETE를 수행합니다.
 
-1. state.json `character.exploration`에
+1. `save_character`는 MCP 호출이 아니라 로컬 state 액션입니다.
+2. state.json `character.exploration`에
    후보 문제/타겟/장면/병목을 저장합니다.
-2. 이미 뭔가 만든 사람은
+3. 이미 뭔가 만든 사람은
    현재 stage와 병목을 같은 위치에 저장합니다.
-3. 이 블록에서는 최종 프로젝트를 확정하지 않습니다.
+4. 이 블록에서는 최종 프로젝트를 확정하지 않습니다.
 
 ## MOVE
 

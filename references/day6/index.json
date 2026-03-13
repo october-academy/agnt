@@ -40,6 +40,21 @@
       "evidenceClass": "decision",
       "proofType": "monetization_notes",
       "proofStatus": "captured"
+    },
+    {
+      "id": "d6-reading",
+      "type": "side",
+      "title": "Day 6 추천 읽기",
+      "description": "Arvid Kahl, Johann, First 1000, 기회비용 3억 중 1개 이상 읽기.",
+      "xp": 20,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "link_clicks_gte",
+        "params": { "count": 1 }
+      },
+      "evidenceClass": "channel",
+      "proofType": "blog_reading",
+      "proofStatus": "captured"
     }
   ]
 }

@@ -12,7 +12,7 @@
       "id": "d4-competitors",
       "type": "main",
       "title": "반응 해석",
-      "description": "고객 반응, 오해, 전환 저항을 구조적으로 해석한다.",
+      "description": "고객 반응, 오해, 전환 저항을 구조적으로 해석한다. get_links + get_landing_analytics 데이터 기반.",
       "xp": 50,
       "verificationRule": { "type": "template", "fields": ["signal1", "signal2", "signal3"] },
       "evidenceClass": "customer",
@@ -40,6 +40,38 @@
       "evidenceClass": "decision",
       "proofType": "next_proof_target",
       "proofStatus": "captured"
+    },
+    {
+      "id": "d4-reading",
+      "type": "side",
+      "title": "Day 4 추천 읽기",
+      "description": "Threads 글쓰기, 세션 리플레이, A/B 테스팅 중 1개 이상 읽기.",
+      "xp": 20,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "link_clicks_gte",
+        "params": { "count": 1 }
+      },
+      "evidenceClass": "channel",
+      "proofType": "blog_reading",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d4-click-milestone",
+      "type": "hidden",
+      "title": "첫 10클릭 달성",
+      "description": "추적 링크 총 클릭 수가 10회를 돌파한다.",
+      "xp": 50,
+      "verificationRule": {
+        "type": "server_state",
+        "check": "link_clicks_gte",
+        "params": { "count": 10 }
+      },
+      "triggerCondition": {
+        "type": "server_state",
+        "check": "link_clicks_gte",
+        "params": { "count": 10 }
+      }
     }
   ]
 }

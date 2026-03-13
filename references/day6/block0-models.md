@@ -45,6 +45,28 @@ waitlist나 막연한 관심은
 검증이 아니라
 다음 질문 거리일 뿐이야."
 
+### 📚 Day 6 추천 읽기
+
+은이가 장부 사이에 끼워둔 메모를 꺼낸다.
+
+"수익화 제안을 던지기 전에
+실제로 돈을 만든 사람들의 이야기를 봐."
+
+`create_utm_link` MCP 도구로
+`{REFS_DIR}/shared/week1-reading-list.md`의 Day 6 섹션을 Read합니다.
+
+- 공통값: `channel="blog"`, `utmSource="agnt"`, `utmMedium="reading"`
+- 항목별 `url`, `title`, `utmCampaign`, `utmContent`는 Day 6 섹션을 그대로 사용합니다.
+- 4개 링크를 생성하고 short URL을 아래 형식으로 정리합니다.
+
+```
+📚 Day 6 추천 읽기
+1. Arvid Kahl FeedbackPanda → {shortUrl}
+2. Johann Sathianathen Qura → {shortUrl}
+3. First 1000 뉴스레터 → {shortUrl}
+4. 기회비용 3억 → {shortUrl}
+```
+
 ## SCENE 2: ask 구조
 
 좋은 ask는 세 가지가 필요하다.

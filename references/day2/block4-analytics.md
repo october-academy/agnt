@@ -52,20 +52,28 @@ Day 3 SPEC v1 수정에 필요한 증거는
 "메시지를 바꾼다"를
 데이터 기반으로 결정할 수 있다.
 
-### 채널별 클릭 성과 확인
+### 채널별 클릭 성과 확인 (자동)
 
-https://agentic30.app/dashboard/links 에 접속하여
-추적 링크별 클릭 수를 확인한다.
+MCP `get_links` source: "manual"을 호출하여
+유저의 추적 링크 목록과 클릭 수를 가져옵니다.
+
+결과를 채널별로 그룹핑하여 표시합니다:
 
 ```text
-채널별 성과:
-- channel 1 (twitter): XX 클릭
-- channel 2 (kakaotalk): XX 클릭
-- channel 3 (discord): XX 클릭
+📊 채널별 클릭 성과 (실시간):
+- {channel1}: {clickCount}회 클릭 ({shortUrl})
+- {channel2}: {clickCount}회 클릭 ({shortUrl})
+- {channel3}: {clickCount}회 클릭 ({shortUrl})
+━━━━━━━━━━━━━━━━━━━━━━
+합계: {totalClicks}회 클릭 / {totalLinks}개 링크
 
-가장 반응 좋은 채널:
-가장 반응 약한 채널:
+가장 반응 좋은 채널: {best}
+가장 반응 약한 채널: {worst}
 ```
+
+> 이 데이터는 https://agentic30.app/dashboard/links 에서도
+> 실시간으로 확인할 수 있다.
+> 각 링크를 클릭하면 시간대별, 지역별 상세 분석도 볼 수 있다.
 
 아직 데이터가 쌓이지 않았어도 괜찮다.
 기준선을 잡는 것 자체가 의미 있다.
@@ -169,15 +177,24 @@ AskUserQuestion에서
 "완료" 또는 "아직 데이터가 없어"를
 선택했을 때 ON_CONFIRM을 수행합니다.
 
-1. 대시보드에서 확인한 클릭 데이터를 기록합니다.
+1. MCP `get_links` source: "manual"을 호출하여
+   채널별 클릭 데이터를 수집합니다.
    데이터가 없으면 기준선(0)으로 기록합니다.
 2. 플랫폼 랜딩 유저인 경우,
    MCP `get_landing_analytics`를 호출하여
-   보너스 분석 데이터를 조회합니다. (선택)
+   퍼널 분석 데이터를 조회합니다:
+   - 방문자 수, CTA 클릭률, 폼 제출 수
+   - 채널별(utm_source) 전환율 비교
+   - 결과를 유저에게 요약해서 보여줍니다.
 3. `d2-analytics` 퀘스트를 제출합니다.
 4. state.json에
    `analyticsBaseline`, `channelPerformance`,
    `dashboardChecked`를 저장합니다.
+5. Day 2 추천 읽기 클릭 검증:
+   `get_links` source: "manual"에서
+   utmMedium: "reading", utmCampaign: "day2"인 링크 중
+   click_count > 0인 것이 1개 이상이면
+   `d2-reading` side quest를 제출합니다.
 
 ## MOVE
 

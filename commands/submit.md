@@ -86,6 +86,10 @@ npx skills add october-academy/agnt --agent codex --skill agnt
    - **text/template**: state.json 또는 관련 파일에서 데이터 존재 확인
    - **server_state**:
      - `check=verify_discord`면 MCP `verify_discord` 호출
+       - `params.check`가 있으면 `check` 인자로 전달
+       - `params.channelId`가 있으면 `channelId` 인자로 전달
+       - 현재 퀘스트 ID를 `questId` 인자로 함께 전달
+       - state/server에 저장된 Discord 메시지 URL이 있으면 `messageUrl` 인자로 우선 전달
      - 그 외 Week 1 검증 루프 체크(`interview_saved`, `proof_surface_live`, `proof_responses_gte` 등)는 MCP `verify_server_state` 호출
      - `params.count`가 있으면 `count`로 전달
 

@@ -140,6 +140,29 @@ UTM 파라미터는 대화 맥락에서 결정한다:
 > 수정, 삭제, 성과 모니터링이 가능하다.
 > 메시지의 raw URL을 이 추적 링크로 교체해서 보내라.
 
+### 📚 채널 선정에 도움 되는 읽기
+
+바리가 주머니에서 메모를 꺼낸다.
+
+"채널 고르기 전에
+이 중에 하나라도 훑으면
+시행착오를 줄일 수 있어."
+
+`create_utm_link` MCP 도구로
+`{REFS_DIR}/shared/week1-reading-list.md`의 Day 2 섹션을 Read합니다.
+
+- 공통값: `channel="blog"`, `utmSource="agnt"`, `utmMedium="reading"`
+- 항목별 `url`, `title`, `utmCampaign`, `utmContent`는 Day 2 섹션을 그대로 사용합니다.
+- 4개 링크를 생성하고 short URL을 아래 형식으로 정리합니다.
+
+```
+📚 Day 2 추천 읽기
+1. The Mom Test 실전 예시 → {shortUrl}
+2. 한국 런칭 채널 가이드 → {shortUrl}
+3. UTM 링크 설계 → {shortUrl}
+4. Cold Call DM 가이드 → {shortUrl}
+```
+
 ## STOP
 
 AskUserQuestion:
