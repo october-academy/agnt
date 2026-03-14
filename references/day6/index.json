@@ -42,6 +42,72 @@
       "proofStatus": "captured"
     },
     {
+      "id": "d6-kr-no-biz-payment",
+      "type": "side",
+      "title": "사업자 없이 결제 받는 방법 확인",
+      "description": "PayApp, 페이플, 랫피드, 딜앱, 그로블 등 사업자 없이 결제를 받을 수 있는 서비스를 확인한다.",
+      "xp": 30,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "monetization",
+      "proofType": "payment_research",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d6-kr-global-payment",
+      "type": "side",
+      "title": "해외 결제 수단 확인",
+      "description": "Lemon Squeezy, Polar 등 MoR 서비스로 사업자 없이 해외 결제를 받는 방법을 확인한다.",
+      "xp": 20,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "monetization",
+      "proofType": "payment_research",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d6-kr-ad-revenue",
+      "type": "side",
+      "title": "광고 수익 모델 확인",
+      "description": "AdMob, AdSense 등 사업자 없이 받을 수 있는 광고 수익 모델을 확인한다.",
+      "xp": 20,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "monetization",
+      "proofType": "payment_research",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d6-kr-biz-penalty",
+      "type": "side",
+      "title": "사업자등록 시 페널티 7가지 확인",
+      "description": "건보 탈락, 국민연금, 가족수당, 기장의무, 병특, 학자금, 예비창업지원 등 사업자등록 페널티를 확인한다.",
+      "xp": 20,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "decision",
+      "proofType": "biz_penalty_review",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d6-kr-pg-selection",
+      "type": "side",
+      "title": "PG사 선택 가이드 확인 (선택사항)",
+      "description": "사업자 등록 결정 시 토스페이먼츠, 포트원, 카카오페이 등 PG사 비교.",
+      "xp": 20,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "monetization",
+      "proofType": "pg_research",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d6-kr-tax-basics",
+      "type": "side",
+      "title": "세금/법률 기초 확인 (선택사항)",
+      "description": "종합소득세, 간이과세 기준, 개인정보처리방침 등 사업자 등록 후 알아야 할 기초.",
+      "xp": 20,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "decision",
+      "proofType": "tax_research",
+      "proofStatus": "captured"
+    },
+    {
       "id": "d6-reading",
       "type": "side",
       "title": "Day 6 추천 읽기",

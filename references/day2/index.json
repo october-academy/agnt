@@ -118,6 +118,39 @@
       "proofStatus": "captured"
     },
     {
+      "id": "d2-kr-bip-first-post",
+      "type": "side",
+      "title": "Build in Public 첫 포스트 (X/Threads)",
+      "description": "만드는 과정을 공유하는 첫 포스트를 X 또는 Threads에 작성한다.",
+      "xp": 30,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "channel",
+      "proofType": "bip_post",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d2-kr-cold-call",
+      "type": "side",
+      "title": "Cold Call/DM 검증 시작",
+      "description": "타겟 유저에게 직접 DM을 보내 반응을 확인한다.",
+      "xp": 30,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "customer",
+      "proofType": "cold_call",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d2-kr-channel-guide",
+      "type": "side",
+      "title": "오가닉 홍보 채널 가이드 읽기",
+      "description": "promotion-channels-guide.md의 한국/글로벌 채널별 규칙과 전략을 읽는다.",
+      "xp": 20,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "channel",
+      "proofType": "guide_reading",
+      "proofStatus": "captured"
+    },
+    {
       "id": "d2-first-fan",
       "type": "hidden",
       "title": "첫 팬",

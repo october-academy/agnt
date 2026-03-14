@@ -14,6 +14,9 @@
     { "id": "d0-discord-join", "type": "main", "title": "Discord 연동", "xp": 50 },
     { "id": "d0-discord-intro", "type": "main", "title": "Discord 자기소개", "xp": 50 },
     { "id": "d0-bio-setup", "type": "main", "title": "바이오 페이지 셋업", "xp": 50 },
-    { "id": "d0-reading", "type": "side", "title": "추천 읽기 완료", "xp": 20 }
+    { "id": "d0-reading", "type": "side", "title": "추천 읽기 완료", "xp": 20 },
+    { "id": "d0-kr-bip-channels", "type": "side", "title": "X + Threads BIP 채널 설정", "xp": 20 },
+    { "id": "d0-kr-community", "type": "side", "title": "한국 인디해커 커뮤니티 확인", "xp": 20 },
+    { "id": "d0-kr-bio", "type": "side", "title": "Agentic30 바이오 설정", "xp": 20 }
   ]
 }
