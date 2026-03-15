@@ -64,18 +64,40 @@ AskUserQuestion:
 "이 수익 검증을 기록할까?"
 
 1. "확인"
-2. "수정 요청"
+2. "아직 검증 결과가 없어"
+3. "수정 요청"
 
 ⛔ STOP — "길드장 은이가 기다립니다."
+
+"아직 검증 결과가 없어"이면:
+
+은이가 펜을 내려놓는다.
+
+"검증 결과가 아직 없다면
+두 가지를 남겨.
+
+1. ask를 보낸 기록 (누구에게, 어떤 문장으로)
+2. 아직 결과가 없는 이유 해석
+
+'보냈는데 무응답'은 약한 no-go 신호,
+'아직 보내지 못했다'는 채널 접근 병목이야.
+둘 다 내일 최종 판단의 재료가 돼."
+
+state.json의 `monetizationCheckpoint`를
+`status: "pending"` 또는 `status: "no_response"`로 저장하고
+ON_COMPLETE로 진행한다.
 
 ## ON_COMPLETE
 
 AskUserQuestion에서
-"확인"을 선택했을 때만
-ON_COMPLETE를 수행합니다.
+"확인" 또는 "아직 검증 결과가 없어"를
+선택했을 때 ON_COMPLETE를 수행합니다.
 
 1. state.json에
    `monetizationCheckpoint`를 저장합니다.
+   검증 결과가 없는 경우
+   `status: "pending"` 또는 `status: "no_response"`로 저장하고
+   `proofType`은 `null`로 허용합니다.
 2. 인증 상태면
    `proofArtifacts`를 명시적으로 담아
    `submit_practice`를 호출합니다.

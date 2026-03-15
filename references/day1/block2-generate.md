@@ -1,11 +1,11 @@
 ---
 stop_mode: checkpoint
-title: "SPEC v0 + 다음 액션 패키지"
+title: "SPEC baseline + 다음 액션 패키지"
 npc: 소리
 transition: "현재 단계에 맞는 액션 패키지가 정리되었습니다. 다음 단계에서 실제 실행으로 옮깁니다."
 ---
 
-# SPEC v0 + 다음 액션 패키지
+# SPEC baseline + 다음 액션 패키지
 
 ## ROOM
 
@@ -24,12 +24,12 @@ transition: "현재 단계에 맞는 액션 패키지가 정리되었습니다. 
 
 오늘 필요한 건
 '거대한 계획'이 아니라
-`SPEC v0`와
+`SPEC baseline`와
 바로 움직일 action package다."
 
 ## GUIDE
 
-### `SPEC v0`에 꼭 들어갈 것
+### `SPEC baseline`에 꼭 들어갈 것
 
 ```markdown
 ### v0 (Day 1)
@@ -67,7 +67,7 @@ transition: "현재 단계에 맞는 액션 패키지가 정리되었습니다. 
 ## STOP
 
 AskUserQuestion:
-질문: 소리가 묻는다. "SPEC v0와
+질문: 소리가 묻는다. "SPEC baseline와
 액션 패키지가 정리됐어?"
 
 1. "확인"
@@ -81,7 +81,7 @@ AskUserQuestion에서
 "확인"을 선택했을 때만
 ON_CONFIRM을 수행합니다.
 
-### `SPEC v0` 기록
+### `SPEC baseline` 기록
 
 state.json `specVersions`에
 v0를 추가합니다.

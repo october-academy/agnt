@@ -138,3 +138,28 @@
   url: https://agentic30.app/blog/agentic-engineer-deep-dive
   utmCampaign: day7
   utmContent: agentic-engineer-deep-dive
+
+## 한국 1인 개발자 추가 리소스
+
+아래 리소스는 Day별 구분 없이, 한국 시장 특화 side quest 수행 시 참고합니다.
+
+- title: 한국에서 사업자 없이 결제 받기
+  url: https://agentic30.app/blog/korean-payment-without-business
+  utmCampaign: kr-resources
+  utmContent: payment-without-biz
+- title: 한국 인디해커 채널 비교 가이드
+  url: https://agentic30.app/blog/korean-launch-channels
+  utmCampaign: kr-resources
+  utmContent: kr-channel-comparison
+- title: 한국 SaaS 가격 책정 전략
+  url: https://agentic30.app/blog/korean-saas-pricing
+  utmCampaign: kr-resources
+  utmContent: kr-saas-pricing
+- title: 사업자등록 페널티 7가지
+  url: https://agentic30.app/blog/business-registration-penalties
+  utmCampaign: kr-resources
+  utmContent: biz-registration-penalties
+- title: 한국 1인 개발자 세금 FAQ
+  url: https://agentic30.app/blog/korean-developer-tax-faq
+  utmCampaign: kr-resources
+  utmContent: kr-tax-faq

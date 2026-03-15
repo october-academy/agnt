@@ -6,7 +6,7 @@
     { "file": "block0-baseline.md", "title": "Week 1 baseline 공유" },
     { "file": "block1-momtest.md", "title": "The Mom Test — 말보다 행동을 듣기" },
     { "file": "block2-channels.md", "title": "공유 채널 선정 + 추적 링크 생성" },
-    { "file": "block3-feedback.md", "title": "고객 반응 수집 + 신호 정리" },
+    { "file": "block3-feedback.md", "title": "고객 반응 수집 시작 + 기록 양식 준비" },
     { "file": "block4-analytics.md", "title": "성과 분석 + 대시보드 가이드" }
   ],
   "quests": [
@@ -68,10 +68,10 @@
     {
       "id": "d2-feedback",
       "type": "main",
-      "title": "피드백 3건 수집",
-      "description": "고객 반응 3건을 구조적으로 기록해 고객 검증으로 남긴다.",
+      "title": "피드백 수집 시작 + 기록 양식",
+      "description": "고객 반응 수집을 시작하고 기록 양식을 준비한다. 응답은 내일까지 도착해도 된다.",
       "xp": 100,
-      "verificationRule": { "type": "template", "fields": ["feedback1", "feedback2", "feedback3"] },
+      "verificationRule": { "type": "text", "minLength": 30 },
       "evidenceClass": "customer",
       "proofType": "customer_feedback",
       "proofStatus": "captured"

@@ -33,6 +33,23 @@ Day 2에서 모은 증거를 바탕으로
 
 그게 `검증 CTA`야."
 
+### CONTEXT_GATE
+
+state.json의 `feedbackPending`이 true이면:
+
+석이가 메모를 보며 말한다.
+
+"어제 보낸 메시지에
+아직 응답이 안 왔을 수 있어.
+
+괜찮아.
+보낸 것 자체가 채널 검증이야.
+오늘은 가진 것으로
+검증 CTA를 고정하고,
+응답이 도착하면 v1에 바로 반영해."
+
+feedbackPending이 false이면 기존 흐름 그대로 진행.
+
 ## SCENE 1: 검증 CTA란
 
 석이가 세 칸을 그린다.

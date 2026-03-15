@@ -55,6 +55,28 @@
       "evidenceClass": "channel",
       "proofType": "blog_reading",
       "proofStatus": "captured"
+    },
+    {
+      "id": "d3-kr-channel-cta",
+      "type": "side",
+      "title": "한국 채널 맞춤 CTA 설계",
+      "description": "GeekNews, OKKY, BIP 중 내 타겟에 맞는 채널 1개를 골라 맞춤 CTA 문구를 작성한다.",
+      "xp": 20,
+      "verificationRule": { "type": "text", "minLength": 30 },
+      "evidenceClass": "channel",
+      "proofType": "channel_cta",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d3-kr-pricing-research",
+      "type": "side",
+      "title": "한국 가격 심리 리서치",
+      "description": "한국 사용자의 결제 심리를 파악한다: 구독 vs 일회성, 원화 가격대, 할인 전략.",
+      "xp": 20,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "decision",
+      "proofType": "pricing_research",
+      "proofStatus": "captured"
     }
   ]
 }

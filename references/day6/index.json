@@ -23,7 +23,7 @@
       "id": "d6-pricing",
       "type": "main",
       "title": "수익 검증 캡처",
-      "description": "명시적 결제 의향, 수동 이체, 광고 수익 중 하나를 기록한다.",
+      "description": "명시적 결제 의향, 수동 이체, 광고 수익 중 하나를 기록한다. 아직 결과가 없으면 보낸 기록과 해석을 남긴다.",
       "xp": 100,
       "verificationRule": { "type": "text", "minLength": 30 },
       "evidenceClass": "monetization",

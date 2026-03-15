@@ -90,10 +90,32 @@ npx skills add october-academy/agnt --agent codex --skill agnt
   XP: {xp}/{nextLevelXp}
   [{████░░░░░░}] {percent}%
 
+  {classEmoji} {className} (직업이 없으면 이 줄 생략)
   🎯 {character.project}
   📌 {character.goal}
   🧬 성향: {archetypeLabel} {tendencyBar}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+직업/스킬 정보가 있으면 (`state.class`가 null이 아닌 경우):
+
+`{REFS_DIR}/shared/classes.json`과 `{REFS_DIR}/shared/skill-trees/{state.class}.json`을 Read하여 아래 섹션을 추가 출력합니다.
+
+```
+⚔️ 스킬 현황
+  SP: {skillPoints} 포인트 사용 가능
+  해금: {투자된스킬수}/24
+  📑 {tab1.emoji} {tab1.name} | {tab2.emoji} {tab2.name} | {tab3.emoji} {tab3.name}
+  🏆 {가장 높은 레벨 스킬 Top 3: "이름 Lv.N (탭이름)" 형식}
+  💡 `/agnt:skills`로 스킬트리를 확인하세요
+```
+
+`state.skills` 객체에서 레벨이 1 이상인 스킬만 카운트합니다. Top 3는 레벨 내림차순으로 정렬하고, 동점이면 스킬 이름 가나다순으로 정렬합니다. 스킬 이름은 해당 클래스의 스킬트리 JSON에서 조회합니다. 투자된 스킬이 없으면 `🏆` 줄을 "아직 투자한 스킬이 없습니다"로 표시합니다.
+
+직업이 없으면 (`state.class`가 null):
+
+```
+💡 /agnt:class로 직업을 선택하세요
 ```
 
 4-1. `builderContext` 또는 `branchMode`가 있으면 아래 섹션을 추가합니다:

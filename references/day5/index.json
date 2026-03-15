@@ -23,9 +23,9 @@
       "id": "d5-interviews",
       "type": "main",
       "title": "추가 고객 검증 3건",
-      "description": "핵심 가설을 더 날카롭게 만들 추가 반응 3건을 확보한다.",
+      "description": "핵심 가설을 더 날카롭게 만들 추가 반응 3건을 확보한다. 반응이 없는 경우, 보낸 행위와 해석을 기록하면 통과 가능.",
       "xp": 100,
-      "verificationRule": { "type": "template", "fields": ["interview1", "interview2", "interview3"] },
+      "verificationRule": { "type": "text", "minLength": 30 },
       "evidenceClass": "customer",
       "proofType": "delta_feedback",
       "proofStatus": "captured"
@@ -65,6 +65,39 @@
       },
       "evidenceClass": "channel",
       "proofType": "blog_reading",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d5-kr-delta-data",
+      "type": "side",
+      "title": "한국 시장 데이터로 변화량 읽기",
+      "description": "한국 경쟁사의 가격/기능 변화, 한국 커뮤니티 트렌드 변화를 v0→v1 델타에 반영한다.",
+      "xp": 20,
+      "verificationRule": { "type": "text", "minLength": 20 },
+      "evidenceClass": "decision",
+      "proofType": "kr_market_delta",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d5-kr-direct-validation",
+      "type": "side",
+      "title": "한국 타겟 유저 직접 검증",
+      "description": "한국 커뮤니티에서 타겟 유저 1명과 직접 대화를 나눈다 (이전에 보낸 DM 응답 활용 또는 새로운 접촉).",
+      "xp": 30,
+      "verificationRule": { "type": "text", "minLength": 20 },
+      "evidenceClass": "customer",
+      "proofType": "direct_validation",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d5-ab-result",
+      "type": "side",
+      "title": "A/B 변형 결과 비교",
+      "description": "Day 4에서 만든 랜딩 변형의 클릭/반응 차이를 비교하고 어떤 버전을 유지할지 판단한다.",
+      "xp": 30,
+      "verificationRule": { "type": "text", "minLength": 20 },
+      "evidenceClass": "channel",
+      "proofType": "ab_test_result",
       "proofStatus": "captured"
     }
   ]

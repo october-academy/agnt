@@ -72,6 +72,39 @@
         "check": "link_clicks_gte",
         "params": { "count": 10 }
       }
+    },
+    {
+      "id": "d4-kr-channel-signals",
+      "type": "side",
+      "title": "한국 채널별 반응 패턴 분석",
+      "description": "GeekNews/OKKY/BIP 등에서 받은 반응의 특성을 파악한다 (어떤 채널에서 어떤 유형의 피드백이 오는지).",
+      "xp": 20,
+      "verificationRule": { "type": "text", "minLength": 30 },
+      "evidenceClass": "customer",
+      "proofType": "channel_signal_analysis",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d4-kr-analytics-check",
+      "type": "side",
+      "title": "AI로 채널 데이터 요약 받기",
+      "description": "get_landing_analytics와 get_coaching_action 도구를 사용해 현재까지의 신호를 AI에게 요약받는다.",
+      "xp": 30,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "channel",
+      "proofType": "ai_analytics_review",
+      "proofStatus": "captured"
+    },
+    {
+      "id": "d4-landing-variant",
+      "type": "side",
+      "title": "랜딩 변형 테스트 시작",
+      "description": "현재 랜딩의 hero 또는 CTA를 1가지 바꾼 변형을 만들어 A/B 비교를 준비한다.",
+      "xp": 30,
+      "verificationRule": { "type": "checkbox" },
+      "evidenceClass": "channel",
+      "proofType": "landing_variant",
+      "proofStatus": "captured"
     }
   ]
 }
