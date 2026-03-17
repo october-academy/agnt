@@ -33,6 +33,17 @@ Day 2에서 모은 증거를 바탕으로
 
 그게 `검증 CTA`야."
 
+### Day 2 데이터 참조
+
+state.json에 `analyticsBaseline` 또는 `channelPerformance`가 있으면
+석이가 먼저 요약한다:
+
+"어제 채널 데이터를 봤지.
+{channelPerformance 요약 1줄}.
+이걸 검증 CTA에 녹이자."
+
+데이터가 없으면 이 단계를 건너뛴다.
+
 ### CONTEXT_GATE
 
 state.json의 `feedbackPending`이 true이면:

@@ -1,11 +1,12 @@
 {
   "day": 4,
+  "totalEstimatedMinutes": 45,
   "location": "정찰의 언덕",
   "description": "반응을 해석하고 다음 버전에 반영할 change set을 좁히는 날.",
   "blocks": [
-    { "file": "block0-framework.md", "title": "반응 해석 프레임워크" },
-    { "file": "block1-research.md", "title": "신호 읽기 + 패턴 정리" },
-    { "file": "block2-differentiation.md", "title": "Change Set refinement" }
+    { "file": "block0-framework.md", "title": "반응 해석 프레임워크", "estimatedMinutes": 10 },
+    { "file": "block1-research.md", "title": "신호 읽기 + 패턴 정리", "estimatedMinutes": 20 },
+    { "file": "block2-differentiation.md", "title": "Change Set refinement", "estimatedMinutes": 15 }
   ],
   "quests": [
     {

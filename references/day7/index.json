@@ -1,12 +1,13 @@
 {
   "day": 7,
+  "totalEstimatedMinutes": 60,
   "location": "회고의 호수",
   "description": "Week 1 검증을 종합해 SPEC v3 최종 판단과 Week 2 handoff를 남기는 날.",
   "blocks": [
-    { "file": "block0-data.md", "title": "Week 1 검증 리뷰" },
-    { "file": "block1-kptl.md", "title": "KPTL + 배운 점 정리" },
-    { "file": "block2-decision.md", "title": "SPEC v3 최종 판단" },
-    { "file": "block3-finale.md", "title": "Week 2 handoff" }
+    { "file": "block0-data.md", "title": "Week 1 검증 리뷰", "estimatedMinutes": 15 },
+    { "file": "block1-kptl.md", "title": "KPTL + 배운 점 정리", "estimatedMinutes": 15 },
+    { "file": "block2-decision.md", "title": "SPEC v3 최종 판단", "estimatedMinutes": 20 },
+    { "file": "block3-finale.md", "title": "Week 2 handoff", "estimatedMinutes": 10 }
   ],
   "quests": [
     {

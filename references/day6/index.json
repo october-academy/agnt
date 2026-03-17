@@ -1,11 +1,12 @@
 {
   "day": 6,
+  "totalEstimatedMinutes": 50,
   "location": "상인의 길드",
   "description": "명시적 수익화 제안을 만들고 실제 결제 의향 검증을 캡처하는 날.",
   "blocks": [
-    { "file": "block0-models.md", "title": "Monetization ask 설계" },
-    { "file": "block1-pricing.md", "title": "수익 검증 캡처" },
-    { "file": "block2-document.md", "title": "검증 기록 + SPEC 반영" }
+    { "file": "block0-models.md", "title": "Monetization ask 설계", "estimatedMinutes": 15 },
+    { "file": "block1-pricing.md", "title": "수익 검증 캡처", "estimatedMinutes": 20 },
+    { "file": "block2-document.md", "title": "검증 기록 + SPEC 반영", "estimatedMinutes": 15 }
   ],
   "quests": [
     {

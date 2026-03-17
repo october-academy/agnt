@@ -25,6 +25,23 @@ transition: "v1 초안이 잡혔습니다. 이제 문서로 기록하고 놓친 
 
 ## CONVERSATION
 
+### 2-tier 체크리스트
+
+**Tier 1 — 확인 (이전 데이터가 있으면 1턴 확인)**
+state.json에 Day 2의 `customerProof`나 `channelProof`가 있으면:
+석이가 "어제 {customerProof 요약}을 모았지? 이걸 v1에 녹이자." 1턴 확인.
+없으면 바로 Tier 2로.
+
+**Tier 2 — 신규 발견 (assetStage별 분기)**
+state.json `builderContext.assetStage`에 따라
+석이의 질문 초점이 달라집니다:
+- `no_idea` / `idea_only`: 문제 가설 중심 SPEC. "어떤 문제를 풀려는지가 핵심이야."
+- `landing_live`: CTA 기반 SPEC. "랜딩에서 어떤 행동을 유도할지 중심으로 적어."
+- `product_live`: 사용성 가설 SPEC. "첫 사용 경험에서 뭐가 걸리는지 중심으로."
+- `revenue_live`: 성장 병목 SPEC. "매출이 더 안 느는 이유가 뭔지 중심으로."
+
+assetStage가 없으면 `idea_only` 흐름.
+
 ### 완성 체크리스트
 
 - [ ] 핵심 가설 (Hypothesis)

@@ -1,12 +1,13 @@
 {
   "day": 1,
+  "totalEstimatedMinutes": 70,
   "location": "발견의 숲",
   "description": "현재 단계와 병목을 진단하고 Week 1 SPEC baseline 기준선과 다음 검증 목표를 세우는 날.",
   "blocks": [
-    { "file": "block0-prep.md", "title": "빌더 상태 진단 준비" },
-    { "file": "block1-interview.md", "title": "AI 코파운더 진단 인터뷰" },
-    { "file": "block2-generate.md", "title": "SPEC baseline + 다음 액션 패키지" },
-    { "file": "block3-deploy.md", "title": "첫 검증 채널 공개" }
+    { "file": "block0-prep.md", "title": "빌더 상태 진단 준비", "estimatedMinutes": 10 },
+    { "file": "block1-interview.md", "title": "AI 코파운더 진단 인터뷰", "estimatedMinutes": 25 },
+    { "file": "block2-generate.md", "title": "SPEC baseline + 다음 액션 패키지", "estimatedMinutes": 15 },
+    { "file": "block3-deploy.md", "title": "첫 검증 채널 공개", "estimatedMinutes": 20 }
   ],
   "quests": [
     {

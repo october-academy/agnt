@@ -33,6 +33,23 @@ transition: "추가 검증을 정리했습니다. 이제 변화량을 읽고 SPE
 
 ## CONVERSATION
 
+### 2-tier 체크리스트
+
+**Tier 1 — 확인 (이전 데이터가 있으면 1턴 확인)**
+state.json에 Day 4의 `changeSetHints`가 있으면:
+한이가 "어제 {changeSetHints 요약}을 바꾸기로 했지? 오늘은 그 방향으로 추가 검증을 모으자." 1턴 확인.
+없으면 바로 Tier 2로.
+
+**Tier 2 — 신규 발견 (assetStage별 분기)**
+state.json `builderContext.assetStage`에 따라
+한이의 질문 초점이 달라집니다:
+- `no_idea` / `idea_only`: DM/댓글 기반 검증. "직접 연락해서 장면을 확인해."
+- `landing_live`: A/B 변형 검증. "메시지나 CTA를 바꿔서 반응 차이를 봐."
+- `product_live`: 유저 인터뷰 검증. "써본 사람한테 직접 물어봐."
+- `revenue_live`: 가격 민감도 검증. "가격을 올리거나 내렸을 때 반응이 어떤지 확인해."
+
+assetStage가 없으면 `idea_only` 흐름.
+
 ### 완성 체크리스트
 
 - [ ] 추가 고객 검증 3건
@@ -99,7 +116,14 @@ state.json에 `noResponseSignal: true`를 저장하고
 - 보낸 메시지 목록:
 - 반응 없음을 어떻게 해석하는지:
 - v2에서 바꿀 점 1개:
+- 이 경험에서 배운 것 1개:
 ```
+
+한이가 말한다.
+
+"3번 보내서 0번 답이 오면,
+그건 3개의 채널 실험을 한 거야.
+실패가 아니라 데이터."
 
 이 기록이 완성되면 ON_COMPLETE로 진행한다.
 

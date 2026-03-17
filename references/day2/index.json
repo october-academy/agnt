@@ -1,13 +1,14 @@
 {
   "day": 2,
+  "totalEstimatedMinutes": 70,
   "location": "검증의 광장",
   "description": "고객 검증과 채널 검증을 모아 Day 3 SPEC v1 입력으로 바꾸는 날.",
   "blocks": [
-    { "file": "block0-baseline.md", "title": "Week 1 baseline 공유" },
-    { "file": "block1-momtest.md", "title": "The Mom Test — 말보다 행동을 듣기" },
-    { "file": "block2-channels.md", "title": "공유 채널 선정 + 추적 링크 생성" },
-    { "file": "block3-feedback.md", "title": "고객 반응 수집 시작 + 기록 양식 준비" },
-    { "file": "block4-analytics.md", "title": "성과 분석 + 대시보드 가이드" }
+    { "file": "block0-baseline.md", "title": "Week 1 baseline 공유", "estimatedMinutes": 10 },
+    { "file": "block1-momtest.md", "title": "The Mom Test — 말보다 행동을 듣기", "estimatedMinutes": 10 },
+    { "file": "block2-channels.md", "title": "공유 채널 선정 + 추적 링크 생성", "estimatedMinutes": 20 },
+    { "file": "block3-feedback.md", "title": "고객 반응 수집 시작 + 기록 양식 준비", "estimatedMinutes": 15 },
+    { "file": "block4-analytics.md", "title": "성과 분석 + 대시보드 가이드", "estimatedMinutes": 15 }
   ],
   "quests": [
     {

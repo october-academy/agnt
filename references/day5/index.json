@@ -1,11 +1,12 @@
 {
   "day": 5,
+  "totalEstimatedMinutes": 50,
   "location": "시장의 거리",
   "description": "변화량을 읽고 SPEC v2를 기록해 무엇을 유지/수정할지 판단하는 날.",
   "blocks": [
-    { "file": "block0-target.md", "title": "델타 읽기 기준 정리" },
-    { "file": "block1-conversation.md", "title": "추가 고객 검증 확보" },
-    { "file": "block2-analysis.md", "title": "델타 분석 + SPEC v2" }
+    { "file": "block0-target.md", "title": "델타 읽기 기준 정리", "estimatedMinutes": 10 },
+    { "file": "block1-conversation.md", "title": "추가 고객 검증 확보", "estimatedMinutes": 20 },
+    { "file": "block2-analysis.md", "title": "델타 분석 + SPEC v2", "estimatedMinutes": 20 }
   ],
   "quests": [
     {

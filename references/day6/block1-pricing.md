@@ -71,20 +71,52 @@ AskUserQuestion:
 
 "아직 검증 결과가 없어"이면:
 
-은이가 펜을 내려놓는다.
+은이가 펜을 내려놓고 다시 든다.
 
-"검증 결과가 아직 없다면
-두 가지를 남겨.
+"검증 결과가 없다는 건
+두 가지 중 하나야.
 
-1. ask를 보낸 기록 (누구에게, 어떤 문장으로)
-2. 아직 결과가 없는 이유 해석
+아직 보내지 못했거나,
+보냈는데 응답이 없거나."
 
-'보냈는데 무응답'은 약한 no-go 신호,
-'아직 보내지 못했다'는 채널 접근 병목이야.
-둘 다 내일 최종 판단의 재료가 돼."
+AskUserQuestion:
+질문: 은이가 묻는다. "어느 쪽이야?"
 
-state.json의 `monetizationCheckpoint`를
-`status: "pending"` 또는 `status: "no_response"`로 저장하고
+1. "보냈는데 응답이 없어"
+2. "아직 보내지 못했어"
+
+**"보냈는데 응답이 없어"**:
+
+은이가 고개를 끄덕인다.
+
+"무응답 자체가 pricing 신호야.
+이 가격대에서 반응이 없다면
+가격이 문제가 아니라
+제안 방식이나 타이밍이 문제일 수 있어.
+
+남겨:
+- 보낸 채널과 문장
+- 무응답을 어떻게 해석하는지
+- 다음에 바꿀 점 1개"
+
+state.json `monetizationCheckpoint`를
+`status: "no_response"`로 저장.
+
+**"아직 보내지 못했어"**:
+
+은이가 말한다.
+
+"보내지 못한 이유가 뭔지 적어봐.
+채널 접근 병목인지,
+제안 문구가 안 잡히는 건지.
+
+그것도 Day 7 판단 재료야.
+보내지 못한 것도
+가격 실험의 일부지."
+
+state.json `monetizationCheckpoint`를
+`status: "no_ask_sent"`로 저장.
+
 ON_COMPLETE로 진행한다.
 
 ## ON_COMPLETE
@@ -96,7 +128,8 @@ AskUserQuestion에서
 1. state.json에
    `monetizationCheckpoint`를 저장합니다.
    검증 결과가 없는 경우
-   `status: "pending"` 또는 `status: "no_response"`로 저장하고
+   `status: "pending"`, `status: "no_response"`,
+   또는 `status: "no_ask_sent"`로 저장하고
    `proofType`은 `null`로 허용합니다.
 2. 인증 상태면
    `proofArtifacts`를 명시적으로 담아

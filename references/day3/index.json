@@ -1,11 +1,12 @@
 {
   "day": 3,
+  "totalEstimatedMinutes": 50,
   "location": "설계의 탑",
   "description": "Day 2 증거를 바탕으로 SPEC v1과 검증 CTA를 정리하는 날.",
   "blocks": [
-    { "file": "block0-idd-method.md", "title": "검증 CTA 설계" },
-    { "file": "block1-spec-interview.md", "title": "SPEC.md 구조 인터뷰" },
-    { "file": "block2-spec-write.md", "title": "SPEC v1 기록 + 검증" }
+    { "file": "block0-idd-method.md", "title": "검증 CTA 설계", "estimatedMinutes": 15 },
+    { "file": "block1-spec-interview.md", "title": "SPEC.md 구조 인터뷰", "estimatedMinutes": 20 },
+    { "file": "block2-spec-write.md", "title": "SPEC v1 기록 + 검증", "estimatedMinutes": 15 }
   ],
   "quests": [
     {

@@ -44,6 +44,23 @@ transition: "추적 링크가 준비되었습니다. 메시지를 보낸 후 피
 
 ## CONVERSATION
 
+### 2-tier 체크리스트
+
+**Tier 1 — 확인 (이전 데이터가 있으면 1턴 확인)**
+state.json에 Day 1의 `proofSurface`나 `nextProofTarget`이 있으면:
+바리가 "어제 {proofSurface}를 검증 채널로 정했지? 오늘은 거기에 메시지를 뿌릴 채널을 고르자." 1턴 확인.
+없으면 바로 Tier 2로.
+
+**Tier 2 — 신규 발견 (assetStage별 분기)**
+state.json `builderContext.assetStage`에 따라
+바리의 질문 초점이 달라집니다:
+- `no_idea` / `idea_only`: 커뮤니티 중심 채널 (Discord, 카카오 오픈챗, OKKY). "아직 제품이 없으니 사람이 모이는 곳에서 문제를 확인해."
+- `landing_live`: 랜딩 공유에 적합한 채널 + 소셜 혼합. "랜딩 링크를 뿌릴 수 있는 곳이 핵심이야."
+- `product_live`: 기존 유저 채널 + 신규 도달 채널. "기존 유저한테 먼저 물어보고, 새 채널도 하나 열어."
+- `revenue_live`: 기존 고객 채널 + 확장 채널. "돈 내는 고객한테 직접 물을 수 있는 채널이 1순위야."
+
+assetStage가 없으면 `idea_only` 흐름.
+
 ### 완성 체크리스트
 
 - [ ] 고객이 실제로 모이는 채널 3곳

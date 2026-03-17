@@ -129,6 +129,12 @@ ON_COMPLETE를 수행합니다.
 3. 인증 상태면
    interview 저장과 `d1-interview`
    제출을 수행합니다.
+4. **MCP 미연결 또는 save_interview 실패 시:**
+   인증 미연결이거나 `save_interview` 실패 시:
+   - state.json에 interview 결과를 `interviewData` 필드에 로컬 저장
+   - 소리 대사: "장부가 잠겼어. 기록은 여기 남겨둘게. 나중에 연결되면 동기화할 수 있어."
+   - 블록 완료는 정상 처리 (Day 1 interview는 로컬 데이터 보존이 우선이므로 narrative-engine.md Section 11 예외 적용)
+   - `d1-interview` 퀘스트 제출은 MCP 재연결 시까지 보류
 
 ## MOVE
 
