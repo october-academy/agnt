@@ -1,13 +1,13 @@
 {
   "day": 1,
-  "totalEstimatedMinutes": 70,
+  "totalEstimatedMinutes": 65,
   "location": "발견의 숲",
   "description": "현재 단계와 병목을 진단하고 Week 1 SPEC baseline 기준선과 다음 검증 목표를 세우는 날.",
   "blocks": [
     { "file": "block0-prep.md", "title": "빌더 상태 진단 준비", "estimatedMinutes": 10 },
     { "file": "block1-interview.md", "title": "AI 코파운더 진단 인터뷰", "estimatedMinutes": 25 },
-    { "file": "block2-generate.md", "title": "SPEC baseline + 다음 액션 패키지", "estimatedMinutes": 15 },
-    { "file": "block3-deploy.md", "title": "첫 검증 채널 공개", "estimatedMinutes": 20 }
+    { "file": "block2-generate.md", "title": "가설 카드 + SPEC baseline", "estimatedMinutes": 15 },
+    { "file": "block3-deploy.md", "title": "검증 계획 수립", "estimatedMinutes": 15 }
   ],
   "quests": [
     {
@@ -24,12 +24,12 @@
     {
       "id": "d1-landing",
       "type": "main",
-      "title": "첫 검증 채널 배포/정리",
-      "description": "랜딩 또는 현재 상태 기준의 첫 검증 채널을 정리하고 공개한다.",
+      "title": "검증 계획 + 가설 카드 작성",
+      "description": "문제/타겟/가치제안을 가설 카드로 정리하고, 이번 주 검증 계획을 수립한다.",
       "xp": 150,
-      "verificationRule": { "type": "server_state", "check": "proof_surface_live" },
-      "evidenceClass": "channel",
-      "proofType": "proof_surface_live",
+      "verificationRule": { "type": "text", "minLength": 50 },
+      "evidenceClass": "decision",
+      "proofType": "hypothesis_card",
       "proofStatus": "captured"
     },
     {
