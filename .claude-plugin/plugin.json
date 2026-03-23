@@ -1,14 +1,14 @@
 {
   "name": "agnt",
-  "description": "Agentic30 학습 가이드 — MUD 스타일 30일 독립 여정 커맨드",
-  "version": "1.4.0",
+  "description": "Agentic30 Signal-Driven Navigator — 30일 안에 첫 유료 시그널을 만드는 워크플로우 도구",
+  "version": "2.0.0",
   "author": {
     "name": "October Academy"
   },
   "homepage": "https://agentic30.app",
   "repository": "https://github.com/october-academy/agnt",
   "license": "MIT",
-  "keywords": ["learning", "mud", "agentic", "indie-hacker", "korean"],
+  "keywords": ["navigator", "indie-hacker", "pmf", "agentic", "korean"],
   "mcpServers": {
     "agentic30": {
       "type": "http",

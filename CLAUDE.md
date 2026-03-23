@@ -24,86 +24,59 @@ npx skills add packages/agnt --list
 
 ```
 commands/              # /agnt:* 커맨드 (Claude Code가 실행하는 프롬프트)
-  ├── init.md          # /agnt:init — 진행 상태 초기화 (Day 0 재시작)
-  ├── continue.md      # /agnt:continue — 메인 학습 루프 (블록 순차 진행)
-  ├── today.md         # /agnt:today — 퀘스트 보드 표시
-  ├── submit.md        # /agnt:submit — 퀘스트 검증 + MCP 제출
-  └── status.md        # /agnt:status — 캐릭터 시트 + 월드맵
+  ├── start.md         # /agnt:start — 온보딩 + 상태 초기화 + v1→v2 마이그레이션
+  ├── next.md          # /agnt:next — Navigator 메인 루프 (상태 기반 추천)
+  ├── discover.md      # /agnt:discover — 문제 선택 + ICP 정의
+  ├── interview.md     # /agnt:interview — 고객 인터뷰 (Mom Test)
+  ├── spec.md          # /agnt:spec — SPEC 작성/이터레이션
+  ├── tools.md         # /agnt:tools — 도구 비교 가이드
+  ├── status.md        # /agnt:status — 현재 상태 대시보드
+  ├── build.md         # (Phase 2 스텁)
+  ├── landing.md       # (Phase 2 스텁)
+  ├── channel.md       # (Phase 2 스텁)
+  ├── offer.md         # (Phase 3 스텁)
+  ├── launch.md        # (Phase 3 스텁)
+  ├── analyze.md       # (Phase 3 스텁)
+  └── retro.md         # (Phase 3 스텁)
 
-references/            # 학습 콘텐츠 (커맨드가 Read해서 사용)
-  ├── day0-7/          # Day별 블록 파일 (block*.md + index.json)
+references/            # 워크플로우 참조 콘텐츠
+  ├── tools/           # 도구 비교 가이드
+  │   ├── payment-comparison.md    # 결제 솔루션 비교
+  │   ├── marketing-channels.md    # 마케팅 채널 비교
+  │   ├── analytics-tools.md       # 분석 도구 비교
+  │   ├── ad-platforms.md          # 광고 플랫폼 비교
+  │   └── no-biz-payment.md        # 사업자 없이 결제
+  ├── benchmarks/      # 성과 기준
+  │   ├── cpc-benchmarks.md        # CPC 벤치마크
+  │   ├── conversion-benchmarks.md # 전환율 벤치마크
+  │   └── timeline-benchmarks.md   # PMF 타임라인 사례
   └── shared/          # 공통 레퍼런스
-      ├── narrative-engine.md       # 블록 처리 규칙 SSoT (STOP, 페이지네이션, 톤)
-      ├── npcs.md                   # NPC 캐릭터 카드 (말투, 성격, 금지사항)
-      ├── world-data.md             # Day별 장소, 레벨/칭호, 스킬 해금
-      ├── interview-guide.md        # 인터뷰 블록 원칙 (Mom Test, Follow the Thread)
-      ├── profile-constants.json    # Day 0 가입 상수 (DB/Web/MCP와 동기화된 값셋)
-      ├── landing-design-guide.md   # 랜딩페이지 생성 디자인 가이드
-      ├── threads-writing-guide.md  # 스레드 작성 가이드
-      └── promotion-channels-guide.md  # 홍보 채널 가이드
+      ├── navigator-engine.md      # Navigator 로직 SSoT (추천, 카운트다운, State Mutation Contract)
+      ├── interview-guide.md       # 인터뷰 원칙 (Mom Test, Follow the Thread)
+      └── profile-constants.json   # 온보딩 상수
 
-SKILL.md               # Agent Skills spec 엔트리포인트 (name: agnt)
-AGENTS.md              # Repository guidelines (구조, 스타일, 테스트 가이드)
-README.md              # 설치/사용법 (Claude Plugin, Codex, Agent Skills 3가지 모드)
+SKILL.md               # Agent Skills spec 엔트리포인트 (name: agnt, v2.0.0)
+AGENTS.md              # Repository guidelines
+README.md              # 설치/사용법
 
 .claude-plugin/
-  ├── plugin.json       # 플러그인 메타 (v1.3.0) + MCP 서버 URL 정의
-  └── marketplace.json  # 마켓플레이스 등록 정보 (agentic30)
+  ├── plugin.json       # 플러그인 메타 (v2.0.0) + MCP 서버 URL
+  └── marketplace.json  # 마켓플레이스 등록 정보
 ```
 
 ## How Commands Work
 
 커맨드 파일은 Claude Code가 직접 실행하는 **프롬프트**. 코드가 아닌 절차적 지시문:
 
-1. `state.json` 읽기 → 현재 Day/Block 결정
-2. `ToolSearch`로 MCP `agentic30` 도구 존재 확인 (Day 0 Block 0 제외)
-3. `references/`에서 해당 블록 마크다운 Read
-4. `narrative-engine.md` 규칙에 따라 NPC 대화 + STOP + AskUserQuestion 진행
-5. 블록 완료 시 `state.json` 갱신 + MCP `submit_practice` 호출
+1. `state.json` 읽기 → 현재 상태 확인
+2. `ToolSearch`로 MCP `agentic30` 도구 존재 확인
+3. `references/`에서 해당 워크플로우 참조 파일 Read
+4. `navigator-engine.md` 규칙에 따라 추천/실행
+5. 워크플로우 완료 시 `state.json` 갱신 + MCP `submit_practice` 호출
+
+**Navigator 패턴**: `/agnt:next`가 상태를 읽고 다음 최선 행동을 추천. 고정 순서 없이 상태 기반으로 동작.
 
 **Codex 호환**: 커맨드 내 `ToolSearch`, `AskUserQuestion`, `/mcp` 등 Claude Code 문구는 Codex에서 호환 처리됨 (상세: `SKILL.md` "Agent Compatibility Rules")
-
-## Block File Format
-
-모든 블록 파일(`references/day*/block*.md`)은 YAML frontmatter + 섹션 구조:
-
-```yaml
----
-stop_mode: full | conversation | checkpoint
-title: "블록 제목"
-npc: 두리 # npcs.md에서 해당 카드 참조
-quests: # 선택
-  - id: d0-goal
-    type: main # main | side | hidden
-    title: "목표 선언문 작성"
-    xp: 50
-transition: "다음 블록 안내 메시지" # 선택
-on_complete: save_character # 선택
-requires_auth: true # 선택
----
-```
-
-### stop_mode별 섹션 구조
-
-| Mode                  | 구조                                                            | 용도             |
-| --------------------- | --------------------------------------------------------------- | ---------------- |
-| `full` (Teach)        | ROOM → NPC → SCENE(들) → TASK → STOP → RETURN → CHECK → MOVE    | 개념 교육 + 퀴즈 |
-| `conversation` (Talk) | ROOM → NPC → CONVERSATION → SUMMARY → STOP → ON_COMPLETE → MOVE | 인터뷰/대화      |
-| `checkpoint` (Craft)  | ROOM → NPC → GUIDE → PREVIEW → STOP → ON_CONFIRM → MOVE         | 산출물 생성      |
-
-## Day Index Files
-
-각 Day의 `index.json`이 메타데이터 SSoT. 블록 frontmatter의 `quests`와 불일치 시 **index.json 우선**.
-
-```json
-{
-  "day": 0,
-  "location": "견습생의 마을",
-  "description": "모든 여정의 시작.",
-  "blocks": [{ "file": "block0-welcome.md", "title": "..." }],
-  "quests": [{ "id": "d0-goal", "type": "main", "title": "...", "xp": 50 }]
-}
-```
 
 ## State Management
 
@@ -117,61 +90,62 @@ requires_auth: true # 선택
 2. `~/.claude/agnt/state.json` → user scope (Claude Code 외부 유저)
 3. `.codex/agnt/state.json` → project scope (Codex)
 4. `~/.codex/agnt/state.json` → user scope (Codex)
-5. 모두 없으면 → Claude Code: `~/.claude/agnt`, Codex: `~/.codex/agnt` (기본값, 새 state 생성)
+5. 모두 없으면 → Claude Code: `~/.claude/agnt`, Codex: `~/.codex/agnt` (기본값)
 
 #### REFS_DIR (references 루트)
 
-`narrative-engine.md` 또는 `world-data.md` 존재 여부로 탐색:
+`navigator-engine.md` 존재 여부로 탐색:
 
-1. `{AGNT_DIR}/references/` → sync script이 복사한 경로
-2. `~/.claude/plugins/marketplaces/agentic30/references/` → marketplace clone
-3. `.agents/skills/agnt/references/` → Agent Skills 설치
-4. `~/.codex/skills/agnt/references/` → Codex Skills 설치
+1. `{AGNT_DIR}/references/`
+2. `~/.claude/plugins/marketplaces/agentic30/references/`
+3. `.agents/skills/agnt/references/`
+4. `~/.codex/skills/agnt/references/`
 5. 모두 없으면 에러
 
-#### REFS_PRO_DIR (Pro references, 선택적)
-
-`agnt-pro` 패키지의 확장 콘텐츠 (Day 8+). 에러가 아닌 **null 허용**:
-
-1. `{AGNT_DIR}/references-pro/`
-2. `~/.claude/plugins/marketplaces/agentic30-pro/references/`
-3. `.agents/skills/agnt-pro/references/`
-4. `~/.codex/skills/agnt-pro/references/`
-5. 모두 없으면 → `REFS_PRO_DIR = null` (Pro 미설치, 정상)
-
-### state.json 스키마
+### state.json 스키마 (v2)
 
 ```json
 {
-  "currentDay": 0,
-  "currentBlock": 0,
-  "completedDays": [],
-  "completedBlocks": {},
-  "choices": [],
-  "character": null,
-  "interview": null,
-  "builderContext": null,
-  "branchMode": null,
-  "recommendedMode": null,
-  "authenticated": false,
-  "level": 1,
-  "title": "견습생",
-  "xp": 0,
-  "npcRelations": {},
-  "tendency": 0,
-  "archetype": null,
-  "archetypeHistory": [],
-  "lastNpc": null,
-  "lastAction": null,
-  "lastLocation": null
+  "project": {
+    "name": null,
+    "problem": null,
+    "icp": null,
+    "hypothesis": null
+  },
+  "artifacts": {
+    "interviews": 0,
+    "spec_versions": 0,
+    "landing_deployed": false,
+    "offer_drafted": false,
+    "channels_active": 0,
+    "tracking_links": 0
+  },
+  "signals": {
+    "interview_insights": 0,
+    "landing_visits": 0,
+    "form_responses": 0,
+    "link_clicks": 0,
+    "payment_intents": 0,
+    "revenue": 0
+  },
+  "tools": {
+    "payment": null,
+    "analytics": null,
+    "marketing_channels": []
+  },
+  "meta": {
+    "authenticated": false,
+    "started_at": null,
+    "last_action": null,
+    "total_actions": 0,
+    "schema_version": 2
+  }
 }
 ```
 
-- 파싱 실패 시 `state.json.bak`으로 백업 후 기본값 재생성
-- `builderContext`는 MCP `syncState.builderContext`의 캐시다. 서버 값이 있으면 로컬 캐시보다 우선한다.
-- `branchMode` / `recommendedMode`는 discovery / audit / diagnosis / planning 흐름 재개용 로컬 필드다.
-- 서버 동기화: MCP `agentic30` 서버와 Block Sync Protocol (`narrative-engine.md` Section 11)
-- MCP 호출 실패 시 블록 완료 처리 금지 (로컬 데이터는 저장, 완료 마커 미기록)
+- v1(RPG) state 감지 시 `/agnt:start`에서 자동 마이그레이션
+- `navigator-engine.md`의 State Mutation Contract 준수
+- MCP 호출 실패 시 로컬 state 저장, 완료 마커 미기록 (fail-closed)
 
 ## MCP Integration
 
@@ -187,24 +161,20 @@ requires_auth: true # 선택
 
 커맨드들은 `ToolSearch`로 `+agentic30` 검색하여 MCP 도구 로딩 후 사용:
 
-- `get_leaderboard` — 서버 상태 동기화, 리더보드
-- `submit_practice` — 퀘스트 완료 제출
-- `save_profile`, `save_interview` — 프로필/인터뷰 데이터 저장
+- `submit_practice` — 워크플로우 완료 제출 (quest_id: `wf-*`)
+- `save_interview` — 인터뷰 데이터 저장
+- `save_spec_iteration` — SPEC 버전 저장
 - `complete_onboarding` — 온보딩 완료
-- `connect_discord`, `verify_discord` — Discord OAuth 연동/검증
-- `deploy_landing` — 랜딩페이지 배포
-- `get_landing_analytics` — 랜딩 방문자/폼 분석
+- `get_leaderboard` — 리더보드 조회
+- `get_landing_analytics` — 랜딩 방문/폼 분석
+- `get_links` — 링크 클릭 조회
 - `create_utm_link` — UTM 단축 링크 생성
-- `get_learning_context` — 이전 학습 컨텍스트 조회
-- `save_spec_iteration`, `get_spec_iterations` — SPEC 버전 이력 저장/조회
+- `deploy_landing` — 랜딩페이지 배포
 
 ## Key Conventions
 
 - **커맨드 변경 후 반드시 `bun run sync:assistant-assets`** 실행
-- 블록 파일 추가/수정 시 해당 Day의 `index.json`도 동기화
-- NPC 대사는 `npcs.md` 카드와 일관되어야 함 (입버릇, 말투, 금지사항)
-- 템플릿 변수 `{{variable}}` — `state.json` 데이터로 보간 (`{{var|fallback}}` 지원). 보간 대상: 내러티브, 전환 메시지, 퀘스트 설명
-- 출력 톤: 2인칭 현재형 문어체 반말, 웹소설 포맷 (~20자/줄)
-- 퀘스트 ID 네이밍: `d<day>-<slug>` (예: `d0-discord-join`)
-- 블록 파일 네이밍: `block<N>-<topic>.md`
-- 한국어 진행, 기술 용어(MCP, OAuth, CLI)는 원문 유지
+- 퀘스트 ID 네이밍: `wf-{workflow}-{n}` (예: `wf-interview-1`)
+- 출력 톤: 2인칭 반말, 짧고 직접적. 프레임워크 용어보다 행동 지시
+- 한국어 진행, 기술 용어(MCP, OAuth, CLI, SPEC)는 원문 유지
+- 카운트다운: `meta.started_at` 기준 Day D/30 표시 (30일 초과 시 잠금 없음)

@@ -1,26 +1,29 @@
 ---
 name: agnt
-description: Guides users through Agentic30's MUD-style 30-day learning journey. Use when the user asks to start, continue, submit, reset, or check status for Agentic30 quests, onboarding, interview-driven development, or landing deployment.
+description: Signal-Driven Navigator for indie hackers. Guides users through problem discovery, customer interviews, spec writing, and tool comparison to reach their first paid signal in 30 days. Use when the user asks to start, discover problems, interview customers, write specs, compare tools, or check progress.
 license: MIT
 compatibility: Designed for filesystem-based coding agents (Codex, Claude Code) with optional MCP access to https://mcp.agentic30.app/mcp.
 metadata:
   author: october-academy
-  version: "1.0.0"
+  version: "2.0.0"
 ---
 
 # agnt
 
-Agentic30 학습 여정을 안내하는 공용 Agent Skill입니다.
+30일 안에 첫 유료 시그널을 만드는 Signal-Driven Navigator.
 
 ## When To Use
 
 다음 요청에서 이 스킬을 사용합니다.
 
-- "agnt 시작", "day 0부터 시작", "학습 이어하기"
-- "오늘 퀘스트 보여줘", "진행 상태 확인"
-- "퀘스트 제출", "초기화"
-- "Agentic30 인터뷰 기반으로 진행"
-- Codex 명시형 호출: `$agnt-continue`, `$agnt-init`, `$agnt-today`, `$agnt-submit`, `$agnt-status`
+- "agnt 시작", "프로젝트 시작", "시작하기"
+- "다음에 뭐 해야 해?", "다음 행동", "추천"
+- "문제 찾기", "ICP 정의", "아이디어 검증"
+- "고객 인터뷰", "Mom Test", "인터뷰 가이드"
+- "SPEC 작성", "제품 스펙"
+- "도구 비교", "결제 솔루션", "분석 도구"
+- "진행 상태", "대시보드"
+- Codex 명시형 호출: `$agnt-start`, `$agnt-next`, `$agnt-discover`, `$agnt-interview`, `$agnt-spec`, `$agnt-tools`, `$agnt-status`
 
 ## Runtime Setup
 
@@ -84,7 +87,7 @@ codex mcp list
 
 ### 3) references 경로(REFS_DIR)
 
-아래 순서로 references 경로를 탐색합니다.
+`navigator-engine.md` 존재 여부로 탐색합니다.
 
 1. `references/` (현재 스킬 디렉토리 기준)
 2. `{AGNT_DIR}/references`
@@ -96,11 +99,13 @@ codex mcp list
 
 사용자 의도를 아래 파일로 매핑해 실행합니다.
 
-- 이어하기: `commands/continue.md`
-- 초기화: `commands/init.md`
-- 오늘 퀘스트: `commands/today.md`
-- 제출: `commands/submit.md`
-- 상태: `commands/status.md`
+- 시작/온보딩: `commands/start.md`
+- 다음 행동: `commands/next.md`
+- 문제 발견: `commands/discover.md`
+- 고객 인터뷰: `commands/interview.md`
+- SPEC 작성: `commands/spec.md`
+- 도구 비교: `commands/tools.md`
+- 상태 확인: `commands/status.md`
 
 각 파일의 절차/규칙을 source of truth로 사용합니다.
 
@@ -108,13 +113,15 @@ codex mcp list
 
 Codex에서는 아래 명령을 canonical로 사용합니다.
 
-- `$agnt-continue` → `commands/continue.md`
-- `$agnt-init` → `commands/init.md`
-- `$agnt-today` → `commands/today.md`
-- `$agnt-submit` → `commands/submit.md`
+- `$agnt-start` → `commands/start.md`
+- `$agnt-next` → `commands/next.md`
+- `$agnt-discover` → `commands/discover.md`
+- `$agnt-interview` → `commands/interview.md`
+- `$agnt-spec` → `commands/spec.md`
+- `$agnt-tools` → `commands/tools.md`
 - `$agnt-status` → `commands/status.md`
 
-호환 입력(`$agnt continue`, `$agnt init` 등)도 동일하게 매핑합니다.
+호환 입력(`$agnt start`, `$agnt next` 등)도 동일하게 매핑합니다.
 
 ## Agent Compatibility Rules
 
@@ -134,13 +141,12 @@ Codex 등 다른 에이전트에서는 아래로 호환 처리합니다.
 - 명령 파싱 우선순위:
   1. `$agnt-<subcommand>` canonical 입력
   2. `$agnt <subcommand>` 호환 입력
-  3. 자연어 의도 입력 (예: "오늘 퀘스트 보여줘")
+  3. 자연어 의도 입력 (예: "다음에 뭐 해야 해?")
 
 ## Core Behavior Rules
 
 - 한국어로 진행하고 기술 용어는 원문(MCP, OAuth, CLI) 유지
-- `references/shared/narrative-engine.md`의 STOP PROTOCOL 준수
-- 블록/퀘스트 판정은 각 Day의 `index.json` 우선
-- MCP 연결 실패 시 fail-closed (완료 제출/동기화 금지)
-- Day 1 `block3-deploy`는 `deploy_landing` MCP 경로를 우선 사용
-- Day 1 `block3-deploy`의 `deploy_landing` 호출에는 `formSchema`(landing.html form 필드 기반 JSON 배열 문자열)를 반드시 포함
+- `references/shared/navigator-engine.md`의 Navigator 규칙 준수
+- MCP 연결 실패 시 fail-closed (완료 제출/동기화 금지, 로컬 워크플로우는 동작)
+- 카운트다운: `meta.started_at` 기준 Day D/30 표시
+- 추천은 비강제 — 유저가 순서를 어겨도 차단하지 않음
