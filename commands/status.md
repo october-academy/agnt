@@ -19,7 +19,7 @@
 ### 1. state 읽기
 
 `{AGNT_DIR}/state.json` Read.
-- `meta.schema_version != 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
 
 ### 2. 카운트다운 계산
 
@@ -40,7 +40,19 @@ remaining = max(0, 30 - D)
 - `get_leaderboard` → 리더보드 데이터 획득
 - 갱신된 값을 state.json에 Write
 
-### 4. 대시보드 출력
+### 4. Sync 패널 자동 플러시
+
+`identity.mode == "synced"` AND `sync.pending_events.length > 0`인 경우:
+
+1. ToolSearch로 `+agentic30` 확인 (이미 3단계에서 검색했으면 재사용)
+2. 도구 발견 시: `pending_events` 순서대로 `submit_practice(quest_id)` 호출
+   - 성공 시: 해당 이벤트 제거
+   - 실패 시: 해당 이벤트 유지, 다음으로 계속
+3. 플러시 후 `sync.last_synced_at = now()`, `state.json` 저장
+
+### 5. 대시보드 출력
+
+Sync 패널의 `미동기화` 수는 플러시 후 남은 `sync.pending_events.length`로 표시.
 
 ```
 ══════════════════════════════════════════
@@ -81,6 +93,13 @@ remaining = max(0, 30 - D)
   마지막: {meta.last_action || "없음"}
   시작일: {meta.started_at ? 날짜만 : "미시작"}
 
+──────────────────────────────────────────
+🔄 Sync
+  상태: {identity.mode == "synced" ? "✅ 연결됨" | identity.mode == "registered" ? "⚠️ 가입만 완료" | "❌ 미연결"}
+  미동기화: {sync.pending_events.length}건
+  마지막 동기화: {sync.last_synced_at ?? "없음"}
+  연결: {identity.mode != "synced" ? "/agnt:connect" : "https://agentic30.app/dashboard"}
+
 {MCP 연결되어 있고 리더보드 데이터가 있으면}
 ──────────────────────────────────────────
 🏆 리더보드 (Top 5)
@@ -93,7 +112,7 @@ remaining = max(0, 30 - D)
 ══════════════════════════════════════════
 ```
 
-### 5. 진행률 바 생성 규칙
+### 7. 진행률 바 생성 규칙
 
 `{N}/{max}` 형태의 필드에 진행률 바를 추가:
 
@@ -105,7 +124,8 @@ remaining = max(0, 30 - D)
 
 ## 규칙
 
-- `/agnt:status`는 state를 **읽기만** 한다 (MCP 시그널 동기화 제외)
-- MCP 미연결 시 로컬 state 기반 표시 + "⚠️ MCP 미연결" 배너
+- `/agnt:status`는 state를 **읽기만** 한다 (MCP 시그널 동기화 및 Sync 패널 플러시 제외)
+- MCP 미연결 시 로컬 state 기반 표시
+- `identity`, `sync` 필드가 state에 없으면 navigator-engine.md 기본값 사용
 - 값이 없는 필드는 "미정의", "미선택", "아직 없음"으로 표시 (빈 칸 아님)
 - 한국어, 반말 톤 없음 (대시보드이므로 중립 톤)

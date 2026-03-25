@@ -106,13 +106,25 @@ npx skills add october-academy/agnt --agent codex --skill agnt -g -y
 
 ## Command Map
 
-| 목적        | Claude           | Codex (권장)     |
-| ----------- | ---------------- | ---------------- |
-| 이어하기    | `/agnt:continue` | `$agnt-continue` |
-| 초기화      | `/agnt:init`     | `$agnt-init`     |
-| 오늘 퀘스트 | `/agnt:today`    | `$agnt-today`    |
-| 제출        | `/agnt:submit`   | `$agnt-submit`   |
-| 상태        | `/agnt:status`   | `$agnt-status`   |
+| 목적            | Claude              | Codex (권장)        |
+| --------------- | ------------------- | ------------------- |
+| 시작/온보딩     | `/agnt:start`       | `$agnt-start`       |
+| 다음 행동       | `/agnt:next`        | `$agnt-next`        |
+| 문제 발견       | `/agnt:discover`    | `$agnt-discover`    |
+| 고객 인터뷰     | `/agnt:interview`   | `$agnt-interview`   |
+| 경쟁 분석       | `/agnt:compete`     | `$agnt-compete`     |
+| SPEC 작성       | `/agnt:spec`        | `$agnt-spec`        |
+| MVP 빌드        | `/agnt:build`       | `$agnt-build`       |
+| 랜딩 전략       | `/agnt:landing`     | `$agnt-landing`     |
+| 채널 활성화     | `/agnt:channel`     | `$agnt-channel`     |
+| 콘텐츠 전략     | `/agnt:content`     | `$agnt-content`     |
+| 오퍼 설계       | `/agnt:offer`       | `$agnt-offer`       |
+| 론칭 계획       | `/agnt:launch`      | `$agnt-launch`      |
+| 성과 분석       | `/agnt:analyze`     | `$agnt-analyze`     |
+| 회고            | `/agnt:retro`       | `$agnt-retro`       |
+| 도구 비교       | `/agnt:tools`       | `$agnt-tools`       |
+| 상태            | `/agnt:status`      | `$agnt-status`      |
+| Agentic30 연결  | `/agnt:connect`     | `$agnt-connect`     |
 
 Codex 호환 입력: `$agnt continue`, `$agnt today` 등.
 

@@ -23,7 +23,17 @@ metadata:
 - "SPEC 작성", "제품 스펙"
 - "도구 비교", "결제 솔루션", "분석 도구"
 - "진행 상태", "대시보드"
-- Codex 명시형 호출: `$agnt-start`, `$agnt-next`, `$agnt-discover`, `$agnt-interview`, `$agnt-spec`, `$agnt-tools`, `$agnt-status`
+- "MVP 범위", "빌드 가이드", "뭘 먼저 만들어야 해?"
+- "랜딩 전략", "랜딩에 뭘 써야 해?", "랜딩페이지 가이드"
+- "채널 추천", "어디에 올려야 해?", "첫 포스트"
+- "경쟁 분석", "비슷한 제품이 있어?", "차별화"
+- "콘텐츠 전략", "뭘 올려야 해?", "첫 포스트"
+- "오퍼 설계", "얼마에 팔아야 해?", "가격 설정"
+- "론칭 계획", "론칭 어떻게 해?", "7일 계획"
+- "성과 분석", "잘 되고 있는 거야?", "전환율 판정"
+- "회고", "뭘 배웠지?", "다음 루프"
+- "연결", "MCP 연결", "동기화", "agentic30 연결"
+- Codex 명시형 호출: `$agnt-start`, `$agnt-next`, `$agnt-discover`, `$agnt-interview`, `$agnt-compete`, `$agnt-spec`, `$agnt-build`, `$agnt-landing`, `$agnt-channel`, `$agnt-content`, `$agnt-offer`, `$agnt-launch`, `$agnt-analyze`, `$agnt-retro`, `$agnt-tools`, `$agnt-status`, `$agnt-connect`
 
 ## Runtime Setup
 
@@ -103,9 +113,19 @@ codex mcp list
 - 다음 행동: `commands/next.md`
 - 문제 발견: `commands/discover.md`
 - 고객 인터뷰: `commands/interview.md`
+- 경쟁 분석: `commands/compete.md`
 - SPEC 작성: `commands/spec.md`
+- MVP 빌드: `commands/build.md`
+- 랜딩 전략: `commands/landing.md`
+- 채널 활성화: `commands/channel.md`
+- 콘텐츠 전략: `commands/content.md`
+- 오퍼 설계: `commands/offer.md`
+- 론칭 계획: `commands/launch.md`
+- 성과 분석: `commands/analyze.md`
+- 회고: `commands/retro.md`
 - 도구 비교: `commands/tools.md`
 - 상태 확인: `commands/status.md`
+- Agentic30 연결: `commands/connect.md`
 
 각 파일의 절차/규칙을 source of truth로 사용합니다.
 
@@ -117,9 +137,19 @@ Codex에서는 아래 명령을 canonical로 사용합니다.
 - `$agnt-next` → `commands/next.md`
 - `$agnt-discover` → `commands/discover.md`
 - `$agnt-interview` → `commands/interview.md`
+- `$agnt-compete` → `commands/compete.md`
 - `$agnt-spec` → `commands/spec.md`
+- `$agnt-build` → `commands/build.md`
+- `$agnt-landing` → `commands/landing.md`
+- `$agnt-channel` → `commands/channel.md`
+- `$agnt-content` → `commands/content.md`
+- `$agnt-offer` → `commands/offer.md`
+- `$agnt-launch` → `commands/launch.md`
+- `$agnt-analyze` → `commands/analyze.md`
+- `$agnt-retro` → `commands/retro.md`
 - `$agnt-tools` → `commands/tools.md`
 - `$agnt-status` → `commands/status.md`
+- `$agnt-connect` → `commands/connect.md`
 
 호환 입력(`$agnt start`, `$agnt next` 등)도 동일하게 매핑합니다.
 

@@ -1,4 +1,10 @@
-# Repository Guidelines
+<!-- Parent: ../AGENTS.md -->
+
+# agnt
+
+> **`CLAUDE.md` 참조**: 이 디렉토리의 `CLAUDE.md`에 커맨드 아키텍처, state.json 스키마 (v3), 경로 결정 로직, MCP 통합, Navigator 패턴 등 구현 상세가 있습니다. 아래는 빠른 네비게이션용입니다.
+
+## Repository Guidelines
 
 ## Project Structure & Module Organization
 
