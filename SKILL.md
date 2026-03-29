@@ -17,6 +17,7 @@ metadata:
 다음 요청에서 이 스킬을 사용합니다.
 
 - "agnt 시작", "프로젝트 시작", "시작하기"
+- "진단", "audit", "프로젝트 진단", "매출 준비도", "Revenue Readiness"
 - "다음에 뭐 해야 해?", "다음 행동", "추천"
 - "문제 찾기", "ICP 정의", "아이디어 검증"
 - "고객 인터뷰", "Mom Test", "인터뷰 가이드"
@@ -33,7 +34,13 @@ metadata:
 - "성과 분석", "잘 되고 있는 거야?", "전환율 판정"
 - "회고", "뭘 배웠지?", "다음 루프"
 - "연결", "MCP 연결", "동기화", "agentic30 연결"
-- Codex 명시형 호출: `$agnt-start`, `$agnt-next`, `$agnt-discover`, `$agnt-interview`, `$agnt-compete`, `$agnt-spec`, `$agnt-build`, `$agnt-landing`, `$agnt-channel`, `$agnt-content`, `$agnt-offer`, `$agnt-launch`, `$agnt-analyze`, `$agnt-retro`, `$agnt-tools`, `$agnt-status`, `$agnt-connect`
+- "SEO 점검", "SEO 체크", "사이트 점검"
+- "사업자 등록", "사업자 판단", "사업자 필요"
+- "분석 세팅", "PostHog 설치", "이벤트 추적"
+- "런칭 카피", "채널 카피", "카피 생성"
+- "광고 소재", "광고 카피", "Meta 광고", "Google 광고"
+- "수익 모델", "어떻게 돈 벌어", "첫 매출"
+- Codex 명시형 호출: `$agnt-start`, `$agnt-audit`, `$agnt-next`, `$agnt-discover`, `$agnt-interview`, `$agnt-compete`, `$agnt-spec`, `$agnt-build`, `$agnt-landing`, `$agnt-channel`, `$agnt-content`, `$agnt-offer`, `$agnt-launch`, `$agnt-analyze`, `$agnt-retro`, `$agnt-tools`, `$agnt-status`, `$agnt-connect`, `$agnt-seo-audit`, `$agnt-biz-setup`, `$agnt-analytics-setup`, `$agnt-launch-copy`, `$agnt-ad-creative`, `$agnt-revenue`
 
 ## Runtime Setup
 
@@ -110,6 +117,7 @@ codex mcp list
 사용자 의도를 아래 파일로 매핑해 실행합니다.
 
 - 시작/온보딩: `commands/start.md`
+- Revenue Readiness Audit: `commands/audit.md`
 - 다음 행동: `commands/next.md`
 - 문제 발견: `commands/discover.md`
 - 고객 인터뷰: `commands/interview.md`
@@ -126,6 +134,12 @@ codex mcp list
 - 도구 비교: `commands/tools.md`
 - 상태 확인: `commands/status.md`
 - Agentic30 연결: `commands/connect.md`
+- SEO 점검: `commands/seo-audit.md`
+- 사업자 등록 판단: `commands/biz-setup.md`
+- 분석 환경 세팅: `commands/analytics-setup.md`
+- 런칭 카피: `commands/launch-copy.md`
+- 광고 소재: `commands/ad-creative.md`
+- 수익 모델: `commands/revenue.md`
 
 각 파일의 절차/규칙을 source of truth로 사용합니다.
 
@@ -134,6 +148,7 @@ codex mcp list
 Codex에서는 아래 명령을 canonical로 사용합니다.
 
 - `$agnt-start` → `commands/start.md`
+- `$agnt-audit` → `commands/audit.md`
 - `$agnt-next` → `commands/next.md`
 - `$agnt-discover` → `commands/discover.md`
 - `$agnt-interview` → `commands/interview.md`
@@ -150,6 +165,12 @@ Codex에서는 아래 명령을 canonical로 사용합니다.
 - `$agnt-tools` → `commands/tools.md`
 - `$agnt-status` → `commands/status.md`
 - `$agnt-connect` → `commands/connect.md`
+- `$agnt-seo-audit` → `commands/seo-audit.md`
+- `$agnt-biz-setup` → `commands/biz-setup.md`
+- `$agnt-analytics-setup` → `commands/analytics-setup.md`
+- `$agnt-launch-copy` → `commands/launch-copy.md`
+- `$agnt-ad-creative` → `commands/ad-creative.md`
+- `$agnt-revenue` → `commands/revenue.md`
 
 호환 입력(`$agnt start`, `$agnt next` 등)도 동일하게 매핑합니다.
 

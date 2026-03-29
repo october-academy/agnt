@@ -65,6 +65,14 @@ Sync 패널의 `미동기화` 수는 플러시 후 남은 `sync.pending_events.l
   ICP: {project.icp || "미정의"}
   가설: {project.hypothesis || "미정의"}
 
+{audit_result가 있으면}
+──────────────────────────────────────────
+🔍 Audit
+  Track: {audit_result.track} ({track 설명: A=바로 빌드, B=검증 필요, C=문제 탐색})
+  Verdict: {audit_result.verdict}
+  자기 평가: {audit_result.user_confidence}/5
+  진단일: {audit_result.completed_at}
+
 ──────────────────────────────────────────
 📦 산출물
   인터뷰      {artifacts.interviews}/3  {progressBar}

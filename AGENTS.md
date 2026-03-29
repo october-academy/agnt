@@ -13,7 +13,7 @@
 - Claude marketplace plugin (`/agnt:*`)
 - Agent Skills spec (`SKILL.md`) for Codex/Claude Code/other compatible agents
 
-- `commands/*.md`: slash-command behavior prompts (`init`, `continue`, `today`, `submit`, `status`).
+- `commands/*.md`: slash-command behavior prompts (23 commands: start, next, discover, interview, compete, spec, build, landing, channel, content, offer, launch, analyze, retro, tools, status, connect, seo-audit, biz-setup, analytics-setup, launch-copy, ad-creative, revenue).
 - `SKILL.md`: Agent Skills spec entrypoint (`name: agnt`) used by `npx skills add`.
 - `references/day*/`: day-based curriculum content. Each day includes `index.json` plus `block*-*.md` files.
 - `references/shared/*.md`: reusable narrative, interview, and world-building rules.

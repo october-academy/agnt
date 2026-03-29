@@ -58,10 +58,11 @@ remaining = max(0, 30 - D)
 
 | # | 조건 | 추천 |
 |---|------|------|
-| 1 | `project.problem == null` | `/agnt:discover` |
-| 2 | `artifacts.interviews < 3` | `/agnt:interview` |
-| 3 | `!artifacts.competitors_analyzed` | `/agnt:compete` |
-| 4 | `artifacts.spec_versions == 0` | `/agnt:spec` |
+| 0 | `audit_result == null && (meta.total_actions == 0 \|\| project.problem == null)` | `/agnt:audit` |
+| 1 | `project.problem == null && audit_result.track != "A"` | `/agnt:discover` |
+| 2 | `artifacts.interviews < 3 && audit_result.track != "A"` | `/agnt:interview` |
+| 3 | `!artifacts.competitors_analyzed && audit_result.track != "A"` | `/agnt:compete` |
+| 4 | `artifacts.spec_versions == 0 && audit_result.track != "A"` | `/agnt:spec` |
 | 5 | `!artifacts.landing_deployed` | `/agnt:landing` |
 | 6 | `artifacts.channels_active < 2` | `/agnt:channel` |
 | 7 | `!artifacts.content_planned` | `/agnt:content` |
@@ -75,13 +76,18 @@ remaining = max(0, 30 - D)
 
 `{REFS_DIR}/shared/navigator-engine.md`의 Section 4를 참조.
 
-경과일(D) 대비 현재 단계를 평가하여 톤을 결정:
+경과일(D) 대비 현재 단계를 평가하여 톤을 결정. `audit_result.track`이 있으면 Track별 기대 기간을 사용:
 
-- **정상 페이스**: 부가 메시지 없음
-- **뒤처짐** (예: D 20인데 아직 interview 단계): "속도를 높여야 해. 핵심에 집중하자."
-- **앞서감** (예: D 5인데 이미 spec 완료): "좋은 페이스야."
-- **D 23-30**: "마감이 가까워. 지금 가장 중요한 한 가지에 집중하자."
-- **D 31+**: "30일이 지났지만, 멈출 필요 없어. 계속 가자."
+- **Track A**: 5일 (기본 D1-2, 독려 D3, 긴급 D4-5, 초과 D6+)
+- **Track B**: 8일 (기본 D1-4, 독려 D5-6, 긴급 D7-8, 초과 D9+)
+- **Track C**: 10일 (기본 D1-5, 독려 D6-8, 긴급 D9-10, 초과 D11+)
+- **Track 없음**: 30일 (기본 D1-15, 독려 D16-22, 긴급 D23-30, 초과 D31+)
+
+톤 매핑:
+- **기본**: 부가 메시지 없음 또는 "좋은 페이스야."
+- **독려**: "속도를 높여야 해. 핵심에 집중하자."
+- **긴급**: "마감이 가까워. 지금 가장 중요한 한 가지에 집중하자."
+- **초과**: "기간이 지났지만, 멈출 필요 없어. 계속 가자."
 
 ### 6. 컨텍스트 기반 부가 메시지
 
@@ -97,7 +103,13 @@ remaining = max(0, 30 - D)
 | `/agnt:landing` | — | "MVP를 먼저 만들려면 `/agnt:build`." |
 | `/agnt:content` | state.tools.marketing_channels 있으면 | "{채널}에 뭘 올릴지 정할 시점이야. BIP(빌드 과정 공유)가 개발자 ICP에게 가장 자연스러워." |
 | `/agnt:offer` | journey-brief에 Competition 있으면 | "경쟁 대안 대비 '{차별점}'이 네 오퍼의 핵심이야." |
+| `/agnt:landing` | — | "배포 전에 /agnt:seo-audit로 SEO도 점검해봐." |
+| `/agnt:channel` | — | "사업자 등록 고민이면 /agnt:biz-setup" |
+| `/agnt:offer` | `!artifacts.analytics_setup` | "분석 세팅이 안 되어 있으면 /agnt:analytics-setup" |
+| `/agnt:launch` | — | "/agnt:launch-copy로 10채널 카피를 한 번에 만들 수 있어." |
 | `/agnt:analyze` | D > 22 (카운트다운 후반) | "마감이 가까워. 100명 미만이어도 방향 감각은 잡을 수 있어." |
+| `/agnt:analyze` | CONTINUE/PIVOT 판정 시 | "트래픽이 더 필요하면 /agnt:ad-creative" |
+| 모두 해당 후 (`/agnt:status`) | `tools.revenue_model == null` | "수익 모델 고민이면 /agnt:revenue" |
 | 기타 | — | 기본 메시지만 출력 (부가 메시지 없음) |
 
 부가 메시지는 추천 출력 포맷의 `근거:` 라인 아래에 추가한다.

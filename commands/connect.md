@@ -201,6 +201,16 @@ MCP 서버 URL: https://mcp.agentic30.app/mcp
 `sync.last_synced_at = now()`
 state.json Write.
 
+**플러시 후 state 서버 동기화:**
+
+`sync_agnt_state` MCP 호출로 로컬 state를 서버에 백업:
+- `project`: state.project (problem, icp, hypothesis, name)
+- `auditResult`: state.audit_result (있으면)
+- `artifacts`: state.artifacts 스냅샷 (interviews, spec_versions, landing_deployed, offer_drafted, channels_active, loops_completed)
+- `schemaVersion`: state.meta.schema_version
+
+실패 시 무시 (백업이므로 critical path 아님).
+
 **플러시 후 확인 — get_user_info 재호출:**
 
 `get_user_info` 호출 → 플러시 전 레벨/XP와 비교하여 변화 감지.
@@ -259,6 +269,7 @@ XP: {total_xp}
 - `save_interview`, `save_spec_iteration`은 플러시 대상이 아님 — 로컬 파일(journey-brief.md, specs/)에 이미 보존됨
 - pending_events 플러시는 submit_practice만 처리 (고정 형식: `{ quest_id: "wf-*" }`)
 - 개별 이벤트 실패 시 실패 이벤트만 유지, 나머지는 제거 후 계속 처리
+- 플러시 완료 후 `sync_agnt_state` MCP 호출로 project/audit_result/artifacts를 서버에 백업 (실패 시 무시)
 - identity.mode 전이: `guest` → (가입 확인 후) `registered` → (MCP 인증 후) `synced`
 - MCP 호출 실패 시 로컬 state는 저장, identity.mode는 최대한 진전된 상태로 유지
 - 한국어 출력, 기술 용어(MCP, OAuth, CLI, XP) 원문 유지
