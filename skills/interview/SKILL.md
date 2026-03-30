@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: interview
 description: >-
   Mom Test 원칙 기반 고객 인터뷰 가이드. 고객 인터뷰, 가설 검증 시 사용.

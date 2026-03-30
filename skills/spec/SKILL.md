@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: spec
 description: >-
   SPEC 작성/이터레이션. 제품 스펙 작성, SPEC 반복 수정 시 사용.

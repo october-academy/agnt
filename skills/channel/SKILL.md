@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: channel
 description: >-
   채널 활성화 가이드 — 채널 선택, 첫 포스트, 벤치마크. 마케팅 채널 선택, 첫 포스트 계획 시 사용.

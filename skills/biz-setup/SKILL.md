@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: biz-setup
 description: >-
   사업자 등록 판단 — 의사결정 트리 + 비용 시뮬레이션. 사업자 등록 여부 판단 시 사용.

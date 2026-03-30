@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: start
 description: >-
   Agentic30 온보딩 + 상태 초기화. 시작하기, 프로젝트 시작 시 사용.

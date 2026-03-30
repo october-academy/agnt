@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: revenue
 description: >-
   수익 나침반 — 시그널 기반 수익 모델 추천. 수익 모델 선택, 첫 매출 계획 시 사용.

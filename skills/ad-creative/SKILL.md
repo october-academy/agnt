@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: ad-creative
 description: >-
   광고 소재 Lab — 3변형 + 가설 태그 + 예산 추천. 광고 소재, Meta/Google 광고 카피 작성 시 사용.

@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: connect
 description: >-
   Agentic30 계정 연결 — 웹 가입 + MCP 인증. 연결, MCP 연결, 동기화 시 사용.

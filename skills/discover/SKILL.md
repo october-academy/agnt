@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: discover
 description: >-
   문제 선택 + ICP 정의 + 가설 수립. 문제 찾기, ICP 정의, 아이디어 검증 시 사용.

@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: content
 description: >-
   콘텐츠 전략 — 유형, 첫 포스트 초안, 주간 리듬. 콘텐츠 기획, 첫 포스트 작성 시 사용.

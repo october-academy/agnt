@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: retro
 description: >-
   회고 + 다음 루프 설계. 회고, 배운 것 정리, 다음 반복 계획 시 사용.

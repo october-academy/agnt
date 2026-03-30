@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: launch
 description: >-
   7일 론칭 계획 — 채널, 일정, 수치 임계값. 론칭 계획 수립 시 사용.

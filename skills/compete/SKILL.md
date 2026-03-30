@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: compete
 description: >-
   경쟁 분석 — 대안 매핑 + 차별화 매트릭스. 경쟁 분석, 유사 제품 조사, 차별화 전략 시 사용.

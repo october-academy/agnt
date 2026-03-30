@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: analyze
 description: >-
   성과 판정 — 벤치마크 대비 continue/pivot/kill. 성과 분석, 전환율 확인 시 사용.

@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: next
 description: >-
   Signal-driven navigator — 현재 상태를 읽고 다음 최선 행동 추천. 다음에 뭐 해야 하는지 물어볼 때 사용.

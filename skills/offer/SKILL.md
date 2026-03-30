@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: offer
 description: >-
   오퍼 구성 가이드 — 가격, 약속, 반론 처리, 증거 공백. 오퍼 설계, 가격 설정 시 사용.

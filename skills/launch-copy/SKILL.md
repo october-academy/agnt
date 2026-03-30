@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: launch-copy
 description: >-
   런칭 카피 엔진 — 10채널 카피 + UTM 링크. 런칭 카피, 채널 카피 생성 시 사용.

@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: analytics-setup
 description: >-
   분석 환경 세팅 — PostHog 설치 + 이벤트 추적 추천. 분석 세팅, 이벤트 추적 설정 시 사용.

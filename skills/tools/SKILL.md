@@ -1,4 +1,5 @@
 ---
+user-invocable: false
 name: tools
 description: >-
   도구 비교 가이드 — 결제, 마케팅, 분석, 광고 도구. 도구 비교, 결제 솔루션 선택 시 사용.
