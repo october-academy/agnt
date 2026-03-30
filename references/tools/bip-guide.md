@@ -153,4 +153,4 @@ Day 14 기록.
 
 - 채널별 가입 장벽/규칙: `references/tools/marketing-channels.md`
 - 유명 BIP 사례: Tony Dinh (X), Marc Lou (X), 역기획자 (Threads)
-- 한국 BIP 커뮤니티: Threads #빌드인퍼블릭, Disquiet
+- 한국 BIP 커뮤니티: Threads #빌드인퍼블릭, EO Planet
