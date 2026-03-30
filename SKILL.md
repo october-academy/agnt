@@ -1,11 +1,12 @@
 ---
 name: agnt
 description: Signal-Driven Navigator for indie hackers. Guides users through problem discovery, customer interviews, spec writing, and tool comparison to reach their first paid signal in 30 days. Use when the user asks to start, discover problems, interview customers, write specs, compare tools, or check progress.
+user-invocable: false
 license: MIT
 compatibility: Designed for filesystem-based coding agents (Codex, Claude Code) with optional MCP access to https://mcp.agentic30.app/mcp.
 metadata:
   author: october-academy
-  version: "2.0.0"
+  version: "3.0.0"
 ---
 
 # agnt
@@ -112,71 +113,71 @@ codex mcp list
 4. `.agents/skills/agnt/references`
 5. `~/.codex/skills/agnt/references`
 
-## Command Mapping
+## Skill Mapping
 
-사용자 의도를 아래 파일로 매핑해 실행합니다.
+사용자 의도를 아래 스킬로 매핑해 실행합니다.
 
-- 시작/온보딩: `commands/start.md`
-- Revenue Readiness Audit: `commands/audit.md`
-- 다음 행동: `commands/next.md`
-- 문제 발견: `commands/discover.md`
-- 고객 인터뷰: `commands/interview.md`
-- 경쟁 분석: `commands/compete.md`
-- SPEC 작성: `commands/spec.md`
-- MVP 빌드: `commands/build.md`
-- 랜딩 전략: `commands/landing.md`
-- 채널 활성화: `commands/channel.md`
-- 콘텐츠 전략: `commands/content.md`
-- 오퍼 설계: `commands/offer.md`
-- 론칭 계획: `commands/launch.md`
-- 성과 분석: `commands/analyze.md`
-- 회고: `commands/retro.md`
-- 도구 비교: `commands/tools.md`
-- 상태 확인: `commands/status.md`
-- Agentic30 연결: `commands/connect.md`
-- SEO 점검: `commands/seo-audit.md`
-- 사업자 등록 판단: `commands/biz-setup.md`
-- 분석 환경 세팅: `commands/analytics-setup.md`
-- 런칭 카피: `commands/launch-copy.md`
-- 광고 소재: `commands/ad-creative.md`
-- 수익 모델: `commands/revenue.md`
+- 시작/온보딩: `skills/start/SKILL.md`
+- Revenue Readiness Audit: `skills/audit/SKILL.md`
+- 다음 행동: `skills/next/SKILL.md`
+- 문제 발견: `skills/discover/SKILL.md`
+- 고객 인터뷰: `skills/interview/SKILL.md`
+- 경쟁 분석: `skills/compete/SKILL.md`
+- SPEC 작성: `skills/spec/SKILL.md`
+- MVP 빌드: `skills/build/SKILL.md`
+- 랜딩 전략: `skills/landing/SKILL.md`
+- 채널 활성화: `skills/channel/SKILL.md`
+- 콘텐츠 전략: `skills/content/SKILL.md`
+- 오퍼 설계: `skills/offer/SKILL.md`
+- 론칭 계획: `skills/launch/SKILL.md`
+- 성과 분석: `skills/analyze/SKILL.md`
+- 회고: `skills/retro/SKILL.md`
+- 도구 비교: `skills/tools/SKILL.md`
+- 상태 확인: `skills/status/SKILL.md`
+- Agentic30 연결: `skills/connect/SKILL.md` *(disable-model-invocation)*
+- SEO 점검: `skills/seo-audit/SKILL.md`
+- 사업자 등록 판단: `skills/biz-setup/SKILL.md`
+- 분석 환경 세팅: `skills/analytics-setup/SKILL.md`
+- 런칭 카피: `skills/launch-copy/SKILL.md`
+- 광고 소재: `skills/ad-creative/SKILL.md`
+- 수익 모델: `skills/revenue/SKILL.md`
 
-각 파일의 절차/규칙을 source of truth로 사용합니다.
+각 스킬의 SKILL.md를 source of truth로 사용합니다.
 
 ### Codex Command Style (`$agnt-*`)
 
 Codex에서는 아래 명령을 canonical로 사용합니다.
 
-- `$agnt-start` → `commands/start.md`
-- `$agnt-audit` → `commands/audit.md`
-- `$agnt-next` → `commands/next.md`
-- `$agnt-discover` → `commands/discover.md`
-- `$agnt-interview` → `commands/interview.md`
-- `$agnt-compete` → `commands/compete.md`
-- `$agnt-spec` → `commands/spec.md`
-- `$agnt-build` → `commands/build.md`
-- `$agnt-landing` → `commands/landing.md`
-- `$agnt-channel` → `commands/channel.md`
-- `$agnt-content` → `commands/content.md`
-- `$agnt-offer` → `commands/offer.md`
-- `$agnt-launch` → `commands/launch.md`
-- `$agnt-analyze` → `commands/analyze.md`
-- `$agnt-retro` → `commands/retro.md`
-- `$agnt-tools` → `commands/tools.md`
-- `$agnt-status` → `commands/status.md`
-- `$agnt-connect` → `commands/connect.md`
-- `$agnt-seo-audit` → `commands/seo-audit.md`
-- `$agnt-biz-setup` → `commands/biz-setup.md`
-- `$agnt-analytics-setup` → `commands/analytics-setup.md`
-- `$agnt-launch-copy` → `commands/launch-copy.md`
-- `$agnt-ad-creative` → `commands/ad-creative.md`
-- `$agnt-revenue` → `commands/revenue.md`
+- `$agnt-start` → `skills/start/SKILL.md`
+- `$agnt-audit` → `skills/audit/SKILL.md`
+- `$agnt-next` → `skills/next/SKILL.md`
+- `$agnt-discover` → `skills/discover/SKILL.md`
+- `$agnt-interview` → `skills/interview/SKILL.md`
+- `$agnt-compete` → `skills/compete/SKILL.md`
+- `$agnt-spec` → `skills/spec/SKILL.md`
+- `$agnt-build` → `skills/build/SKILL.md`
+- `$agnt-landing` → `skills/landing/SKILL.md`
+- `$agnt-channel` → `skills/channel/SKILL.md`
+- `$agnt-content` → `skills/content/SKILL.md`
+- `$agnt-offer` → `skills/offer/SKILL.md`
+- `$agnt-launch` → `skills/launch/SKILL.md`
+- `$agnt-analyze` → `skills/analyze/SKILL.md`
+- `$agnt-retro` → `skills/retro/SKILL.md`
+- `$agnt-tools` → `skills/tools/SKILL.md`
+- `$agnt-status` → `skills/status/SKILL.md`
+- `$agnt-connect` → `skills/connect/SKILL.md`
+- `$agnt-seo-audit` → `skills/seo-audit/SKILL.md`
+- `$agnt-biz-setup` → `skills/biz-setup/SKILL.md`
+- `$agnt-analytics-setup` → `skills/analytics-setup/SKILL.md`
+- `$agnt-launch-copy` → `skills/launch-copy/SKILL.md`
+- `$agnt-ad-creative` → `skills/ad-creative/SKILL.md`
+- `$agnt-revenue` → `skills/revenue/SKILL.md`
 
 호환 입력(`$agnt start`, `$agnt next` 등)도 동일하게 매핑합니다.
 
 ## Agent Compatibility Rules
 
-`commands/*.md`는 Claude Plugin 기준 문구(`ToolSearch`, `AskUserQuestion`, `/mcp`)를 포함합니다.
+`skills/*/SKILL.md`는 Claude Plugin 기준 문구(`ToolSearch`, `AskUserQuestion`, `/mcp`)를 포함합니다.
 Codex 등 다른 에이전트에서는 아래로 호환 처리합니다.
 
 - `ToolSearch`:
@@ -188,7 +189,7 @@ Codex 등 다른 에이전트에서는 아래로 호환 처리합니다.
   - Claude Code에서는 `/mcp` 안내를 그대로 사용합니다.
   - Codex에서는 `codex mcp add/login/list` 명령으로 치환합니다.
 - 경로 안내:
-  - Codex에서 `commands/*.md`를 읽을 때 `.claude/agnt` 경로 표기가 나오면 `.codex/agnt`를 우선 사용합니다.
+  - Codex에서 `skills/*/SKILL.md`를 읽을 때 `.claude/agnt` 경로 표기가 나오면 `.codex/agnt`를 우선 사용합니다.
 - 명령 파싱 우선순위:
   1. `$agnt-<subcommand>` canonical 입력
   2. `$agnt <subcommand>` 호환 입력
