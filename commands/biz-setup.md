@@ -24,7 +24,7 @@
 
 `{AGNT_DIR}/state.json` Read.
 
-- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 
 ### 2. 상황 수집
 

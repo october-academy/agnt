@@ -24,7 +24,7 @@
 
 `{AGNT_DIR}/state.json` Read.
 
-- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 - `project.problem == null` → "/agnt:discover로 문제를 먼저 정의하세요." 종료
 - `artifacts.spec_versions < 1` → "SPEC 없이도 진행할 수 있지만, `/agnt:spec`으로 정리하면 랜딩 카피가 선명해져." (비강제 — 진행 가능)
 

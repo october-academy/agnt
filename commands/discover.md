@@ -23,7 +23,7 @@
 ### 1. state 확인
 
 `{AGNT_DIR}/state.json` Read.
-- `meta.schema_version < 2` → "먼저 `/agnt:start`로 업그레이드하세요." 종료
+- `meta.schema_version != 3` → "먼저 `/agnt:start`를 실행하세요." 종료
 
 ### 2. 이미 problem이 있는 경우
 

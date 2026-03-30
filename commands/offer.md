@@ -24,7 +24,7 @@
 
 `{AGNT_DIR}/state.json` Read.
 
-- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 - `project.problem == null` → "/agnt:discover로 문제를 먼저 정의하세요." 종료
 
 기본값 보증 (navigator-engine.md 필드 기본값 규칙):

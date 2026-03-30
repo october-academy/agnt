@@ -24,7 +24,7 @@
 
 `{AGNT_DIR}/state.json` Read.
 
-- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 - `project.problem == null` → "먼저 `/agnt:discover`로 문제를 정의하세요." 종료
 
 ### 2. 인터뷰 번호 결정

@@ -24,7 +24,7 @@
 
 `{AGNT_DIR}/state.json` Read.
 
-- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 - `!artifacts.landing_deployed` → "랜딩이 아직 없어. `/agnt:landing`으로 먼저 랜딩 전략을 세워." (비강제 — 진행 가능)
 
 ### 2. 채널 번호 결정

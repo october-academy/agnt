@@ -24,7 +24,7 @@
 
 `{AGNT_DIR}/state.json` Read.
 
-- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 - `project.problem == null` → "/agnt:discover로 문제를 먼저 정의하세요." 종료
 - `artifacts.interviews < 1` → "인터뷰를 최소 1건 하면 경쟁 분석이 훨씬 선명해져. /agnt:interview 먼저 추천." (비강제 — 진행 가능)
 

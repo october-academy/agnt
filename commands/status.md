@@ -19,7 +19,7 @@
 ### 1. state 읽기
 
 `{AGNT_DIR}/state.json` Read.
-- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 
 ### 2. 카운트다운 계산
 

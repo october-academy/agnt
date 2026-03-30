@@ -24,7 +24,7 @@
 
 `{AGNT_DIR}/state.json` Read.
 
-- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 - `artifacts.channels_active < 1` → "먼저 `/agnt:channel`로 채널을 정하면 콘텐츠 전략이 선명해져." (비강제 — 진행 가능)
 
 기본값 보증 (navigator-engine.md 필드 기본값 규칙):

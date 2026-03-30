@@ -24,7 +24,7 @@
 
 `{AGNT_DIR}/state.json` Read.
 
-- `meta.schema_version < 2` → `/agnt:start`로 안내 후 종료
+- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 - `artifacts.last_analyze_loop == 0` 또는 `artifacts.last_analyze_loop <= artifacts.loops_completed` → "먼저 `/agnt:analyze`로 성과를 판정해." (비강제 — 진행 가능)
 
 기본값 보증 (navigator-engine.md 필드 기본값 규칙):

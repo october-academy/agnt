@@ -27,8 +27,6 @@ MCP generation/deploy/runtime helper가 읽는 자산입니다. 기본 learner p
 - `runtime/promotion-channels-guide.md`
 - `runtime/threads-writing-guide.md`
 
-기존 `shared/*.md` 경로에는 짧은 forwarding 문서만 남겨 legacy 참조를 안내합니다.
-
 ## 3. Extended assets
 
 위기점, archetype, 취약성 모멘트, Pro additive path처럼 조건부로만 합산되는 자산입니다.

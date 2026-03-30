@@ -24,7 +24,7 @@ npx skills add packages/agnt --list
 
 ```
 commands/              # /agnt:* 커맨드 (Claude Code가 실행하는 프롬프트)
-  ├── start.md         # /agnt:start — 온보딩 + 상태 초기화 + v1→v2 마이그레이션 (ICP 수집은 audit에서)
+  ├── start.md         # /agnt:start — 온보딩 + 상태 초기화 (ICP 수집은 audit에서)
   ├── audit.md         # /agnt:audit — Revenue Readiness Audit (45분 진단 → Track A/B/C 판정)
   ├── next.md          # /agnt:next — Navigator 메인 루프 (상태 기반 추천)
   ├── discover.md      # /agnt:discover — 문제 선택 + ICP 정의
@@ -198,8 +198,7 @@ README.md              # 설치/사용법
 ```
 최대 50건. 초과 시 FIFO 제거.
 
-- v1(RPG) state 감지 시 `/agnt:start`에서 자동 마이그레이션
-- v2 state → `/agnt:start` 실행 시 v3으로 자동 마이그레이션 (`identity`/`sync` 섹션 추가)
+- v3 이외 state는 `/agnt:start`에서 fresh state로 재생성 (하위호환 없음)
 - `navigator-engine.md`의 State Mutation Contract 준수
 - MCP 호출 실패 시 로컬 state 저장, 완료 마커 미기록 (fail-closed)
 
