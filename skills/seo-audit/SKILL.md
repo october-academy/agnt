@@ -82,6 +82,46 @@ robots.txt, sitemap.xml은 별도 WebFetch.
 자동 도구가 모두 불가 시, seo-checklist.md 기반으로 AskUserQuestion을 통해 유저에게 직접 확인.
 P0 항목부터 순차적으로 질문.
 
+### 3.5 Core Web Vitals 측정 모드 결정
+
+P1 #12-14 (LCP, INP, CLS) 측정을 위한 도구 감지. HTML 파싱(Tier 1-3)과 별개로 진행.
+
+`ToolSearch`로 `+chrome-devtools` 검색하여 Chrome DevTools MCP 도구 존재 확인.
+
+**Mode A — Chrome DevTools MCP (자동 측정):**
+도구 발견 시, P1 단계에서 다음을 실행:
+1. `navigate_page`로 점검 URL 접속
+2. `performance_start_trace` 실행 (`reload: true`, `autoStop: true`)
+3. `performance_stop_trace`로 트레이스 종료 → insight set 결과에서 CWV 데이터 추출
+4. 필요 시 `performance_analyze_insight`로 개별 인사이트 상세 확인 (예: `LCPBreakdown`)
+5. `lighthouse_audit` 실행 → Performance 점수, LCP, CLS, FCP, TTFB, Speed Index 추출
+6. 트레이스 결과와 Lighthouse 결과를 교차 검증하여 최종 CWV 값 기록
+
+**Mode B — 미설치 시 안내 + 폴백:**
+도구 미발견 시 AskUserQuestion:
+
+"Core Web Vitals(LCP, INP, CLS) 자동 측정을 위해 Chrome DevTools MCP가 필요해."
+
+선택지:
+- A) 설치하고 측정할래
+- B) 이번엔 건너뛸래
+
+**A 선택 시 — 설치 안내:**
+```
+Chrome DevTools MCP 설치:
+
+Claude Code:
+  claude mcp add chrome-devtools --scope user npx chrome-devtools-mcp@latest
+
+설치 후 Claude Code를 재시작하고 다시 /seo-audit 실행해.
+```
+설치 안내 출력 후 스킬 종료 (재시작 필요).
+
+**B 선택 시 — 폴백:**
+CWV 3개 항목(#12-14)을 "측정 불가"로 처리.
+점수 산정 시 해당 항목의 배점을 만점에서 제외.
+PageSpeed Insights URL 안내: `https://pagespeed.web.dev/analysis?url={점검URL}`
+
 ### 4. P0 점검 — Critical (색인/랭킹 차단 문제)
 
 seo-checklist.md의 P0 항목(11개)을 점검.
@@ -121,10 +161,38 @@ seo-checklist.md의 P1 항목(15개)을 점검.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [Core Web Vitals]
-{#12 LCP}: {측정값} → {Good/Needs Improvement/Poor} (기준: < 2.5s)
-{#13 INP}: {측정값 또는 "측정 불가"} (기준: < 200ms)
-{#14 CLS}: {측정값 또는 "측정 불가"} (기준: < 0.1)
+```
 
+**Mode A (Chrome DevTools MCP 사용 가능):**
+1. `navigate_page`로 점검 URL 접속
+2. `performance_start_trace` 실행 (`reload: true`, `autoStop: true`)
+3. `performance_stop_trace`로 트레이스 종료
+4. 트레이스 결과에서 LCP, INP, CLS 값 추출
+5. 추가 상세가 필요하면 `performance_analyze_insight` 호출 (예: insightName `"LCPBreakdown"`)
+6. `lighthouse_audit` 실행하여 Performance 점수, FCP, TTFB, Speed Index도 추가 수집
+
+출력:
+```
+{#12 LCP}: {측정값}s → {Good/Needs Improvement/Poor} (기준: < 2.5s)
+          Lighthouse: {lighthouse_lcp}s | Trace: {trace_lcp}s
+{#13 INP}: {측정값}ms → {Good/Needs Improvement/Poor} (기준: < 200ms)
+{#14 CLS}: {측정값} → {Good/Needs Improvement/Poor} (기준: < 0.1)
+  Performance Score: {lighthouse_score}/100
+  FCP: {fcp}s | TTFB: {ttfb}ms | Speed Index: {si}s
+```
+
+**Mode B (Chrome DevTools MCP 없음):**
+```
+{#12 LCP}: 측정 불가 (기준: < 2.5s)
+{#13 INP}: 측정 불가 (기준: < 200ms)
+{#14 CLS}: 측정 불가 (기준: < 0.1)
+  → PageSpeed Insights에서 확인: https://pagespeed.web.dev/analysis?url={URL}
+  → 또는 Chrome DevTools MCP 설치 후 재실행
+```
+
+CWV 출력 후 이어서:
+
+```
 [Technical]
 {#15 이미지 최적화}: {WebP? lazy loading? alt?}
 {#16 리다이렉트 체인}: {✅ 또는 ❌}
