@@ -1,5 +1,5 @@
 ---
-user-invocable: false
+user-invocable: true
 name: next
 description: >-
   Signal-driven navigator — 현재 상태를 읽고 다음 최선 행동 추천. 다음에 뭐 해야 하는지 물어볼 때 사용.
@@ -185,12 +185,28 @@ journey-brief가 없거나 해당 섹션이 `(미작성)`이면 부가 메시지
 ──────────────────────────────────────────
 ```
 
+### 9. 자동 실행
+
+출력 완료 후, 추천 커맨드를 `Skill` 도구로 자동 호출한다.
+
+- 추천이 `/agnt:{command}`이면 → `Skill(skill="{command}")` 호출 (bare name 사용)
+- 추천이 `/agnt:status`인 경우(조건 #12, 모두 해당 없음)에는 자동 실행하지 않고 출력만으로 종료
+
+예시: 추천이 `/agnt:audit`이면 → 출력 후 `Skill(skill="audit")` 호출.
+
+#### 실패 처리
+
+- 자동 실행된 스킬이 **실패하거나 유저가 중단**하면, `/agnt:next` 자체도 실패로 종료한다 (성공 메시지 출력 금지)
+- state 변경은 자식 스킬의 기존 fail-closed 규칙을 따른다 — 스킬이 state를 업데이트하지 못했으면 다음 `/agnt:next` 호출 시 같은 스킬이 다시 추천된다
+- 같은 스킬이 2회 연속 자동 실행 후 실패하면, 3회째부터는 자동 실행하지 않고 추천만 출력한다 (sticky loop 방지)
+
 ## 규칙
 
-- `/agnt:next`는 state를 **읽기만** 한다 (쓰기 금지 — MCP 시그널 동기화 및 `sync.last_cta_nudge_at` 제외)
+- `/agnt:next`는 state를 **읽기만** 한다 (쓰기 금지 — MCP 시그널 동기화, `sync.last_cta_nudge_at`, 자동 실행 dispatch 제외)
+- 자동 실행(Step 9)은 `/agnt:next`의 read-only 원칙에 대한 **예외**: next 자체가 state를 쓰지 않지만, 자식 스킬이 자신의 State Mutation Contract에 따라 state를 쓴다
 - MCP 시그널 동기화는 state.json의 `signals.*` 필드만 갱신
 - `sync.last_cta_nudge_at` 쓰기는 Identity Overlay CTA 표시 시에만 허용 (예외)
-- 추천은 **비강제** — "이걸 해야 해"가 아니라 "이걸 추천해"
+- 자동 실행 전 추천 내용을 먼저 출력하여, 유저가 무엇이 실행되는지 확인할 수 있게 한다
 - 한국어 출력, 기술 용어 원문 유지
 - 반말 톤 (존댓말 아님)
 - `identity`, `sync` 필드가 state에 없으면 navigator-engine.md 기본값 사용

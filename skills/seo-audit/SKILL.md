@@ -1,432 +1,362 @@
 ---
 name: seo-audit
 description: >-
-  SEO+GEO 점검 — P0/P1/P2 계층, AI 봇 검증, E-E-A-T. SEO 점검, 사이트 진단 시 사용.
+  SEO+GEO 점검 → 수정 선택 → 구현. 25개 항목 자동 점검 후 코드 수정 가능 항목을 골라 바로 구현.
 ---
 
-SEO + GEO 점검. 사이트 URL의 전통 SEO 요소와 AI 검색엔진 최적화를 P0/P1/P2 우선순위로 점검합니다.
+SEO + GEO 점검 + 자동 수정. 사이트 URL을 25개 항목(P0/P1/P2)으로 자동 점검한 뒤, 미비 항목을 선택하여 바로 구현까지 진행합니다.
 
 ## 데이터 경로 결정
 
-### AGNT_DIR
+### AGNT_DIR (선택적)
 
-1. `.claude/agnt/state.json`을 Read 시도 → 성공하면 **AGNT_DIR = `.claude/agnt`**
-2. 실패 시 `~/.claude/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.claude/agnt`**
-3. 실패 시 `.codex/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `.codex/agnt`**
-4. 실패 시 `~/.codex/agnt/state.json` Read 시도 → 성공하면 **AGNT_DIR = `~/.codex/agnt`**
-5. 모두 없으면 → "먼저 `/agnt:start`로 시작하세요." 출력 후 종료
+1. `.claude/agnt/state.json` Read → 성공 시 **AGNT_DIR = `.claude/agnt`**
+2. `~/.claude/agnt/state.json` → **`~/.claude/agnt`**
+3. `.codex/agnt/state.json` → **`.codex/agnt`**
+4. `~/.codex/agnt/state.json` → **`~/.codex/agnt`**
+5. 모두 없으면 → **AGNT_DIR = null** (state 없이 진행)
 
 ### REFS_DIR
 
-`{AGNT_DIR}/references/shared/navigator-engine.md` 존재 여부로 탐색.
+AGNT_DIR이 있으면 `{AGNT_DIR}/references/` 탐색. null이면:
+1. `~/.claude/plugins/marketplaces/agentic30/references/`
+2. 없으면 → 내장 지식으로 진행
 
 ## 출력 규칙
 
 내부 로직(경로 탐색, state 파싱, MCP 검색)은 무음 처리.
 
+## 점검 항목 (25개)
+
+### P0 — Critical (11개, 각 8점)
+
+| # | 항목 | 확인 방법 |
+|---|------|-----------|
+| 1 | HTTPS | URL `https://` 확인 |
+| 2 | robots.txt | 주요 경로 Disallow 없음 |
+| 3 | sitemap.xml | 접근 가능 + 유효 XML |
+| 4 | TTFB | < 1초 |
+| 5 | 모바일 반응형 | viewport 메타 존재 |
+| 6 | noindex 오용 | 주요 페이지에 noindex 없음 |
+| 7 | title | 존재, 60자 이내 |
+| 8 | h1 | 1개 존재 |
+| 9 | meta description | 존재, 155자 이내 |
+| 10 | OG 태그 | og:title + og:description + og:image (이미지 1200x630 권장) |
+| 11 | canonical | rel="canonical" 설정 |
+
+### P1 — Important (10개, 각 5점)
+
+| # | 항목 | 확인 방법 |
+|---|------|-----------|
+| 12 | LCP | < 2.5s (Chrome DevTools 또는 Lighthouse) |
+| 13 | CLS | < 0.1 |
+| 14 | 이미지 최적화 | 포맷(WebP/AVIF) + lazy loading + alt 텍스트 |
+| 15 | Schema (JSON-LD) | 1개 이상 존재 |
+| 16 | AI 봇 접근 | robots.txt에서 AI 봇 미차단 (RFC 9309 기준) |
+| 17 | FAQPage Schema | FAQPage JSON-LD 존재 |
+| 18 | Content-Answer Fit | 정의/단계/비교 블록 중 1개 이상 |
+| 19 | E-E-A-T 시그널 | 후기 섹션, 제작자 프로필, 외부 인용 중 1개 이상 |
+| 20 | Trustworthiness | HTTPS + 개인정보정책 링크 + 연락처/회사 정보 |
+| 21 | SSR/SSG | 서버사이드 렌더링 확인 (AI 크롤러가 JS 미실행) |
+
+### P2 — Recommended (4개, 각 2점)
+
+| # | 항목 | 확인 방법 |
+|---|------|-----------|
+| 22 | 내부 링크 | 3개 이상 |
+| 23 | 외부 링크 | 1개 이상 |
+| 24 | URL 구조 | 짧고 깔끔, 불필요한 파라미터 없음 |
+| 25 | Custom 404 | 유용한 404 페이지 존재 |
+
+### AI 봇 접근 (#16) 판정 로직
+
+- `User-agent: *` + `Allow: /` → ✅ (전체 허용, 명시 규칙 불필요)
+- `User-agent: *`에 Disallow만 있고 AI 봇 명시 규칙 없음 → ✅ (나머지 경로 허용)
+- AI 봇 명시 Disallow → ❌ + 차단 봇 목록 (GPTBot, ClaudeBot, PerplexityBot 등)
+- robots.txt 없음 → ✅
+
 ## 실행 절차
 
-### 1. 사전 조건 확인
+### 1. 사전 조건 (Graceful)
 
-`{AGNT_DIR}/state.json` Read.
+AGNT_DIR ≠ null이면 `{AGNT_DIR}/state.json` Read.
+- state 없거나 파싱 실패 → 경고 없이 진행
+- `artifacts.landing_deployed == false` → 경고만: "랜딩 미배포. 점검은 진행하지만 배포 후 재점검 권장."
 
-- `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
-- `artifacts.landing_deployed == false` → "아직 랜딩을 배포하지 않았어. 먼저 `/agnt:landing`으로 랜딩을 만들고 배포한 다음 다시 와." 종료
+### 2. URL + 사이트 유형
 
-기본값 보증 (navigator-engine.md 필드 기본값 규칙):
-- `artifacts.seo_audited`가 undefined면 `false`로 처리
-- `artifacts.landing_deployed`가 undefined면 `false`로 처리
-
-### 2. URL 입력 + 사이트 유형 확인
-
-출력:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   SEO + GEO 점검
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 전통 SEO + AI 검색엔진 최적화를 같이 점검해줄게.
-사이트 URL을 알려줘.
 ```
 
-AskUserQuestion: "점검할 URL은?"
-- 자유 입력 (예: "https://myproduct.com")
+AskUserQuestion: "점검할 URL은?" — 자유 입력
 
 AskUserQuestion: "사이트 유형은?"
 - A) 랜딩페이지 (1인 개발자 제품)
 - B) SaaS / 웹앱
-- C) 블로그 / 콘텐츠 사이트
+- C) 블로그 / 콘텐츠
 - D) 기타
 
-사이트 유형을 `site_type`에 저장. 유형별 추가 점검 항목이 달라진다.
+### 3. 데이터 수집 (2-tier)
 
-### 3. 점검 모드 결정 (3-tier 폴백)
+`{REFS_DIR}/seo/seo-checklist.md`, `geo-optimization.md`, `ai-platform-factors.md` Read (있으면).
 
-`{REFS_DIR}/seo/seo-checklist.md` Read.
-`{REFS_DIR}/seo/geo-optimization.md` Read.
-`{REFS_DIR}/seo/ai-platform-factors.md` Read.
-
-**Tier 1 — 자동 점검 (gstack /browse):**
-gstack /browse가 사용 가능하면 URL에 접속하여 자동 점검.
-HTML 소스에서 title, meta description, OG 태그, viewport, h1, canonical, JSON-LD Schema를 파싱.
-robots.txt, sitemap.xml 접근을 확인.
-응답 시간을 측정.
-AI 봇(GPTBot, ClaudeBot, PerplexityBot) 관련 규칙을 robots.txt에서 확인.
+**Tier 1 — Chrome DevTools MCP (권장):**
+`ToolSearch`로 `+chrome-devtools` 검색. 도구 발견 시:
+1. `navigate_page`로 URL 접속
+2. `evaluate_script`로 메타데이터 일괄 추출 (title, meta desc, OG, canonical, h1, JSON-LD, img alt, lang, viewport, noindex)
+3. `performance_start_trace` (`reload: true`, `autoStop: true`) → CWV 측정
+4. `lighthouse_audit` → Performance/SEO/Accessibility 점수
+5. robots.txt, sitemap.xml은 WebFetch로 별도 확인
 
 **Tier 2 — WebFetch 폴백:**
-gstack 불가 시 WebFetch로 HTML을 가져와 동일 항목을 점검.
-robots.txt, sitemap.xml은 별도 WebFetch.
-**Schema 검증 한계 경고**: WebFetch로는 클라이언트 JS로 주입된 JSON-LD를 감지할 수 없다. 유저에게 Google Rich Results Test 확인을 안내.
+Chrome DevTools 없으면 WebFetch로 HTML + robots.txt + sitemap.xml 수집.
+CWV(#12, #13)는 "측정 불가" 처리 + PageSpeed URL 안내.
+**한계 경고**: JS 주입 JSON-LD 감지 불가 → Google Rich Results Test 안내.
 
-**Tier 3 — 수동 체크리스트:**
-자동 도구가 모두 불가 시, seo-checklist.md 기반으로 AskUserQuestion을 통해 유저에게 직접 확인.
-P0 항목부터 순차적으로 질문.
+Chrome DevTools 미설치 시: "CWV 자동 측정을 위해 `claude mcp add chrome-devtools --scope user npx chrome-devtools-mcp@latest` 설치 권장" 안내.
 
-### 3.5 Core Web Vitals 측정 모드 결정
-
-P1 #12-14 (LCP, INP, CLS) 측정을 위한 도구 감지. HTML 파싱(Tier 1-3)과 별개로 진행.
-
-`ToolSearch`로 `+chrome-devtools` 검색하여 Chrome DevTools MCP 도구 존재 확인.
-
-**Mode A — Chrome DevTools MCP (자동 측정):**
-도구 발견 시, P1 단계에서 다음을 실행:
-1. `navigate_page`로 점검 URL 접속
-2. `performance_start_trace` 실행 (`reload: true`, `autoStop: true`)
-3. `performance_stop_trace`로 트레이스 종료 → insight set 결과에서 CWV 데이터 추출
-4. 필요 시 `performance_analyze_insight`로 개별 인사이트 상세 확인 (예: `LCPBreakdown`)
-5. `lighthouse_audit` 실행 → Performance 점수, LCP, CLS, FCP, TTFB, Speed Index 추출
-6. 트레이스 결과와 Lighthouse 결과를 교차 검증하여 최종 CWV 값 기록
-
-**Mode B — 미설치 시 안내 + 폴백:**
-도구 미발견 시 AskUserQuestion:
-
-"Core Web Vitals(LCP, INP, CLS) 자동 측정을 위해 Chrome DevTools MCP가 필요해."
-
-선택지:
-- A) 설치하고 측정할래
-- B) 이번엔 건너뛸래
-
-**A 선택 시 — 설치 안내:**
-```
-Chrome DevTools MCP 설치:
-
-Claude Code:
-  claude mcp add chrome-devtools --scope user npx chrome-devtools-mcp@latest
-
-설치 후 Claude Code를 재시작하고 다시 /seo-audit 실행해.
-```
-설치 안내 출력 후 스킬 종료 (재시작 필요).
-
-**B 선택 시 — 폴백:**
-CWV 3개 항목(#12-14)을 "측정 불가"로 처리.
-점수 산정 시 해당 항목의 배점을 만점에서 제외.
-PageSpeed Insights URL 안내: `https://pagespeed.web.dev/analysis?url={점검URL}`
-
-### 4. P0 점검 — Critical (색인/랭킹 차단 문제)
-
-seo-checklist.md의 P0 항목(11개)을 점검.
-
-각 항목별 결과 기록:
-- ✅ 통과 — 정상
-- ❌ 미비 — 문제 + 구체적 수정 방법
+### 4. P0 점검
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  P0 — Critical 점검
+  P0 — Critical
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-[Technical SEO]
-{#1 HTTPS}: {✅ 또는 ❌ + 수정 방법}
-{#2 robots.txt}: {✅ 또는 ❌}
-{#3 sitemap.xml}: {✅ 또는 ❌}
-{#4 TTFB}: {✅ 또는 ❌ + 측정값}
-{#5 모바일 반응형}: {✅ 또는 ❌}
-{#6 noindex 오용}: {✅ 또는 ❌}
+[Technical]
+#1  HTTPS: {✅/❌}
+#2  robots.txt: {✅/❌ + 차단 경로}
+#3  sitemap.xml: {✅/❌ + URL 수}
+#4  TTFB: {✅/❌ + 측정값}
+#5  모바일 반응형: {✅/❌}
+#6  noindex 오용: {✅/❌}
 
-[On-Page SEO]
-{#7 title 태그}: {✅ 또는 ❌ + 현재값/길이}
-{#8 h1 태그}: {✅ 또는 ❌ + 현재값}
-{#9 meta description}: {✅ 또는 ❌ + 현재값/길이}
-{#10 OG 태그}: {✅ 또는 ❌ + 누락 항목}
-{#11 canonical}: {✅ 또는 ❌}
+[On-Page]
+#7  title: {✅/❌ + 현재값, 길이}
+#8  h1: {✅/❌ + 현재값, 개수}
+#9  meta description: {✅/❌ + 현재값, 길이}
+#10 OG 태그: {✅/❌ + 누락 항목, og:image 사이즈 1200x630 확인}
+#11 canonical: {✅/❌}
 ```
 
-### 5. P1 점검 — Important (랭킹 중요 요소)
-
-seo-checklist.md의 P1 항목(15개)을 점검.
+### 5. P1 점검
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  P1 — Important 점검
+  P1 — Important
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [Core Web Vitals]
-```
+#12 LCP: {측정값 또는 "측정 불가"} (기준: < 2.5s)
+#13 CLS: {측정값 또는 "측정 불가"} (기준: < 0.1)
+  {Lighthouse 점수 표시. 미측정 시 PageSpeed URL 안내}
 
-**Mode A (Chrome DevTools MCP 사용 가능):**
-1. `navigate_page`로 점검 URL 접속
-2. `performance_start_trace` 실행 (`reload: true`, `autoStop: true`)
-3. `performance_stop_trace`로 트레이스 종료
-4. 트레이스 결과에서 LCP, INP, CLS 값 추출
-5. 추가 상세가 필요하면 `performance_analyze_insight` 호출 (예: insightName `"LCPBreakdown"`)
-6. `lighthouse_audit` 실행하여 Performance 점수, FCP, TTFB, Speed Index도 추가 수집
-
-출력:
-```
-{#12 LCP}: {측정값}s → {Good/Needs Improvement/Poor} (기준: < 2.5s)
-          Lighthouse: {lighthouse_lcp}s | Trace: {trace_lcp}s
-{#13 INP}: {측정값}ms → {Good/Needs Improvement/Poor} (기준: < 200ms)
-{#14 CLS}: {측정값} → {Good/Needs Improvement/Poor} (기준: < 0.1)
-  Performance Score: {lighthouse_score}/100
-  FCP: {fcp}s | TTFB: {ttfb}ms | Speed Index: {si}s
-```
-
-**Mode B (Chrome DevTools MCP 없음):**
-```
-{#12 LCP}: 측정 불가 (기준: < 2.5s)
-{#13 INP}: 측정 불가 (기준: < 200ms)
-{#14 CLS}: 측정 불가 (기준: < 0.1)
-  → PageSpeed Insights에서 확인: https://pagespeed.web.dev/analysis?url={URL}
-  → 또는 Chrome DevTools MCP 설치 후 재실행
-```
-
-CWV 출력 후 이어서:
-
-```
 [Technical]
-{#15 이미지 최적화}: {WebP? lazy loading? alt?}
-{#16 리다이렉트 체인}: {✅ 또는 ❌}
-{#17 깨진 내부 링크}: {✅ 또는 ❌}
-{#18 Schema (JSON-LD)}: {✅ 또는 ❌ + 타입}
+#14 이미지 최적화: {포맷, lazy loading, alt 누락 개수}
+#15 Schema (JSON-LD): {✅/❌ + 감지된 @type}
 
-[GEO — AI 검색엔진 최적화]
-{#19 AI 봇 접근}: {✅ 또는 ❌ + 어떤 봇이 차단됨}
-{#20 FAQPage Schema}: {✅ 또는 ❌}
-{#21 Content-Answer Fit}: {✅ 또는 ❌ + 정의/단계/비교 블록 여부}
-{#22 통계/숫자 포함}: {✅ 또는 ❌}
+[GEO]
+#16 AI 봇 접근: {✅/❌ + 판정 근거}
+#17 FAQPage Schema: {✅/❌}
+#18 Content-Answer Fit: {✅/❌ + 블록 유형}
 
 [E-E-A-T]
-{#23 Experience}: {✅ 또는 ❌}
-{#24 Expertise}: {✅ 또는 ❌}
-{#25 Authoritativeness}: {✅ 또는 ❌}
-{#26 Trustworthiness}: {✅ 또는 ❌}
+#19 E-E-A-T 시그널: {✅/❌ + 감지된 요소}
+#20 Trustworthiness: {✅/❌ + 근거}
+#21 SSR/SSG: {✅/❌ + 렌더링 방식, CDN}
 ```
 
-### 6. P2 점검 — Recommended
-
-seo-checklist.md의 P2 항목 중 사이트 유형에 해당하는 것만 점검.
+### 6. P2 점검
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   P2 — Recommended
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-[On-Page]
-{해당 항목들}
+#22 내부 링크: {개수}
+#23 외부 링크: {개수}
+#24 URL 구조: {✅/❌}
+#25 Custom 404: {✅/❌/"확인 불가"}
 
-[GEO 추가]
-{해당 항목들}
-
-[{site_type}별 추가 점검]
-{사이트 유형에 맞는 추가 항목}
+[{site_type}별 참고] (점수 미포함)
 ```
 
-### 7. 점수 산정 + 결과 출력
+**사이트 유형별 참고**:
+- 랜딩페이지: OG 이미지 1200x630, 모바일 CTA 터치(44x44px), 로딩 3초 이내
+- SaaS: 가격 페이지 Offer Schema, 기능별 랜딩, 비교 페이지
+- 블로그: Article Schema, 저자 프로필, 목차 Jump Link
 
-점수 산정: P0 항목 8점, P1 항목 5점, P2 항목 2점. 만점 대비 비율로 등급 산출.
+### 7. 점수 + 결과
+
+점수: P0 8점, P1 5점, P2 2점. 만점 대비 비율.
+"해당 없음" 항목은 만점에서 제외. CWV 미측정 시 해당 항목 배점 제외.
 
 ```
 ══════════════════════════════════════════
   SEO + GEO 점검 결과
 ══════════════════════════════════════════
 
-URL: {입력한 URL}
-사이트 유형: {site_type}
+URL: {URL}  |  유형: {site_type}
 
 ──────────────────────────────────────────
   점수: {점수}% ({등급})
 ──────────────────────────────────────────
 
-  전통 SEO:  {trad_score}%  [{bar}]
-  GEO (AI):  {geo_score}%   [{bar}]
-  E-E-A-T:   {eeat_score}%  [{bar}]
+  전통 SEO:  {trad}%  [{bar}]
+  GEO (AI):  {geo}%   [{bar}]
+  E-E-A-T:   {eeat}%  [{bar}]
 
-──────────────────────────────────────────
-  등급: {A/B/C/D}
-──────────────────────────────────────────
-  A (90%+): 기본+GEO 완비 — 콘텐츠와 트래픽에 집중
-  B (75-89%): 양호 — P1 미비 항목 보완
-  C (60-74%): 개선 필요 — P0 항목 우선 해결
-  D (0-59%): 긴급 — 색인/크롤링 자체에 문제
+  A (90%+) | B (75-89%) | C (60-74%) | D (<60%)
 
-✅ 통과 항목: {개수}/{전체}
-  {통과한 항목 나열}
-
-❌ 미비 항목 (우선순위순):
-  [P0] {미비 항목 + 구체적 수정 방법}
-  [P1] {미비 항목 + 구체적 수정 방법}
-  [P2] {미비 항목 + 구체적 수정 방법}
+✅ 통과: {개수}/{전체}
+❌ 미비 (우선순위순):
+  {[Px] 항목명 — 1줄 수정 방법}
 
 ══════════════════════════════════════════
 ```
 
-### 8. GEO 최적화 가이드
+### 8. 수정 항목 선택
 
-geo_score가 50% 미만이면 GEO 가이드 출력:
+미비 0개 → Step 11로.
 
+미비 항목을 카테고리별로 분류하여 AskUserQuestion (Multi-Select):
+
+**🔧 AUTO — 코드로 바로 수정 가능:**
+
+| 대상 항목 | 수정 방법 |
+|-----------|-----------|
+| #7-11 메타데이터 | layout/metadata 파일 수정 (OG 이미지 1200x630 포함) |
+| #14 이미지 alt | img 태그에 alt 추가 |
+| #15 Schema JSON-LD | head에 JSON-LD 추가/수정 |
+| #16 AI 봇 접근 | robots.txt Disallow 제거 (명시 차단 시에만) |
+| #25 Custom 404 | 404 페이지 생성 |
+
+**✏️ SEMI — 콘텐츠 확인 후 구현 (카피/구조 변경이라 유저 승인 필요):**
+
+| 대상 항목 | 필요 입력 |
+|-----------|-----------|
+| #17 FAQPage | FAQ 초안 3-5개 생성 → 유저 확인 → JSON-LD + visible 섹션 적용 |
+| #18 Content-Answer Fit | 정의/단계/비교 블록 초안 → 유저 확인 후 적용 (전환 카피 보호) |
+| #19 E-E-A-T 시그널 | 후기, 제작자 정보, 또는 외부 인용 중 택 |
+
+```
+어떤 항목을 지금 수정할까? (복수 선택 가능)
+
+🔧 코드 수정:
+  □ A) #{n} {항목명} — {1줄 설명} [P{x}]
+  ...
+✏️ 콘텐츠 + 코드:
+  □ X) #19 E-E-A-T — 후기/프로필/인용 섹션 추가 [P1]
+──────────────────
+  □ ALL) 🔧 전체 자동 수정
+  □ SKIP) 수정 없이 종료
+```
+
+SKIP → Step 11로.
+ALL → AUTO 항목 전체 선택.
+
+### 9. 콘텐츠 수집
+
+SEMI 항목이 선택된 경우에만 실행.
+
+**#17 FAQPage 선택 시**:
+페이지 콘텐츠를 분석하여 FAQ 3-5개 초안 생성 → AskUserQuestion으로 유저 확인:
+"이 FAQ로 진행할까? 수정/삭제/추가해줘."
+확인 후 visible FAQ 섹션 + FAQPage JSON-LD 동시 적용.
+
+**#18 Content-Answer Fit 선택 시**:
+페이지에 맞는 블록(정의/단계/비교) 초안 생성 → AskUserQuestion으로 유저 확인:
+"이 블록을 페이지에 추가할까? 기존 전환 카피와 충돌하지 않는지 확인해줘."
+
+**#19 E-E-A-T 선택 시**:
+AskUserQuestion: "어떤 E-E-A-T 시그널을 추가할까?"
+- A) 후기/사례 — "이름, 한 줄 후기, 결과를 알려줘"
+- B) 제작자 프로필 — "이름, 소개, 경력/자격을 알려줘"
+- C) 둘 다
+
+입력/확인받은 콘텐츠를 구현에 사용.
+
+### 10. 구현
+
+**프로젝트 판별**: 점검 URL이 현재 작업 디렉토리 프로젝트인지 확인.
+- 프로젝트 외부 → 수정 코드 스니펫만 제공하고 Step 11로.
+- 프로젝트 내부 → 대상 파일 탐색 후 직접 수정.
+
+**파일 탐색**:
+- 메타데이터: layout 파일 (Next.js `metadata` export, Astro frontmatter 등)
+- robots.txt: `public/robots.txt` 또는 `app/robots.ts`
+- JSON-LD: 기존 `script[type="application/ld+json"]` 위치
+- 페이지 콘텐츠: 해당 페이지 컴포넌트
+- 이미지: `<img>` 태그가 있는 컴포넌트
+
+**수정 원칙**:
+- 프로젝트 기존 코드 스타일/패턴 준수
+- SEO 관련 변경만 — 구조적 리팩토링 금지
+- FAQPage/Content-Answer Fit: SEMI 항목 — Step 9에서 유저 승인받은 초안만 적용
+- AI 봇 접근: `User-agent: *` + `Allow: /`이면 수정 불필요. 명시 Disallow만 제거.
+
+각 항목 완료 시:
+```
+✅ #{n} {항목명} — {변경 파일}
+```
+
+전체 완료 후 TypeScript 프로젝트면 typecheck 실행. 에러 시 즉시 수정.
+
+### 11. 완료
+
+**외부 작업 가이드** (코드로 해결 불가한 최적화 안내):
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  GEO 최적화 가이드
+  외부 작업 가이드
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-AI 검색엔진에서 인용되려면:
-
-1. 구체적 숫자/통계 추가 (+37% 가시성)
-   → 페이지에 데이터 포인트가 있어야 AI가 인용할 수 있어.
-
-2. FAQPage Schema 추가 (+Perplexity, Google AI Overview)
-   → geo-optimization.md의 JSON-LD 템플릿 참조.
-
-3. robots.txt에 AI 봇 허용
-   → GPTBot, ClaudeBot, PerplexityBot Allow
-
-4. Content-Answer Fit
-   → "X가 뭐야?" 질문에 바로 답하는 문장 구조.
-   → ChatGPT 인용의 55%가 이 구조에 의존.
-
-상세: /agnt:tools → 분석 도구 섹션 참조
+□ Google Search Console — search.google.com/search-console
+□ NAVER Search Advisor — searchadvisor.naver.com
+□ Bing Webmaster Tools — bing.com/webmasters (Copilot 가시성)
+□ Brave Search 등록 — brave.com/search/submit (Claude 검색 소스)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### 9. OG 이미지 미비 안내
-
-og:image가 없거나 비어있으면:
-
+**GEO 팁** (geo_score < 50%이고 미수정 GEO 항목이 남아있으면):
 ```
-⚠️ OG 이미지가 없어. 링크 공유 시 미리보기가 깨져.
-
-무료 생성 도구:
-• Canva — canva.com (1200×630 템플릿)
-• og.dev — 코드 기반 동적 OG 이미지
-• @vercel/og — Vercel 프로젝트용
-
-OG 이미지 설정 후 다시 점검해봐.
+AI 검색에서 인용되려면:
+1. FAQPage Schema (+Perplexity, AI Overview)
+2. Content-Answer Fit (+55% ChatGPT 인용)
+3. 구체적 숫자/통계 (+37% 가시성)
 ```
 
-### 10. AI 봇 차단 경고
+**journey-brief.md + state** (AGNT_DIR ≠ null):
+- `{AGNT_DIR}/journey-brief.md` `## Market > ### SEO` 추가/갱신
+- state.json: `artifacts.seo_audited = true`, `meta.last_action = "seo-audit"`, `meta.total_actions++`
+- MCP `submit_practice` (wf-seo-audit) 또는 `sync.pending_events` 큐잉
 
-robots.txt에서 AI 봇이 Disallow되어 있으면:
-
-```
-⚠️ AI 봇이 차단되어 있어!
-
-차단된 봇: {차단된 봇 목록}
-
-이 봇들이 차단되면 해당 AI 검색에서 네 사이트가 인용되지 않아.
-의도적으로 차단한 거라면 괜찮지만, 아니라면 robots.txt를 수정해:
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-```
-
-### 11. 사이트 유형별 추가 권고
-
-**랜딩페이지 (1인 개발자)**:
-```
-□ 단일 페이지라도 sitemap.xml 존재
-□ OG 이미지 1200×630px
-□ 모바일 CTA 터치 가능 (44×44px 최소)
-□ 로딩 3초 이내 (모바일)
-□ Google Search Console + NAVER Search Advisor 등록
-```
-
-**SaaS / 웹앱**:
-```
-□ 가격 페이지에 Offer Schema
-□ 무료 체험 CTA가 검색 결과에서 보임
-□ 기능별 랜딩페이지 (long-tail 키워드)
-□ 비교 페이지 ("X vs Y")
-□ API 문서 색인 허용
-```
-
-**블로그 / 콘텐츠**:
-```
-□ Article Schema (JSON-LD)
-□ 저자 프로필 + 전문성 표시
-□ 목차 Jump Link
-□ 발행일/수정일 표시
-□ 관련 글 내부 링크
-```
-
-### 12. journey-brief.md Write
-
-`{AGNT_DIR}/journey-brief.md` Read 시도.
-
-**파일이 없는 경우**: navigator-engine.md의 journey-brief 템플릿으로 신규 생성.
-**파일이 있는 경우**: `## Market` 섹션에 `### SEO` 서브섹션을 추가 또는 Replace.
-
-SEO 섹션:
-```markdown
-### SEO
-- 점검 URL: {URL}
-- 점수: {점수}% ({등급})
-- 전통 SEO: {trad_score}% | GEO: {geo_score}% | E-E-A-T: {eeat_score}%
-- P0 미비: {미비 항목 요약}
-- P1 미비: {미비 항목 요약}
-- 점검일: {날짜}
-```
-
-### 13. 완료 출력 + state 업데이트 + MCP 제출
-
-state.json 업데이트:
-- `artifacts.seo_audited = true`
-- `meta.last_action = "seo-audit"`
-- `meta.total_actions++`
-
-`ToolSearch`로 `+agentic30` 검색.
-
-도구 발견 시:
-- `submit_practice` 호출: quest_id = `"wf-seo-audit"`
-
-도구 없으면 (`identity.mode != "synced"` 또는 ToolSearch 실패):
-- `sync.pending_events`에 추가 (50건 초과 시 가장 오래된 이벤트 제거):
-  ```json
-  { "type": "submit_practice", "args": { "quest_id": "wf-seo-audit" }, "created_at": "<now()>" }
-  ```
-- state.json 저장
-
-완료 출력:
-
+**완료 출력**:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  SEO + GEO 점검 완료
+  SEO + GEO 점검 {수정 시: "+ 수정"} 완료
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-{등급에 따른 메시지}
+{수정 시: ✅ N개 수정, 📊 이전%→예상% (등급→등급)}
+{미비 남아있으면: → 남은 N개는 배포 후 /seo-audit 재실행}
 
-A: 기본 SEO + GEO 완비됐어. 콘텐츠로 검색 유입을 확대하자 → /agnt:content
-B: 양호해. P1 미비 항목을 보완하고 다시 /agnt:seo-audit 해봐.
-C: P0 항목부터 수정해. 수정 후 다시 /agnt:seo-audit 실행.
-D: 색인 자체에 문제야. P0 항목 즉시 수정 필수.
+{등급별 다음 행동:
+  A: SEO+GEO 완비. → /agnt:channel로 첫 트래픽을 보내봐.
+  B: 양호. → /agnt:channel로 커뮤니티 유입 시작하면서 남은 P1 보완.
+  C: P0부터 수정 후 재실행. 수정 완료되면 /agnt:channel로 유입 시작.
+  D: 색인 문제. P0 즉시 수정 필수. 수정 후 재점검.}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ## 규칙
 
-- 점수를 부풀리지 않는다 — 미비 항목은 미비로 표시
-- 자동 점검 결과가 애매하면 보수적으로 판정 (미비로)
-- OG 이미지는 반드시 체크 — 링크 공유 시 가장 체감 큰 항목
-- AI 봇 차단 여부는 반드시 체크 — 2026년에 AI 검색 미최적화는 기회 손실
-- Schema 자동 검증 한계를 유저에게 명시 (클라이언트 JS 주입 감지 불가)
-- P0 → P1 → P2 순서로 점검하고 보고
-- 전통 SEO, GEO, E-E-A-T 세 영역 점수를 분리 표시
-- 사이트 유형별 추가 권고 포함
-- state.json Write 먼저 (critical path), journey-brief.md Write 후순위
-- MCP 호출 실패 시 로컬 state는 저장, 완료 마커 미기록
+- 점수를 부풀리지 않는다 — 미비는 미비로
+- 애매하면 보수적 판정 (미비로)
+- AI 봇: RFC 9309 — `User-agent: *` + `Allow: /`이면 전체 허용, 명시 규칙 불필요
+- Schema 검증 한계 명시 (JS 주입 감지 불가)
+- 구현 시 기존 코드 스타일 준수, SEO 변경만
+- 기존 기능 깨뜨리지 않음 — 수정 후 typecheck 필수
+- AGNT_DIR null이면 state/journey-brief skip
 - 한국어, 반말 톤

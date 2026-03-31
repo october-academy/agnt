@@ -68,7 +68,7 @@ SE Ranking 연구 (129K 도메인):
 
 ```
 [P0] 즉시
-  □ robots.txt에 AI 봇 Allow 확인
+  □ robots.txt에서 AI 봇 Disallow 없는지 확인 (User-agent: * Allow: /면 이미 허용)
   □ FAQPage JSON-LD Schema 추가
   □ 페이지에 구체적 숫자/통계 포함
   □ Brave Search에 사이트 등록
@@ -80,7 +80,6 @@ SE Ranking 연구 (129K 도메인):
   □ LinkedIn 또는 GitHub 프로필에 제품 링크
 
 [P2] 다음 주
-  □ SpeakableSpecification 추가
   □ 경쟁사 대비 Comparison Table 작성
   □ PDF 버전 자료 제공 (Perplexity 최적화)
 ```

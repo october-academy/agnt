@@ -1,5 +1,5 @@
 ---
-user-invocable: false
+user-invocable: true
 name: status
 description: >-
   현재 상태 대시보드 — 진행 현황, 시그널, 도구, 리더보드. 진행 상태 확인 시 사용.

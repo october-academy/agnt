@@ -1,6 +1,6 @@
 ---
-user-invocable: false
 name: start
+user-invocable: true
 description: >-
   Agentic30 온보딩 + 상태 초기화. 시작하기, 프로젝트 시작 시 사용.
 ---
@@ -93,7 +93,114 @@ AskUserQuestion으로 상황 확인만 수행 (프로젝트 정보 수집은 `/a
 - C: "이 커리큘럼은 수익 0에서 시작하는 사람을 위해 설계됐어. 계속할 수는 있지만, 앞 단계가 불필요하게 느껴질 수 있어."
 - D: 추가 응답 없이 진행.
 
-project.* 수집은 하지 않는다. `/agnt:next`가 `/agnt:audit`를 추천하면 거기서 진행.
+project.* 수집은 하지 않는다 (URL 제외). `/agnt:next`가 `/agnt:audit`를 추천하면 거기서 진행.
+
+### 3.5 기존 사이트 확인
+
+Q0 분기 응답 후, **모든 Q0 답변에 공통으로** 기존 사이트 존재 여부를 묻는다.
+
+AskUserQuestion: "이미 만든 랜딩페이지나 사이트가 있어? 있으면 URL 알려줘."
+- URL 입력 → Site Reconnaissance 수행
+- "없어" / "아직" / 무관한 답변 → 건너뛰고 4단계로
+
+#### Site Reconnaissance
+
+URL이 제공되면, 아래 도구를 **우선순위 순서대로** 시도한다. 첫 번째 성공하는 도구를 사용:
+
+**1순위 — Chrome DevTools MCP** (ToolSearch `+chrome-devtools`):
+- `mcp__chrome-devtools__navigate_page` — URL 로드
+- `mcp__chrome-devtools__take_screenshot` — 전체 페이지 캡처 (시각 분석용)
+- `mcp__chrome-devtools__evaluate_script` — DOM 분석:
+  ```javascript
+  // H1 텍스트, CTA 버튼, 폼, meta 태그 추출
+  JSON.stringify({
+    h1: document.querySelector('h1')?.textContent?.trim(),
+    ctas: [...document.querySelectorAll('a[href], button')].slice(0, 5).map(el => el.textContent?.trim()),
+    forms: document.querySelectorAll('form').length,
+    inputs: [...document.querySelectorAll('input[type="email"], input[type="text"]')].length,
+    title: document.title,
+    metaDesc: document.querySelector('meta[name="description"]')?.content,
+    images: document.querySelectorAll('img').length,
+    pricing: !!document.body.innerText.match(/\d+[,.]?\d*\s*원|₩|\$\d+|pricing/i)
+  })
+  ```
+- `mcp__chrome-devtools__lighthouse_audit` — 성능/접근성/SEO 점수 (선택, 시간 여유 시)
+
+**2순위 — `/browse` skill (gstack)** (Chrome DevTools 미사용 시):
+- URL 네비게이트 + 스크린샷 + 페이지 콘텐츠 추출
+
+**3순위 — Playwright** (`mcp__playwright__*` 또는 Bash `npx playwright`):
+- URL 네비게이트 + 스크린샷 + DOM 분석
+
+**4순위 — WebFetch** (최후 수단, 텍스트만):
+- HTML 원본 가져오기 → 태그 구조로 분석
+
+#### Recon 분석 항목
+
+| 항목 | 확인 내용 |
+|------|----------|
+| 페이지 로드 | HTTP 정상, 렌더링 완료 |
+| 스크린샷 | 시각적 완성도 — 전문적인가, 깨지는 곳 |
+| 헤드라인 (H1) | 명확한 가치 제안 존재 여부 |
+| CTA 버튼 | 존재 여부, 텍스트, 위치 |
+| 리드 캡처 | 폼, 이메일 입력, 대기리스트 등 |
+| 가격/오퍼 | 뭘 얼마에 파는지 노출 여부 |
+| 모바일 반응형 | 뷰포트 대응 (가능 시 모바일 스크린샷 추가) |
+| SEO 기본 | title, meta description 존재 여부 |
+
+#### Recon 출력
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Site Recon: {URL}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅/❌ 페이지 로드
+✅/❌ 헤드라인: "{H1 텍스트}"
+✅/❌ CTA: "{버튼 텍스트}"
+✅/❌ 리드 캡처 (폼/이메일)
+✅/❌ 가격/오퍼
+✅/❌ 모바일 반응형
+✅/❌ SEO 기본 (title: "{title}")
+
+한줄 진단: {가장 크리티컬한 문제 1가지}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Recon 출력 후, 결과에 기반한 **한 마디** 코멘트:
+- 헤드라인 없음: "방문자가 3초 안에 뭔지 모르면 떠나. 헤드라인부터 잡아야 해."
+- CTA 없음: "보고 나서 뭘 하라는 건지 안 보여. 버튼이 필요해."
+- 폼 없음: "관심 있는 사람을 잡을 장치가 없어. 이메일이라도 받아야 해."
+- 전부 있음: "기본 구조는 있어. Audit에서 메시지가 통하는지 검증하자."
+
+#### Recon 결과 저장
+
+- `project.url`에 URL 저장 → state.json Write
+- `{AGNT_DIR}/recon-report.md`에 상세 분석 결과 Write:
+  ```markdown
+  # Site Reconnaissance Report
+  - URL: {url}
+  - Date: {ISO 8601}
+  - Tool: {사용한 도구명}
+
+  ## 분석 결과
+  | 항목 | 결과 | 상세 |
+  |------|------|------|
+  | ... | ✅/❌ | ... |
+
+  ## 스크린샷
+  {스크린샷 경로 또는 인라인 설명}
+
+  ## 한줄 진단
+  {핵심 문제}
+  ```
+- `/agnt:audit`가 `recon-report.md`를 참조하여 evidence_clarity 점수에 반영
+
+#### Recon 실패 시
+
+모든 브라우저 도구 사용 불가 시:
+- "사이트를 직접 확인하지 못했어. URL은 저장했으니 Audit에서 직접 확인할게."
+- `project.url`만 저장하고 4단계로 진행
 
 ### 4. 시작 시간 기록 + 완료
 
@@ -136,6 +243,7 @@ state.json Write.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 이미 시작한 프로젝트가 있어: {project.name}
+{project.url이 있으면 → "사이트: " + project.url}
 
 다음 명령:
 /agnt:next — 다음 행동 추천받기
@@ -159,6 +267,7 @@ state.json Write.
   },
   "project": {
     "name": null,
+    "url": null,
     "problem": null,
     "icp": null,
     "hypothesis": null
@@ -204,4 +313,7 @@ state.json Write.
 - MCP 호출 실패 시 로컬 state는 저장하되 완료 마커는 미기록
 - 한국어 출력, 기술 용어 원문 유지
 - 온보딩 메시지는 1회만 (project.problem이 있으면 건너뜀)
-- project.* 수집은 start에서 하지 않음 — `/agnt:audit`가 담당
+- project.* 수집은 start에서 하지 않음 — `/agnt:audit`가 담당 (단, `project.url`은 start에서 수집)
+- Site Reconnaissance는 URL 제공 시에만 수행 — 없으면 건너뜀
+- 브라우저 도구 전부 실패해도 start 플로우를 중단하지 않음 — URL만 저장하고 진행
+- Recon 출력은 간결하게 — 상세 분석은 `recon-report.md`에 기록

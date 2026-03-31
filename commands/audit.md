@@ -1,9 +1,3 @@
----
-name: audit
-description: >-
-  Revenue Readiness Audit — 45분 진단, Clarity Dimensions 정량 평가, Track A/B/C 추천. 프로젝트 진단, 매출 준비도 확인 시 사용.
----
-
 Revenue Readiness Audit — 45분 진단으로 프로젝트의 매출 준비 상태를 정량 평가하고 맞춤 Track을 추천합니다.
 
 ## 데이터 경로 결정
@@ -117,15 +111,7 @@ AskUserQuestion:
   문제: {project.problem}
   ICP: {project.icp}
   가설: {project.hypothesis}
-  {project.url이 있으면 → "사이트: " + project.url}
 ```
-
-**Recon Report 참조**: `{AGNT_DIR}/recon-report.md`가 존재하면 Read하여 evidence_clarity 초기 점수에 반영:
-- recon 항목 7개 중 4개 이상 ✅ → evidence_clarity 초기값 0.4
-- recon 항목 2-3개 ✅ → evidence_clarity 초기값 0.2
-- recon 항목 0-1개 ✅ 또는 파일 없음 → evidence_clarity 초기값 0.0
-
-`project.url`이 있고 recon-report가 없으면, Stage B/C/D에서 Site Reconnaissance를 수행한다 (start 스킬의 3.5절 동일 절차).
 
 AskUserQuestion: "이 내용으로 진행할까, 새로 정의할까?"
 - A) 이대로 진행 — Step 1 Stage Routing으로 이동

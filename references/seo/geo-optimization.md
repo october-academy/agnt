@@ -67,7 +67,16 @@ Princeton University 연구(arXiv:2311.09735, KDD 2024) 기반.
 
 ## AI 봇 접근 허용 (robots.txt)
 
+**RFC 9309 규칙**: `User-agent: *` + `Allow: /`이면 **모든 봇이 이미 허용**됨. AI 봇 명시 규칙을 추가할 필요 없음.
+
+**명시 규칙이 필요한 경우**: `User-agent: *`에 Disallow가 있는데, AI 봇에는 다른 규칙을 적용하고 싶을 때만.
+
 ```
+# 예시: 일반 봇은 /api 차단하되, AI 봇은 API 문서도 허용
+User-agent: *
+Disallow: /api
+Disallow: /admin
+
 User-agent: GPTBot           # OpenAI ChatGPT
 User-agent: ChatGPT-User     # ChatGPT 브라우징
 User-agent: PerplexityBot    # Perplexity
@@ -78,7 +87,14 @@ User-agent: Bingbot          # Microsoft Copilot
 Allow: /
 ```
 
-**주의**: AI 봇을 Disallow하면 해당 AI 검색에서 사이트가 인용되지 않음.
+**주요 AI 봇 목록** (차단 여부 점검용):
+- `GPTBot`, `ChatGPT-User` — OpenAI ChatGPT
+- `ClaudeBot`, `anthropic-ai` — Anthropic Claude
+- `PerplexityBot` — Perplexity
+- `Google-Extended` — Google Gemini / AI Overview
+- `Bingbot` — Microsoft Copilot
+
+**주의**: AI 봇을 명시적으로 Disallow하면 해당 AI 검색에서 사이트가 인용되지 않음.
 
 ## JSON-LD Schema 템플릿 (1인 개발자용)
 
@@ -118,15 +134,3 @@ Allow: /
 }
 ```
 
-### WebPage + SpeakableSpecification (음성 검색)
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "speakable": {
-    "@type": "SpeakableSpecification",
-    "cssSelector": ["h1", ".hero-description", ".faq-answer"]
-  }
-}
-```
