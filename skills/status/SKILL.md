@@ -26,15 +26,18 @@ description: >-
 ### 1. state 읽기
 
 `{AGNT_DIR}/state.json` Read.
+
 - `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
 
 ### 2. 카운트다운 계산
 
 `meta.started_at`이 있으면:
+
 ```
 D = floor((now - meta.started_at) / 86400000) + 1
 remaining = max(0, 30 - D)
 ```
+
 없으면 카운트다운 미표시.
 
 ### 3. MCP 시그널 동기화 (선택)
@@ -42,7 +45,7 @@ remaining = max(0, 30 - D)
 `ToolSearch`로 `+agentic30` 검색.
 
 도구 발견 시:
-- `get_landing_analytics` → signals.landing_visits, signals.form_responses 갱신
+
 - `get_links` → signals.link_clicks 갱신
 - `get_leaderboard` → 리더보드 데이터 획득
 - 갱신된 값을 state.json에 Write
@@ -84,14 +87,12 @@ Sync 패널의 `미동기화` 수는 플러시 후 남은 `sync.pending_events.l
 📦 산출물
   인터뷰      {artifacts.interviews}/3  {progressBar}
   SPEC        v{artifacts.spec_versions}  {✅ or ⬜}
-  랜딩페이지  {artifacts.landing_deployed ? "배포됨" : "미배포"}
   채널        {artifacts.channels_active}/2  {progressBar}
+  콘텐츠      {artifacts.content_planned ? "준비됨" : "미준비"}
   오퍼        {artifacts.offer_drafted ? "설계됨" : "미설계"}
 
 ──────────────────────────────────────────
 📡 시그널
-  랜딩 방문     {signals.landing_visits}
-  폼 응답       {signals.form_responses}
   링크 클릭     {signals.link_clicks}
   결제 시도     {signals.payment_intents}
   매출          {signals.revenue > 0 ? "₩" + signals.revenue : "아직 없음"}
@@ -135,7 +136,7 @@ Sync 패널의 `미동기화` 수는 플러시 후 남은 `sync.pending_events.l
 인터뷰 2/3  [████████░░░░] 67%
 ```
 
-10칸 바, filled = round(N/max * 10), `█` = filled, `░` = empty
+10칸 바, filled = round(N/max \* 10), `█` = filled, `░` = empty
 
 ## 규칙
 

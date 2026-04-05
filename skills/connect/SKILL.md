@@ -53,10 +53,12 @@ v3 스키마가 아니면 `/agnt:start`를 먼저 실행해야 한다.
 `ToolSearch`로 `+agentic30` 검색하여 `get_user_info` 호출.
 
 호출 성공 시:
+
 - `identity.mcp.connected = true`, `identity.mcp.last_checked_at = now()` 갱신
 - pending_events 플러시 (4단계)로 이동
 
 호출 실패 시 (도구 없음 또는 인증 오류):
+
 - `identity.mode = "registered"`, `identity.mcp.connected = false` 갱신
 - state.json Write
 - 출력:
@@ -105,6 +107,7 @@ v3 스키마가 아니면 `/agnt:start`를 먼저 실행해야 한다.
 ```
 
 AskUserQuestion: "가입했어?"
+
 - A) 완료했어 → `identity.mode = "registered"` 저장 후 Step B로
 - B) 나중에 할게 → 아래 출력 후 종료:
 
@@ -133,6 +136,7 @@ AskUserQuestion: "가입했어?"
 ```
 
 AskUserQuestion: "인증 완료했어?"
+
 - A) 완료했어 → Step C로
 - B) 잘 안 돼 → 아래 출력 후 종료:
 
@@ -153,6 +157,7 @@ MCP 서버 URL: https://mcp.agentic30.app/mcp
 `ToolSearch`로 `+agentic30` 검색하여 `get_user_info` 호출.
 
 **성공 시:**
+
 - `identity.mode = "synced"`
 - `identity.mcp.connected = true`
 - `identity.mcp.last_checked_at = now()`
@@ -160,6 +165,7 @@ MCP 서버 URL: https://mcp.agentic30.app/mcp
 - 4단계(플러시)로 이동
 
 **실패 시 (도구 없음 또는 인증 오류):**
+
 - `identity.mode = "registered"` 유지 (가입은 했으므로)
 - `identity.mcp.connected = false`
 - state.json Write
@@ -204,9 +210,10 @@ state.json Write.
 **플러시 후 state 서버 동기화:**
 
 `sync_agnt_state` MCP 호출로 로컬 state를 서버에 백업:
+
 - `project`: state.project (problem, icp, hypothesis, name)
 - `auditResult`: state.audit_result (있으면)
-- `artifacts`: state.artifacts 스냅샷 (interviews, spec_versions, landing_deployed, offer_drafted, channels_active, loops_completed)
+- `artifacts`: state.artifacts 스냅샷 (interviews, spec_versions, offer_drafted, channels_active, loops_completed)
 - `schemaVersion`: state.meta.schema_version
 
 실패 시 무시 (백업이므로 critical path 아님).

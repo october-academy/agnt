@@ -13,7 +13,7 @@
 - Claude plugin with skills format (`/agnt:*`)
 - Agent Skills spec (`SKILL.md`) for Codex/Claude Code/other compatible agents
 
-- `skills/*/SKILL.md`: skill behavior prompts with YAML frontmatter (24 skills: start, audit, next, discover, interview, compete, spec, build, landing, channel, content, offer, launch, analyze, retro, tools, status, connect, seo-audit, biz-setup, analytics-setup, launch-copy, ad-creative, revenue).
+- `skills/*/SKILL.md`: skill behavior prompts with YAML frontmatter (27 skills: start, audit, next, discover, icp, design-system, interview, compete, spec, build, landing, channel, content, offer, launch, analyze, retro, tools, status, connect, seo-audit, biz-setup, analytics-setup, launch-copy, ad-creative, meta-ads-setup, revenue).
 - `SKILL.md`: Agent Skills spec entrypoint (`name: agnt`, `user-invocable: false`) — background context for routing.
 - `references/shared/*.md`: reusable narrative, interview, and world-building rules.
 - `.claude-plugin/*.json`: plugin and marketplace metadata.

@@ -75,13 +75,14 @@ AskUserQuestion: "랜딩 URL은?"
 
 AskUserQuestion: "어떤 채널에 카피를 만들까?"
 - A) 전체 — 10개 채널 전부
-- B) 개발자 채널 — GeekNews, Product Hunt, Hacker News, Reddit, IndieHackers
-- C) 일반 채널 — Threads, X, LinkedIn, Instagram, 당근마켓
+- B) ICP 맞춤 핵심 채널 묶음
+- C) 보조 채널 묶음
 - D) 직접 선택 — 원하는 채널을 골라줘
 
 D 선택 시:
 AskUserQuestion: "어떤 채널?" (복수 입력 가능)
-- 자유 입력
+- marketing-channels.md와 현재 ICP에 맞는 채널 후보를 3-5개 동적으로 생성
+- 마지막 선택지만 `기타 채널 — 직접 입력`
 
 ### 5. 채널별 카피 생성
 
@@ -91,7 +92,7 @@ AskUserQuestion: "어떤 채널?" (복수 입력 가능)
 
 | 채널 | 톤 | 포맷 | 글자 가이드 |
 |------|-----|------|------------|
-| Threads | 반말, 빌드로그 | 긴 글 + 스크린샷 언급 | 300-500자, 링크는 댓글에 |
+| Threads | 반말, 문제 관찰 + 관계 형성 | 텍스트 중심 빌드로그 | 300-500자, 초반엔 홍보보다 ICP 선언 |
 | GeekNews | 기술적, 정보형 | "Show GN: {제품} — {설명}" | 제목 + 200자 본문 |
 | Product Hunt | 영어, 제품 소개 | 태그라인 + 3줄 설명 | 60자 태그라인 + 300자 |
 | Reddit | 개인 경험, 솔직 | "I built X to solve Y" | 300-500자 |

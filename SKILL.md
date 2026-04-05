@@ -21,6 +21,8 @@ metadata:
 - "진단", "audit", "프로젝트 진단", "매출 준비도", "Revenue Readiness"
 - "다음에 뭐 해야 해?", "다음 행동", "추천"
 - "문제 찾기", "ICP 정의", "아이디어 검증"
+- "ICP 문서", "ICP 구체화", "타겟 고객 문서", "deep-interview로 ICP"
+- "디자인 시스템", "브랜드 가이드", "design-system", "docs/design-system.md"
 - "고객 인터뷰", "Mom Test", "인터뷰 가이드"
 - "SPEC 작성", "제품 스펙"
 - "도구 비교", "결제 솔루션", "분석 도구"
@@ -40,8 +42,9 @@ metadata:
 - "분석 세팅", "PostHog 설치", "이벤트 추적"
 - "런칭 카피", "채널 카피", "카피 생성"
 - "광고 소재", "광고 카피", "Meta 광고", "Google 광고"
+- "Meta 광고 세팅", "Threads 광고 세팅", "Ads Manager 세팅", "광고 세트 타게팅"
 - "수익 모델", "어떻게 돈 벌어", "첫 매출"
-- Codex 명시형 호출: `$agnt-start`, `$agnt-audit`, `$agnt-next`, `$agnt-discover`, `$agnt-interview`, `$agnt-compete`, `$agnt-spec`, `$agnt-build`, `$agnt-landing`, `$agnt-channel`, `$agnt-content`, `$agnt-offer`, `$agnt-launch`, `$agnt-analyze`, `$agnt-retro`, `$agnt-tools`, `$agnt-status`, `$agnt-connect`, `$agnt-seo-audit`, `$agnt-biz-setup`, `$agnt-analytics-setup`, `$agnt-launch-copy`, `$agnt-ad-creative`, `$agnt-revenue`
+- Codex 명시형 호출: `$agnt-start`, `$agnt-audit`, `$agnt-next`, `$agnt-discover`, `$agnt-icp`, `$agnt-design-system`, `$agnt-interview`, `$agnt-compete`, `$agnt-spec`, `$agnt-build`, `$agnt-landing`, `$agnt-channel`, `$agnt-content`, `$agnt-offer`, `$agnt-launch`, `$agnt-analyze`, `$agnt-retro`, `$agnt-tools`, `$agnt-status`, `$agnt-connect`, `$agnt-seo-audit`, `$agnt-biz-setup`, `$agnt-analytics-setup`, `$agnt-launch-copy`, `$agnt-ad-creative`, `$agnt-meta-ads-setup`, `$agnt-revenue`
 
 ## Runtime Setup
 
@@ -121,6 +124,8 @@ codex mcp list
 - Revenue Readiness Audit: `skills/audit/SKILL.md`
 - 다음 행동: `skills/next/SKILL.md`
 - 문제 발견: `skills/discover/SKILL.md`
+- ICP 정의/구체화: `skills/icp/SKILL.md`
+- 디자인 시스템: `skills/design-system/SKILL.md`
 - 고객 인터뷰: `skills/interview/SKILL.md`
 - 경쟁 분석: `skills/compete/SKILL.md`
 - SPEC 작성: `skills/spec/SKILL.md`
@@ -140,6 +145,7 @@ codex mcp list
 - 분석 환경 세팅: `skills/analytics-setup/SKILL.md`
 - 런칭 카피: `skills/launch-copy/SKILL.md`
 - 광고 소재: `skills/ad-creative/SKILL.md`
+- Meta 광고 세팅: `skills/meta-ads-setup/SKILL.md`
 - 수익 모델: `skills/revenue/SKILL.md`
 
 각 스킬의 SKILL.md를 source of truth로 사용합니다.
@@ -152,6 +158,8 @@ Codex에서는 아래 명령을 canonical로 사용합니다.
 - `$agnt-audit` → `skills/audit/SKILL.md`
 - `$agnt-next` → `skills/next/SKILL.md`
 - `$agnt-discover` → `skills/discover/SKILL.md`
+- `$agnt-icp` → `skills/icp/SKILL.md`
+- `$agnt-design-system` → `skills/design-system/SKILL.md`
 - `$agnt-interview` → `skills/interview/SKILL.md`
 - `$agnt-compete` → `skills/compete/SKILL.md`
 - `$agnt-spec` → `skills/spec/SKILL.md`
@@ -171,6 +179,7 @@ Codex에서는 아래 명령을 canonical로 사용합니다.
 - `$agnt-analytics-setup` → `skills/analytics-setup/SKILL.md`
 - `$agnt-launch-copy` → `skills/launch-copy/SKILL.md`
 - `$agnt-ad-creative` → `skills/ad-creative/SKILL.md`
+- `$agnt-meta-ads-setup` → `skills/meta-ads-setup/SKILL.md`
 - `$agnt-revenue` → `skills/revenue/SKILL.md`
 
 호환 입력(`$agnt start`, `$agnt next` 등)도 동일하게 매핑합니다.
@@ -202,3 +211,7 @@ Codex 등 다른 에이전트에서는 아래로 호환 처리합니다.
 - MCP 연결 실패 시 fail-closed (완료 제출/동기화 금지, 로컬 워크플로우는 동작)
 - 카운트다운: `meta.started_at` 기준 Day D/30 표시
 - 추천은 비강제 — 유저가 순서를 어겨도 차단하지 않음
+- AskUserQuestion는 기본적으로 선택지 우선으로 설계
+- 자유 입력은 URL, 숫자, 붙여넣기 메모, 산출물 문장처럼 꼭 필요한 경우에만 받음
+- 선택지는 하드코딩하지 않고 `project.*`, `audit_result`, 직전 답변, journey-brief를 바탕으로 동적으로 만든다
+- 선택지로 충분히 좁힐 수 있으면 먼저 2-6개 옵션을 제시하고, 마지막에만 "기타/직접 입력"을 연다

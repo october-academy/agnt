@@ -37,6 +37,7 @@ description: >-
 ### 2. 컨텍스트 수집 (VOC 통합)
 
 state에서 읽기:
+
 - `project.problem` — 풀고 있는 문제
 - `project.icp` — 타겟 고객
 - `project.hypothesis` — 가설
@@ -44,11 +45,13 @@ state에서 읽기:
 SPEC 파일 읽기 시도: `{AGNT_DIR}/specs/spec-v*.md` (최신 버전). 없으면 state 기반으로 진행.
 
 journey-brief.md 읽기 시도: `{AGNT_DIR}/journey-brief.md`.
+
 - `## Interview` 섹션이 있으면 인터뷰 인사이트 추출 (고객 언어, 고통 표현, 놀라운 발견)
 - `## Audit` 섹션이 있으면 Track 정보 + Simplifier Insight 추출
 - `## Compete` 섹션이 있으면 경쟁 분석 결과 추출
 
 **VOC (Voice of Customer) 활용 규칙:**
+
 - 인터뷰에서 나온 고객의 **실제 표현**을 카피에 사용. 패러프레이즈하지 마.
 - 고객이 쓴 단어가 마케팅 용어보다 항상 낫다.
 - 인터뷰 데이터가 없으면 project 데이터로 진행 (비강제).
@@ -56,6 +59,7 @@ journey-brief.md 읽기 시도: `{AGNT_DIR}/journey-brief.md`.
 ### 3. 트래픽 컨텍스트
 
 AskUserQuestion: "사람들이 이 랜딩을 어디서 보게 될 것 같아?"
+
 - A) SNS에서 링크 공유 (Threads, Twitter, Facebook)
 - B) 검색으로 유입 (Google, Naver)
 - C) 커뮤니티 게시물 (Discord, 카카오, 슬랙)
@@ -63,6 +67,7 @@ AskUserQuestion: "사람들이 이 랜딩을 어디서 보게 될 것 같아?"
 - E) 아직 모르겠어
 
 **트래픽 컨텍스트별 카피 조정:**
+
 - SNS: 헤드라인이 공유 텍스트가 된다 → 호기심 유발 + 구체성
 - 검색: 키워드가 H1에 포함되어야 함
 - 커뮤니티: 문제 공감 → 해결책 순서가 중요
@@ -73,6 +78,7 @@ AskUserQuestion: "사람들이 이 랜딩을 어디서 보게 될 것 같아?"
 `{REFS_DIR}/copywriting/copy-frameworks.md` Read.
 
 출력:
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   랜딩페이지 전략
@@ -174,6 +180,7 @@ AskUserQuestion: "어떤 방향이 맞아? (A/B/C) 아니면 수정하고 싶은
 ```
 
 **강한/약한 CTA 체크:**
+
 ```
 ✅ 강한 CTA:
   "무료 체험 시작하기" / "30일 스프린트 참가하기"
@@ -257,78 +264,67 @@ Anxiety (불안):  네 카피가 이걸 해소해? → {FAQ + 보증}
 전환율 5%+ → 탁월함
 ```
 
-### 11. 랜딩 확인
+### 11. 실행/검증 준비
 
-AskUserQuestion: "랜딩을 만들었어?"
-- A) 만들었어 — URL 입력
-- B) 아직 — 만들고 올게
+AskUserQuestion: "지금 상태가 어디까지 왔어?"
+
+- A) 공개 가능한 초안/페이지가 있어
+- B) 카피 전략만 확정했고 아직 안 만들었어
+- C) 아직 구조만 잡았어
 
 **A 선택 시**:
-AskUserQuestion: "URL을 알려줘."
-- 자유 입력
 
-URL을 받으면:
 ```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  랜딩 등록 완료
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-URL: {입력된 URL}
-
-이제 사람들에게 보여줄 차례야.
+좋아. 지금은 배포 등록보다 메시지 정리가 핵심이야.
+공개 URL은 `/agnt:channel`이나 `/agnt:launch-copy`에서 필요할 때 넣으면 돼.
 다음 단계: /agnt:channel — 어디에 보여줄지 정하기
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 **B 선택 시**:
+
+```
+좋아. 카피 방향이 잡혔으면 바로 초안을 만들면 돼.
+Notion, Carrd, 직접 코딩, 기존 웹사이트 수정 — 뭐든 괜찮아.
+
+다음 단계:
+- 공개할 채널부터 정하려면 `/agnt:channel`
+- SEO/GEO 점검이 필요하면 `/agnt:seo-audit`
+```
+
+**C 선택 시**:
+
 ```
 괜찮아. 완벽할 필요 없어.
-Notion 페이지, Carrd, 직접 코딩 — 뭐든 돼.
+최소 버전은 Hero → Problem → CTA 이 3개면 충분해.
 
-최소 버전: Hero → Problem → CTA. 이 3개만 먼저 만들어.
-나머지(Social Proof, FAQ, Comparison)는 나중에 추가해도 돼.
-
-만들면 다시 `/agnt:landing`을 실행해.
+구조를 다듬은 뒤 다시 `/agnt:landing`으로 카피를 재점검해도 돼.
 ```
 
-B 선택이라도 journey-brief.md에 전략을 저장한다 (아래 11-bis 참조).
+A/B/C 모두 journey-brief.md에 전략 메모를 저장한다 (아래 11-bis 참조).
 
 ### 11-bis. journey-brief.md Write
 
-**A/B 모두 실행** (전략은 URL 유무와 무관하게 저장):
+**A/B/C 모두 실행** (전략 메모 저장):
 
 `{AGNT_DIR}/journey-brief.md` Read 시도.
 
 **파일이 없는 경우**: navigator-engine.md의 journey-brief 템플릿으로 신규 생성.
-**파일이 있는 경우**: `## Market` 섹션 내 `- 랜딩 URL:` 라인을 Replace.
+**파일이 있는 경우**: `## Market` 섹션 내 `- 헤드라인:`, `- CTA:`, `- 트래픽 소스:` 라인을 Replace.
 
 ```markdown
-- 랜딩 URL: {입력된 URL}
 - 헤드라인: {선택된 헤드라인}
 - CTA: {설정된 CTA}
 - 트래픽 소스: {선택된 트래픽 컨텍스트}
 ```
 
-### 12. state 업데이트 + MCP 제출
-
-A 선택 시 (URL 입력한 경우):
+### 12. state 업데이트
 
 state.json 업데이트:
-- `artifacts.landing_deployed = true`
+
 - `meta.last_action = "landing"`
 - `meta.total_actions++`
 
-`ToolSearch`로 `+agentic30` 검색.
-
-도구 발견 시:
-- `submit_practice` 호출: quest_id = `"wf-landing"`
-
-도구 없으면 (`identity.mode != "synced"` 또는 ToolSearch 실패):
-- `sync.pending_events`에 추가 (50건 초과 시 가장 오래된 이벤트 제거):
-  ```json
-  { "type": "submit_practice", "args": { "quest_id": "wf-landing" }, "created_at": "<now()>" }
-  ```
-- state.json 저장
+배포 완료 플래그, URL 등록, 자동 후속 실행은 기록하지 않는다.
 
 ## 규칙
 
@@ -341,5 +337,5 @@ state.json 업데이트:
 - Anti-AI-slop 규칙 적용 — AI 냄새 나는 카피는 전환율을 깎는다
 - 가짜 증거 금지 — 후기, 숫자, 사례가 없으면 해당 섹션 생략
 - 벤치마크는 "정상 범위"를 알려주는 것이 목적 — 절대 기준 아님
-- MCP 호출 실패 시 로컬 state는 저장, 완료 마커 미기록
+- 이 스킬은 전략/카피 메모만 저장하고, 배포 완료 상태나 자동 후속 실행은 기록하지 않는다
 - 한국어, 반말 톤

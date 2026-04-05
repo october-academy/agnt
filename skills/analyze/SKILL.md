@@ -35,6 +35,7 @@ description: >-
 - `!artifacts.launch_planned` (또는 undefined) → "먼저 `/agnt:launch`로 론칭 계획을 세워." (비강제 — 진행 가능)
 
 기본값 보증 (navigator-engine.md 필드 기본값 규칙):
+
 - `artifacts.launch_planned`가 undefined면 `false`로 처리
 - `artifacts.last_analyze_loop`가 undefined면 `0`으로 처리
 - `artifacts.loops_completed`가 undefined면 `0`으로 처리
@@ -53,24 +54,23 @@ description: >-
 `ToolSearch`로 `+agentic30` 검색.
 
 **`identity.mode == "synced"` (MCP 연결 시)**:
-- `get_landing_analytics` 호출 → 방문자, 전환 데이터 수집
+
 - `get_links` 호출 → 링크 클릭 데이터 수집
 - `get_link_analytics` 호출 (링크가 있으면) → 개별 링크 분석
-- 수집된 데이터를 요약하여 출력:
-  ```
-  📊 데이터 자동 수집 완료
-  ```
+- 링크 데이터는 자동으로 참고하고, 방문/전환은 수동 입력으로 받는다.
 
 **`identity.mode != "synced"` (MCP 미연결 시)**:
+
 ```
 📝 MCP 미연결 — 수동 입력 모드
-(연결하면 랜딩 분석이 자동화돼: /agnt:connect)
+(연결하면 링크/UTM 데이터는 자동으로 가져올 수 있어: /agnt:connect)
 ```
 
 AskUserQuestion으로 수동 입력:
 
 이어서 순차 질문:
-- "랜딩 방문자 수는?" → 자유 입력 (숫자)
+
+- "공개한 페이지/제안서/폼을 본 사람 수는?" → 자유 입력 (숫자)
 - "이메일/폼 전환 수는?" → 자유 입력 (숫자)
 - "유료 결제 수는?" → 자유 입력 (숫자)
 - "기간은 며칠?" → 자유 입력 (숫자)
@@ -98,6 +98,7 @@ AskUserQuestion으로 수동 입력:
 **판정 로직 (우선순위 순서):**
 
 **TOO EARLY** — 방문 < 100:
+
 ```
 ⏳ TOO EARLY — 데이터 부족
 
@@ -110,6 +111,7 @@ AskUserQuestion으로 수동 입력:
 ```
 
 **CONTINUE** — 방문 100+ && 전환율 벤치마크 범위 내 (이메일 5%+ 또는 유료 1%+):
+
 ```
 ✅ CONTINUE — 전환율이 벤치마크 범위 안이야
 
@@ -124,6 +126,7 @@ AskUserQuestion으로 수동 입력:
 ```
 
 **PIVOT** — 방문 100+ && 전환율 < 1% (이메일) 또는 < 0.5% (유료):
+
 ```
 🔄 PIVOT — 전환이 안 돼
 
@@ -139,6 +142,7 @@ AskUserQuestion으로 수동 입력:
 ```
 
 **KILL** — 방문 100+ && 전환 0건 (완전 무반응):
+
 ```
 ❌ KILL — 관심이 없어
 
@@ -161,8 +165,10 @@ AskUserQuestion으로 수동 입력:
 현재 루프 번호: `artifacts.loops_completed + 1`
 
 추가할 섹션:
+
 ```markdown
 ### Results (Loop {N})
+
 - 방문: {N}명
 - 전환: {N}명 ({X}%)
 - 매출: {금액 또는 "없음"}
@@ -188,6 +194,7 @@ AskUserQuestion으로 수동 입력:
 ### 8. state 업데이트 + MCP 제출
 
 state.json 업데이트:
+
 - `artifacts.last_analyze_loop = artifacts.loops_completed + 1`
 - `meta.last_action = "analyze"`
 - `meta.total_actions++`
@@ -195,12 +202,18 @@ state.json 업데이트:
 `ToolSearch`로 `+agentic30` 검색.
 
 도구 발견 시:
+
 - `submit_practice` 호출: quest_id = `"wf-analyze-1"`
 
 도구 없으면 (`identity.mode != "synced"` 또는 ToolSearch 실패):
+
 - `sync.pending_events`에 추가 (50건 초과 시 가장 오래된 이벤트 제거):
   ```json
-  { "type": "submit_practice", "args": { "quest_id": "wf-analyze-1" }, "created_at": "<now()>" }
+  {
+    "type": "submit_practice",
+    "args": { "quest_id": "wf-analyze-1" },
+    "created_at": "<now()>"
+  }
   ```
 - state.json 저장
 

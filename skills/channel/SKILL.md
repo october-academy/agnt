@@ -32,11 +32,12 @@ description: >-
 `{AGNT_DIR}/state.json` Read.
 
 - `meta.schema_version != 3` → `/agnt:start`로 안내 후 종료
-- `!artifacts.landing_deployed` → "랜딩이 아직 없어. `/agnt:landing`으로 먼저 랜딩 전략을 세워." (비강제 — 진행 가능)
+- 메시지가 아직 흐리면 `/agnt:landing`으로 헤드라인/CTA를 먼저 정리해. (비강제 — 진행 가능)
 
 ### 2. 채널 번호 결정
 
 `artifacts.channels_active`로 N번째 채널 결정.
+
 - N = `artifacts.channels_active + 1`
 - N > 2여도 추가 채널 가능 (quest 보상은 2회까지)
 
@@ -47,6 +48,7 @@ description: >-
 ### 4. 채널 추천
 
 출력:
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   채널 {N}번째 활성화
@@ -57,6 +59,7 @@ ICP: {project.icp}
 ```
 
 AskUserQuestion: "누구에게 보여줄 거야?"
+
 - A) 한국 개발자
 - B) 한국 일반 사용자
 - C) 글로벌 개발자
@@ -65,6 +68,7 @@ AskUserQuestion: "누구에게 보여줄 거야?"
 **타겟별 추천**:
 
 A) 한국 개발자:
+
 ```
 📍 추천 채널
 
@@ -77,6 +81,7 @@ A) 한국 개발자:
 ```
 
 B) 한국 일반:
+
 ```
 📍 추천 채널
 
@@ -85,6 +90,7 @@ B) 한국 일반:
 ```
 
 C) 글로벌 개발자:
+
 ```
 📍 추천 채널
 
@@ -94,6 +100,7 @@ C) 글로벌 개발자:
 ```
 
 D) 글로벌 일반:
+
 ```
 📍 추천 채널
 
@@ -104,6 +111,7 @@ D) 글로벌 일반:
 ### 5. 채널 선택
 
 AskUserQuestion: "어떤 채널로 시작할래?"
+
 - 자유 입력 (추천 채널 중 선택 또는 다른 채널)
 
 ### 6. 첫 포스트 가이드
@@ -111,6 +119,7 @@ AskUserQuestion: "어떤 채널로 시작할래?"
 선택한 채널에 맞는 첫 포스트 템플릿:
 
 **Threads**:
+
 ```
 📝 Threads 첫 포스트 템플릿
 
@@ -131,6 +140,7 @@ AskUserQuestion: "어떤 채널로 시작할래?"
 ```
 
 **GeekNews**:
+
 ```
 📝 GeekNews Show GN 템플릿
 
@@ -152,6 +162,7 @@ Show GN: {project.name} — {SPEC 한 줄 설명}
 ```
 
 **Product Hunt**:
+
 ```
 📝 Product Hunt 론칭 체크리스트
 
@@ -192,6 +203,7 @@ Product Hunt: #1 시 10,000-50,000 방문. 상위 5위 1,000-5,000.
 ### 9. 첫 포스트 확인
 
 AskUserQuestion: "첫 포스트를 올렸어?"
+
 - A) 올렸어 — 다음으로
 - B) 아직 — 올리고 올게
 
@@ -201,6 +213,7 @@ UTM 링크 분기:
 
 === `identity.mode == "synced"` ===
 `ToolSearch`로 `+agentic30` 검색 → `create_utm_link` 호출:
+
 - `target_url` 결정:
   1. `{AGNT_DIR}/journey-brief.md` Read → `## Market` 섹션에서 `- 랜딩 URL: ` 뒤의 URL 추출
   2. URL 없으면 AskUserQuestion: "랜딩 URL을 입력해줘 (예: https://example.com)"
@@ -214,6 +227,7 @@ UTM 링크 분기:
 ```
 
 === `identity.mode != "synced"` ===
+
 ```
 ⚠️ 추적 링크 없이 올리면 채널별 성과를 측정할 수 없어.
 `/agnt:connect`로 연결하면 UTM 링크를 자동 생성해줘.
@@ -238,10 +252,12 @@ Agentic30 Discord에서 같은 단계 학습자와 교류할 수 있어.
 ```
 
 **B 선택 시**:
+
 ```
 괜찮아. 첫 포스트가 가장 어려운 법이야.
 완벽할 필요 없어. 올리면 다시 `/agnt:channel`을 실행해.
 ```
+
 종료.
 
 ### 9-bis. journey-brief.md Write
@@ -260,6 +276,7 @@ Agentic30 Discord에서 같은 단계 학습자와 교류할 수 있어.
 A 선택 시:
 
 state.json 업데이트:
+
 - `artifacts.channels_active++`
 - `tools.marketing_channels` 배열에 선택한 채널 추가
 - `meta.last_action = "channel"`
@@ -268,13 +285,19 @@ state.json 업데이트:
 `ToolSearch`로 `+agentic30` 검색.
 
 도구 발견 시 (N ≤ 2일 때만):
+
 - `submit_practice` 호출: quest_id = `"wf-channel-{N}"`
 - N > 2이면 MCP 제출 건너뜀
 
 도구 없으면 (`identity.mode != "synced"` 또는 ToolSearch 실패), N ≤ 2일 때만:
+
 - `sync.pending_events`에 추가 (50건 초과 시 가장 오래된 이벤트 제거):
   ```json
-  { "type": "submit_practice", "args": { "quest_id": "wf-channel-{N}" }, "created_at": "<now()>" }
+  {
+    "type": "submit_practice",
+    "args": { "quest_id": "wf-channel-{N}" },
+    "created_at": "<now()>"
+  }
   ```
 - state.json 저장
 

@@ -101,16 +101,18 @@ README.md              # 설치/사용법
 5. 워크플로우 완료 시 `state.json` 갱신 + MCP `submit_practice` 호출
 
 **Skill Frontmatter 구조**:
+
 ```yaml
 ---
-name: <skill-name>              # /agnt:<skill-name>으로 호출
-description: >-                  # Claude 자동 호출 판단에 사용 (250자 이내)
+name: <skill-name> # /agnt:<skill-name>으로 호출
+description: >- # Claude 자동 호출 판단에 사용 (250자 이내)
   스킬 설명. 사용 시점 안내.
-disable-model-invocation: true   # (선택) true면 유저만 호출 가능
+disable-model-invocation: true # (선택) true면 유저만 호출 가능
 ---
 ```
 
 **User-invocable 분류**:
+
 - **23개 스킬**: user-invocable (기본값) — `/agnt:*`로 직접 호출 가능
 - **connect**: `disable-model-invocation: true` — MCP 인증이므로 유저가 명시적으로만 호출
 - **루트 SKILL.md**: `user-invocable: false` — 배경 컨텍스트, 슬래시 메뉴에 표시 안 됨
@@ -118,9 +120,15 @@ disable-model-invocation: true   # (선택) true면 유저만 호출 가능
 **pending_events 큐잉 패턴** (MCP 미연결 시):
 
 `identity.mode != "synced"` 또는 ToolSearch 실패 시 MCP 직접 호출 대신:
+
 ```json
-{ "type": "submit_practice", "args": { "quest_id": "wf-*" }, "created_at": "<now()>" }
+{
+  "type": "submit_practice",
+  "args": { "quest_id": "wf-*" },
+  "created_at": "<now()>"
+}
 ```
+
 를 `sync.pending_events`에 추가. `/agnt:connect` 완료 시 일괄 플러시(retroactive XP burst).
 
 **Navigator 패턴**: `/agnt:next`가 상태를 읽고 다음 최선 행동을 추천. 고정 순서 없이 상태 기반으로 동작.
@@ -177,7 +185,6 @@ disable-model-invocation: true   # (선택) true면 유저만 호출 가능
     "interviews": 0,
     "spec_versions": 0,
     "competitors_analyzed": false,
-    "landing_deployed": false,
     "content_planned": false,
     "offer_drafted": false,
     "channels_active": 0,
@@ -210,14 +217,21 @@ disable-model-invocation: true   # (선택) true면 유저만 호출 가능
 ```
 
 **identity.mode 3-value enum:**
+
 - `"guest"`: 미가입, 미연결 (초기 상태)
 - `"registered"`: 웹 가입 완료, MCP 미연결
 - `"synced"`: 웹 가입 + MCP 인증 완료
 
 **pending_events 형식** (`submit_practice`만 큐잉):
+
 ```json
-{ "type": "submit_practice", "args": { "quest_id": "wf-discover" }, "created_at": "2026-03-25T00:00:00.000Z" }
+{
+  "type": "submit_practice",
+  "args": { "quest_id": "wf-discover" },
+  "created_at": "2026-03-25T00:00:00.000Z"
+}
 ```
+
 최대 50건. 초과 시 FIFO 제거.
 
 - v3 이외 state는 `/agnt:start`에서 fresh state로 재생성 (하위호환 없음)
@@ -243,11 +257,9 @@ disable-model-invocation: true   # (선택) true면 유저만 호출 가능
 - `save_spec_iteration` — SPEC 버전 저장
 - `complete_onboarding` — 온보딩 완료
 - `get_leaderboard` — 리더보드 조회
-- `get_landing_analytics` — 랜딩 방문/폼 분석
 - `get_links` — 링크 클릭 조회
 - `get_link_analytics` — 개별 링크 클릭 분석
 - `create_utm_link` — UTM 단축 링크 생성 (`/agnt:channel` synced 모드에서 자동 호출)
-- `deploy_landing` — 랜딩페이지 배포
 
 **`/agnt:connect` 플로우** (3단계):
 

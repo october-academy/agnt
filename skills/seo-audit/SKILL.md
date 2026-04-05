@@ -19,6 +19,7 @@ SEO + GEO 점검 + 자동 수정. 사이트 URL을 25개 항목(P0/P1/P2)으로 
 ### REFS_DIR
 
 AGNT_DIR이 있으면 `{AGNT_DIR}/references/` 탐색. null이면:
+
 1. `~/.claude/plugins/marketplaces/agentic30/references/`
 2. 없으면 → 내장 지식으로 진행
 
@@ -30,43 +31,43 @@ AGNT_DIR이 있으면 `{AGNT_DIR}/references/` 탐색. null이면:
 
 ### P0 — Critical (11개, 각 8점)
 
-| # | 항목 | 확인 방법 |
-|---|------|-----------|
-| 1 | HTTPS | URL `https://` 확인 |
-| 2 | robots.txt | 주요 경로 Disallow 없음 |
-| 3 | sitemap.xml | 접근 가능 + 유효 XML |
-| 4 | TTFB | < 1초 |
-| 5 | 모바일 반응형 | viewport 메타 존재 |
-| 6 | noindex 오용 | 주요 페이지에 noindex 없음 |
-| 7 | title | 존재, 60자 이내 |
-| 8 | h1 | 1개 존재 |
-| 9 | meta description | 존재, 155자 이내 |
-| 10 | OG 태그 | og:title + og:description + og:image (이미지 1200x630 권장) |
-| 11 | canonical | rel="canonical" 설정 |
+| #   | 항목             | 확인 방법                                                   |
+| --- | ---------------- | ----------------------------------------------------------- |
+| 1   | HTTPS            | URL `https://` 확인                                         |
+| 2   | robots.txt       | 주요 경로 Disallow 없음                                     |
+| 3   | sitemap.xml      | 접근 가능 + 유효 XML                                        |
+| 4   | TTFB             | < 1초                                                       |
+| 5   | 모바일 반응형    | viewport 메타 존재                                          |
+| 6   | noindex 오용     | 주요 페이지에 noindex 없음                                  |
+| 7   | title            | 존재, 60자 이내                                             |
+| 8   | h1               | 1개 존재                                                    |
+| 9   | meta description | 존재, 155자 이내                                            |
+| 10  | OG 태그          | og:title + og:description + og:image (이미지 1200x630 권장) |
+| 11  | canonical        | rel="canonical" 설정                                        |
 
 ### P1 — Important (10개, 각 5점)
 
-| # | 항목 | 확인 방법 |
-|---|------|-----------|
-| 12 | LCP | < 2.5s (Chrome DevTools 또는 Lighthouse) |
-| 13 | CLS | < 0.1 |
-| 14 | 이미지 최적화 | 포맷(WebP/AVIF) + lazy loading + alt 텍스트 |
-| 15 | Schema (JSON-LD) | 1개 이상 존재 |
-| 16 | AI 봇 접근 | robots.txt에서 AI 봇 미차단 (RFC 9309 기준) |
-| 17 | FAQPage Schema | FAQPage JSON-LD 존재 |
-| 18 | Content-Answer Fit | 정의/단계/비교 블록 중 1개 이상 |
-| 19 | E-E-A-T 시그널 | 후기 섹션, 제작자 프로필, 외부 인용 중 1개 이상 |
-| 20 | Trustworthiness | HTTPS + 개인정보정책 링크 + 연락처/회사 정보 |
-| 21 | SSR/SSG | 서버사이드 렌더링 확인 (AI 크롤러가 JS 미실행) |
+| #   | 항목               | 확인 방법                                       |
+| --- | ------------------ | ----------------------------------------------- |
+| 12  | LCP                | < 2.5s (Chrome DevTools 또는 Lighthouse)        |
+| 13  | CLS                | < 0.1                                           |
+| 14  | 이미지 최적화      | 포맷(WebP/AVIF) + lazy loading + alt 텍스트     |
+| 15  | Schema (JSON-LD)   | 1개 이상 존재                                   |
+| 16  | AI 봇 접근         | robots.txt에서 AI 봇 미차단 (RFC 9309 기준)     |
+| 17  | FAQPage Schema     | FAQPage JSON-LD 존재                            |
+| 18  | Content-Answer Fit | 정의/단계/비교 블록 중 1개 이상                 |
+| 19  | E-E-A-T 시그널     | 후기 섹션, 제작자 프로필, 외부 인용 중 1개 이상 |
+| 20  | Trustworthiness    | HTTPS + 개인정보정책 링크 + 연락처/회사 정보    |
+| 21  | SSR/SSG            | 서버사이드 렌더링 확인 (AI 크롤러가 JS 미실행)  |
 
 ### P2 — Recommended (4개, 각 2점)
 
-| # | 항목 | 확인 방법 |
-|---|------|-----------|
-| 22 | 내부 링크 | 3개 이상 |
-| 23 | 외부 링크 | 1개 이상 |
-| 24 | URL 구조 | 짧고 깔끔, 불필요한 파라미터 없음 |
-| 25 | Custom 404 | 유용한 404 페이지 존재 |
+| #   | 항목       | 확인 방법                         |
+| --- | ---------- | --------------------------------- |
+| 22  | 내부 링크  | 3개 이상                          |
+| 23  | 외부 링크  | 1개 이상                          |
+| 24  | URL 구조   | 짧고 깔끔, 불필요한 파라미터 없음 |
+| 25  | Custom 404 | 유용한 404 페이지 존재            |
 
 ### AI 봇 접근 (#16) 판정 로직
 
@@ -80,8 +81,8 @@ AGNT_DIR이 있으면 `{AGNT_DIR}/references/` 탐색. null이면:
 ### 1. 사전 조건 (Graceful)
 
 AGNT_DIR ≠ null이면 `{AGNT_DIR}/state.json` Read.
+
 - state 없거나 파싱 실패 → 경고 없이 진행
-- `artifacts.landing_deployed == false` → 경고만: "랜딩 미배포. 점검은 진행하지만 배포 후 재점검 권장."
 
 ### 2. URL + 사이트 유형
 
@@ -96,6 +97,7 @@ AGNT_DIR ≠ null이면 `{AGNT_DIR}/state.json` Read.
 AskUserQuestion: "점검할 URL은?" — 자유 입력
 
 AskUserQuestion: "사이트 유형은?"
+
 - A) 랜딩페이지 (1인 개발자 제품)
 - B) SaaS / 웹앱
 - C) 블로그 / 콘텐츠
@@ -107,6 +109,7 @@ AskUserQuestion: "사이트 유형은?"
 
 **Tier 1 — Chrome DevTools MCP (권장):**
 `ToolSearch`로 `+chrome-devtools` 검색. 도구 발견 시:
+
 1. `navigate_page`로 URL 접속
 2. `evaluate_script`로 메타데이터 일괄 추출 (title, meta desc, OG, canonical, h1, JSON-LD, img alt, lang, viewport, noindex)
 3. `performance_start_trace` (`reload: true`, `autoStop: true`) → CWV 측정
@@ -186,6 +189,7 @@ Chrome DevTools 미설치 시: "CWV 자동 측정을 위해 `claude mcp add chro
 ```
 
 **사이트 유형별 참고**:
+
 - 랜딩페이지: OG 이미지 1200x630, 모바일 CTA 터치(44x44px), 로딩 3초 이내
 - SaaS: 가격 페이지 Offer Schema, 기능별 랜딩, 비교 페이지
 - 블로그: Article Schema, 저자 프로필, 목차 Jump Link
@@ -227,21 +231,21 @@ URL: {URL}  |  유형: {site_type}
 
 **🔧 AUTO — 코드로 바로 수정 가능:**
 
-| 대상 항목 | 수정 방법 |
-|-----------|-----------|
-| #7-11 메타데이터 | layout/metadata 파일 수정 (OG 이미지 1200x630 포함) |
-| #14 이미지 alt | img 태그에 alt 추가 |
-| #15 Schema JSON-LD | head에 JSON-LD 추가/수정 |
-| #16 AI 봇 접근 | robots.txt Disallow 제거 (명시 차단 시에만) |
-| #25 Custom 404 | 404 페이지 생성 |
+| 대상 항목          | 수정 방법                                           |
+| ------------------ | --------------------------------------------------- |
+| #7-11 메타데이터   | layout/metadata 파일 수정 (OG 이미지 1200x630 포함) |
+| #14 이미지 alt     | img 태그에 alt 추가                                 |
+| #15 Schema JSON-LD | head에 JSON-LD 추가/수정                            |
+| #16 AI 봇 접근     | robots.txt Disallow 제거 (명시 차단 시에만)         |
+| #25 Custom 404     | 404 페이지 생성                                     |
 
 **✏️ SEMI — 콘텐츠 확인 후 구현 (카피/구조 변경이라 유저 승인 필요):**
 
-| 대상 항목 | 필요 입력 |
-|-----------|-----------|
-| #17 FAQPage | FAQ 초안 3-5개 생성 → 유저 확인 → JSON-LD + visible 섹션 적용 |
+| 대상 항목              | 필요 입력                                                     |
+| ---------------------- | ------------------------------------------------------------- |
+| #17 FAQPage            | FAQ 초안 3-5개 생성 → 유저 확인 → JSON-LD + visible 섹션 적용 |
 | #18 Content-Answer Fit | 정의/단계/비교 블록 초안 → 유저 확인 후 적용 (전환 카피 보호) |
-| #19 E-E-A-T 시그널 | 후기, 제작자 정보, 또는 외부 인용 중 택 |
+| #19 E-E-A-T 시그널     | 후기, 제작자 정보, 또는 외부 인용 중 택                       |
 
 ```
 어떤 항목을 지금 수정할까? (복수 선택 가능)
@@ -274,6 +278,7 @@ SEMI 항목이 선택된 경우에만 실행.
 
 **#19 E-E-A-T 선택 시**:
 AskUserQuestion: "어떤 E-E-A-T 시그널을 추가할까?"
+
 - A) 후기/사례 — "이름, 한 줄 후기, 결과를 알려줘"
 - B) 제작자 프로필 — "이름, 소개, 경력/자격을 알려줘"
 - C) 둘 다
@@ -283,10 +288,12 @@ AskUserQuestion: "어떤 E-E-A-T 시그널을 추가할까?"
 ### 10. 구현
 
 **프로젝트 판별**: 점검 URL이 현재 작업 디렉토리 프로젝트인지 확인.
+
 - 프로젝트 외부 → 수정 코드 스니펫만 제공하고 Step 11로.
 - 프로젝트 내부 → 대상 파일 탐색 후 직접 수정.
 
 **파일 탐색**:
+
 - 메타데이터: layout 파일 (Next.js `metadata` export, Astro frontmatter 등)
 - robots.txt: `public/robots.txt` 또는 `app/robots.ts`
 - JSON-LD: 기존 `script[type="application/ld+json"]` 위치
@@ -294,12 +301,14 @@ AskUserQuestion: "어떤 E-E-A-T 시그널을 추가할까?"
 - 이미지: `<img>` 태그가 있는 컴포넌트
 
 **수정 원칙**:
+
 - 프로젝트 기존 코드 스타일/패턴 준수
 - SEO 관련 변경만 — 구조적 리팩토링 금지
 - FAQPage/Content-Answer Fit: SEMI 항목 — Step 9에서 유저 승인받은 초안만 적용
 - AI 봇 접근: `User-agent: *` + `Allow: /`이면 수정 불필요. 명시 Disallow만 제거.
 
 각 항목 완료 시:
+
 ```
 ✅ #{n} {항목명} — {변경 파일}
 ```
@@ -309,6 +318,7 @@ AskUserQuestion: "어떤 E-E-A-T 시그널을 추가할까?"
 ### 11. 완료
 
 **외부 작업 가이드** (코드로 해결 불가한 최적화 안내):
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   외부 작업 가이드
@@ -321,6 +331,7 @@ AskUserQuestion: "어떤 E-E-A-T 시그널을 추가할까?"
 ```
 
 **GEO 팁** (geo_score < 50%이고 미수정 GEO 항목이 남아있으면):
+
 ```
 AI 검색에서 인용되려면:
 1. FAQPage Schema (+Perplexity, AI Overview)
@@ -329,11 +340,13 @@ AI 검색에서 인용되려면:
 ```
 
 **journey-brief.md + state** (AGNT_DIR ≠ null):
+
 - `{AGNT_DIR}/journey-brief.md` `## Market > ### SEO` 추가/갱신
 - state.json: `artifacts.seo_audited = true`, `meta.last_action = "seo-audit"`, `meta.total_actions++`
 - MCP `submit_practice` (wf-seo-audit) 또는 `sync.pending_events` 큐잉
 
 **완료 출력**:
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   SEO + GEO 점검 {수정 시: "+ 수정"} 완료
