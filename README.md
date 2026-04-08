@@ -128,6 +128,7 @@ npx skills add october-academy/agnt --agent codex --skill agnt -g -y
 | 상태            | `/agnt:status`      | `$agnt-status`      |
 | Agentic30 연결  | `/agnt:connect`     | `$agnt-connect`     |
 | Meta 광고 세팅  | `/agnt:meta-ads-setup` | `$agnt-meta-ads-setup` |
+| 구독 전략       | `/agnt:subscription` | `$agnt-subscription` |
 
 Codex 호환 입력: `$agnt continue`, `$agnt today` 등.
 

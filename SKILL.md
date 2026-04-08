@@ -44,7 +44,8 @@ metadata:
 - "광고 소재", "광고 카피", "Meta 광고", "Google 광고"
 - "Meta 광고 세팅", "Threads 광고 세팅", "Ads Manager 세팅", "광고 세트 타게팅"
 - "수익 모델", "어떻게 돈 벌어", "첫 매출"
-- Codex 명시형 호출: `$agnt-start`, `$agnt-audit`, `$agnt-next`, `$agnt-discover`, `$agnt-icp`, `$agnt-design-system`, `$agnt-interview`, `$agnt-compete`, `$agnt-spec`, `$agnt-build`, `$agnt-landing`, `$agnt-channel`, `$agnt-content`, `$agnt-offer`, `$agnt-launch`, `$agnt-analyze`, `$agnt-retro`, `$agnt-tools`, `$agnt-status`, `$agnt-connect`, `$agnt-seo-audit`, `$agnt-biz-setup`, `$agnt-analytics-setup`, `$agnt-launch-copy`, `$agnt-ad-creative`, `$agnt-meta-ads-setup`, `$agnt-revenue`
+- "구독 전략", "앱 구독", "hard paywall", "freemium", "trial", "연간 플랜", "intro offer"
+- Codex 명시형 호출: `$agnt-start`, `$agnt-audit`, `$agnt-next`, `$agnt-discover`, `$agnt-icp`, `$agnt-design-system`, `$agnt-interview`, `$agnt-compete`, `$agnt-spec`, `$agnt-build`, `$agnt-landing`, `$agnt-channel`, `$agnt-content`, `$agnt-offer`, `$agnt-launch`, `$agnt-analyze`, `$agnt-retro`, `$agnt-tools`, `$agnt-status`, `$agnt-connect`, `$agnt-seo-audit`, `$agnt-biz-setup`, `$agnt-analytics-setup`, `$agnt-launch-copy`, `$agnt-ad-creative`, `$agnt-meta-ads-setup`, `$agnt-revenue`, `$agnt-subscription`
 
 ## Runtime Setup
 
@@ -147,6 +148,7 @@ codex mcp list
 - 광고 소재: `skills/ad-creative/SKILL.md`
 - Meta 광고 세팅: `skills/meta-ads-setup/SKILL.md`
 - 수익 모델: `skills/revenue/SKILL.md`
+- 구독 전략: `skills/subscription/SKILL.md`
 
 각 스킬의 SKILL.md를 source of truth로 사용합니다.
 
@@ -181,6 +183,7 @@ Codex에서는 아래 명령을 canonical로 사용합니다.
 - `$agnt-ad-creative` → `skills/ad-creative/SKILL.md`
 - `$agnt-meta-ads-setup` → `skills/meta-ads-setup/SKILL.md`
 - `$agnt-revenue` → `skills/revenue/SKILL.md`
+- `$agnt-subscription` → `skills/subscription/SKILL.md`
 
 호환 입력(`$agnt start`, `$agnt next` 등)도 동일하게 매핑합니다.
 
