@@ -1,6 +1,6 @@
 # agnt — Agentic30 Learning Guide
 
-[![agnt demo](https://assets.october-academy.com/agnt-demo-thumbnail.jpg)](https://assets.october-academy.com/agnt-demo.mp4)
+<video src="https://github.com/october-academy/agnt/releases/download/demo-v1/agnt-demo.mp4" controls width="600"></video>
 
 ## 이게 뭔가요?
 
